@@ -158,3 +158,29 @@ body.ably-button-text-subscribe *[class*="ably-button-text-subscribe"] {
     display: initial;
 }
 ```
+
+## CSS API
+
+```html
+<!-- Ably automatically appends the selected variant as a class to the body element -->
+<body class="ably-button-color-red">
+
+  <button id="buy-now-button">
+    Buy Now!
+  </button>
+
+</body>
+```
+
+```css
+/*
+ * You specify different CSS rules for variants
+ */
+body.ably-button-color-red #buy-now-button
+    background-color: #ff0000;
+}
+
+body.ably-button-color-green #buy-now-button
+    background-color: #00ff00;
+}
+```
