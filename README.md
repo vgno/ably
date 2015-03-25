@@ -101,6 +101,7 @@ scope.set('button-color', 'red');
 
 ## Usage example with Randomizer and Scope ##
 
+```js
 var ably = new Ably({
     name: 'button-color',
     randomizer: new MathRandomRandomizer([
@@ -118,3 +119,4 @@ ably
         button.style.backgroundColor = '#ff0000';
     })
     .run(document.getElementById('purchase-button'));
+```
