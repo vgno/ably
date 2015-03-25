@@ -1,7 +1,7 @@
 # ably
 Provides a framework to perform A/B tests in the browser
 
-## Usage
+## Simple Usage Example
 
 ```js
 var ably = new Ably({
@@ -98,3 +98,23 @@ scope.get('button-color');
 // Set the group the user was assigned to in the cookie
 scope.set('button-color', 'red');
 ```
+
+## Usage example with Randomizer and Scope ##
+
+var ably = new Ably({
+    name: 'button-color',
+    randomizer: new MathRandomRandomizer([
+        'red': 40, 
+        'blue': 60
+    ]),
+    scope: new CookieScope()
+});
+
+ably
+    .scenario('red', function (button) {
+        button.style.backgroundColor = '#ff0000';
+    })
+    .scenario('green', function (button) {
+        button.style.backgroundColor = '#ff0000';
+    })
+    .run(document.getElementById('purchase-button'));
