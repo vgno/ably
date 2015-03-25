@@ -15,5 +15,5 @@ ably
     .scenario('green', function (button) {
         button.style.backgroundColor = '#ff0000';
     })
-    .run();
+    .run(document.getElementById('purchase-button'));
 ```
