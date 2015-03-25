@@ -34,6 +34,7 @@ A `Randomizer` assigns test subjects to groups.
 
 ```js
 var randomizer = new Randomizer();
+// ...
 var group = randomizer.get();
 console.log('I was assigned to group ' + group);
 ```
@@ -58,10 +59,7 @@ If you assign users to groups server-side, you can create an instance of `Static
 ```js
 var randomizer = new StaticRandomizer();
 randomizer.set('red');
-// .
-// .
-// .
-// elsewhere in the code
+// ...
 var group = randomizer.get();
 console.log('I was assigned to group ' + group + ' using a prepopulated randomizer');
 ```
