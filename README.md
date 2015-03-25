@@ -125,6 +125,7 @@ ably
 
 ## HTML API
 
+HTML:
 
 ```html
 <!-- Ably automatically appends the selected variant as a class to the body element -->
@@ -141,6 +142,8 @@ ably
 
 </body>
 ```
+
+CSS:
 
 ```css
 /*
@@ -161,6 +164,8 @@ body.ably-button-text-subscribe *[class*="ably-button-text-subscribe"] {
 
 ## CSS API
 
+HTML:
+
 ```html
 <!-- Ably automatically appends the selected variant as a class to the body element -->
 <body class="ably-button-color-red">
@@ -171,6 +176,8 @@ body.ably-button-text-subscribe *[class*="ably-button-text-subscribe"] {
 
 </body>
 ```
+
+CSS:
 
 ```css
 /*
