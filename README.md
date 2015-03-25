@@ -59,9 +59,8 @@ randomizer.set('red');
 // .
 // .
 // elsewhere in the code
-randomizer.get(function callback(group) {
-    console.log('I was assigned to group ' + group + ' using a prepopulated randomizer');
-});
+var group = randomizer.get();
+console.log('I was assigned to group ' + group + ' using a prepopulated randomizer');
 ```
 
 ### Scope ###
