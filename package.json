@@ -1,0 +1,13 @@
+{
+  "name": "ably",
+  "description": "Provides an framework to perform A/B tests in the browser",
+  "version": "1.0.0",
+  "keywords": [
+    "A/B test",
+    "experiment"
+  ],
+  "author": {
+    "name": "Wadim Grasza",
+    "email": "wadim.grasza@gmail.com"
+  }
+}
