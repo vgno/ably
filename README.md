@@ -43,7 +43,10 @@ console.log('I was assigned to group ' + group);
 A type of `Randomizer` that assigns users to groups using `Math.random()` function.
 
 ```js
-var randomizer = new MathRandomRandomizer();
+var randomizer = new MathRandomRandomizer([
+    'red': 40, 
+    'blue': 60
+    ]);
 var group = randomizer.get();
 console.log('I was assigned to group ' + group + ' using Math.random()');
 ```
