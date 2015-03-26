@@ -36,7 +36,7 @@ ably
         button.style.backgroundColor = '#ff0000';
     })
     .when('button-color', 'green', function (button) {
-        button.style.backgroundColor = '#ff0000';
+        button.style.backgroundColor = '#00ff00';
     })
     .run(document.getElementById('purchase-button'));
 ```
