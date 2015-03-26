@@ -7,7 +7,14 @@
         root.ably = factory();
   }
 }(this, function () {
-
+	'use strict';
     
-    return {};
+    var Ably = {},
+    tests = [],
+
+    addTest = function (params) {
+        tests.push(params);
+    };
+
+    return Ably;
 }));

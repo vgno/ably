@@ -3,10 +3,10 @@ Provides a framework to perform A/B tests in the browser
 
 ## Usage example
 
-Instantiate class `Ably` and pass to it an array with configuration of all experiments you want to run.
+Call `ably.addTest` and pass it an array with configuration of the test you want to run.
 
 ```js
-var ably = new Ably([
+ably.addTest(
     {
         name: 'button-color',
         randomizer: new MathRandomRandomizer([
@@ -14,16 +14,8 @@ var ably = new Ably([
             'green': 60
         ]),
         scope: new CookieScope()
-    },
-    {
-        name: 'button-text',
-        randomizer: new MathRandomRandomizer([
-            'buy': 50, 
-            'subscribe': 50
-        ]),
-        scope: new CookieScope()
     }
-]);
+);
 ```
 
 ## APIs
