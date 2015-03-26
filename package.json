@@ -9,8 +9,5 @@
   "author": {
     "name": "Wadim Grasza",
     "email": "wadim.grasza@gmail.com"
-  },
-  "devDependencies": {
-    "tape": "^3.5.0"
   }
 }
