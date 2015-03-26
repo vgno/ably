@@ -129,6 +129,10 @@ body.ably-button-color-green #buy-now-button
 
 ## Architecture
 
+Ably contains a collection of *experiments*.
+
+Each *experiment* has its own *randomizer* and its own *scope*.
+
 ![alt tag](docs/ably-experiment-architecture.png)
 
 ### Randomizer ###
