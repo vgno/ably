@@ -1,25 +1,41 @@
 # ably
 Provides a framework to perform A/B tests in the browser
 
-# JS API
-
 ## Usage example ##
 
-```js
-var ably = new Ably({
-    name: 'button-color',
-    randomizer: new MathRandomRandomizer([
-        'red': 40, 
-        'green': 60
-    ]),
-    scope: new CookieScope()
-});
+Instantiate class `Ably` and pass to it an array with configuration of all experiments you want to run.
 
+```js
+var ably = new Ably([
+    {
+        name: 'button-color',
+        randomizer: new MathRandomRandomizer([
+            'red': 40, 
+            'green': 60
+        ]),
+        scope: new CookieScope()
+    },
+    {
+        name: 'button-text',
+        randomizer: new MathRandomRandomizer([
+            'buy': 50, 
+            'subscribe': 50
+        ]),
+        scope: new CookieScope()
+    }
+]);
+```
+
+# JS API
+
+The JS API allows you to attach event handlers to different variants of tests.
+
+```js
 ably
-    .scenario('red', function (button) {
+    .when('button-color', 'red', function (button) {
         button.style.backgroundColor = '#ff0000';
     })
-    .scenario('green', function (button) {
+    .when('button-color', 'green', function (button) {
         button.style.backgroundColor = '#ff0000';
     })
     .run(document.getElementById('purchase-button'));
