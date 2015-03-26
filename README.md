@@ -1,7 +1,7 @@
 # ably
 Provides a framework to perform A/B tests in the browser
 
-## Usage example ##
+## Usage example
 
 Instantiate class `Ably` and pass to it an array with configuration of all experiments you want to run.
 
@@ -26,13 +26,13 @@ var ably = new Ably([
 ]);
 ```
 
-# APIs
+## APIs
 
 Ably exposes three APIs: JS, HTML and CSS.
 
 ![Ably interface](docs/ably-interface.png)
 
-## JS API
+### JS API
 
 The JS API allows you to attach event handlers to different variants of tests.
 
@@ -47,7 +47,7 @@ ably
     .run(document.getElementById('purchase-button'));
 ```
 
-## HTML & CSS APIs
+### HTML & CSS APIs
 
 Purpose:
 
@@ -58,7 +58,7 @@ This is achieved by adding the selected variants as classes to the `body` elemen
 
 The variant classes will be added to the `body` element by Ably. The routine that adds those classes needs to be invoked as early as possible, preferably right after the opening `body` tag.
 
-### HTML API
+#### HTML API
 
 HTML:
 
@@ -97,7 +97,7 @@ body.ably-button-text-subscribe *[class*="ably-button-text-subscribe"] {
 }
 ```
 
-### CSS API
+#### CSS API
 
 HTML:
 
@@ -126,5 +126,7 @@ body.ably-button-color-green #buy-now-button
     background-color: #00ff00;
 }
 ```
+
+## Architecture
 
 Read more about the architecture in [Architecture](docs/architecture.md).
