@@ -106,7 +106,18 @@ scope.get('button-color');
 scope.set('button-color', 'red');
 ```
 
-## HTML API
+## HTML & CSS APIs
+
+Purpose:
+
+1. Make it possible to write an A/B test entirely in HTML or CSS without writing any Javascript whatsoever.
+2. Help avoid the flickering effect when showing/hiding/manipulating DOM elements via Javascript after the DOM is ready.
+
+This is achieved by adding the selected variants as classes to the `body` element. This makes the browser able to style page elements early, before the entire DOM is loaded.
+
+The variant classes need to be added to the `body` element as early as possible, preferably right after the opening `body` tag.
+
+### HTML API
 
 HTML:
 
@@ -145,7 +156,7 @@ body.ably-button-text-subscribe *[class*="ably-button-text-subscribe"] {
 }
 ```
 
-## CSS API
+### CSS API
 
 HTML:
 
