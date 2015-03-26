@@ -16,5 +16,8 @@
         tests.push(params);
     };
 
+    // exported functions
+    Ably.addTest = addTest;
+
     return Ably;
 }));
