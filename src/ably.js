@@ -14,6 +14,10 @@
 
     addTest = function (params) {
         tests.push(params);
+    },
+
+    when = function (test, variant, callback) {
+
     };
 
     // exported functions
