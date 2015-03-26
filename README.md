@@ -27,6 +27,8 @@ ably
 
 ## Architecture
 
+![alt tag](docs/architecture.png)
+
 ### Randomizer ###
 
 A `Randomizer` assigns test subjects to groups.
