@@ -22,6 +22,7 @@
 
     // exported functions
     Ably.addTest = addTest;
+    Ably.when = when;
 
     return Ably;
 }));
