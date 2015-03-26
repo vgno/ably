@@ -7,8 +7,8 @@
         root.ably = factory();
   }
 }(this, function () {
-	'use strict';
-    
+    'use strict';
+
     var Ably = {},
     tests = [],
 
