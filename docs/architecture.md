@@ -4,7 +4,7 @@ Ably contains a collection of *experiments*.
 
 Each *experiment* has its own *randomizer* and its own *scope*.
 
-![Ably experiment architecture](docs/ably-experiment-architecture.png)
+![Ably experiment architecture](ably-experiment-architecture.png)
 
 ### Randomizer ###
 
