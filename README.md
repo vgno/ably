@@ -30,7 +30,7 @@ var ably = new Ably([
 
 Ably exposes three APIs: JS, HTML and CSS.
 
-![alt tag](docs/ably-interface.png)
+![Ably interface](docs/ably-interface.png)
 
 ## JS API
 
