@@ -22,6 +22,9 @@
         tests.push(params);
     },
 
+    addTests = function (newTests) {
+    },
+
     getTests = function () {
         return tests;
     },
@@ -34,6 +37,7 @@
     Ably.addTest = addTest;
     Ably.when = when;
     Ably.getTests = getTests;
+    Ably.addTests = addTests;
 
     return Ably;
 }));

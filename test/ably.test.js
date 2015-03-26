@@ -9,6 +9,11 @@ describe('Ably', function() {
         assert.equal(typeof ably.addTest, 'function');
     });
 
+    it('should have a addTests method', function() {
+        assert.equal(typeof ably, 'object');
+        assert.equal(typeof ably.addTests, 'function');
+    });
+
     it('should have a getTests method', function() {
         assert.equal(typeof ably, 'object');
         assert.equal(typeof ably.getTests, 'function');
