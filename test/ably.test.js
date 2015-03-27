@@ -37,4 +37,19 @@ describe('Ably', function() {
             assert.deepEqual(ably.getTests(), tests);
         });
     });
+
+    describe('.addTests()', function() {
+
+        it('adds tests retrievable by getTests()', function() {
+
+            var tests = [
+                {name:'button-border'},
+                {name:'button-shadow'}
+                ];
+
+            ably.addTests(tests);
+
+            assert.deepEqual(ably.getTests(), tests);
+        });
+    });
 });
