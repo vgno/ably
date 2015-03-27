@@ -60,7 +60,7 @@
         return this;
     };
 
-    Ably.prototype.getSubscribers = function () {
+    Ably.prototype.getAllSubscribers = function () {
         return this.subscribers;
     };
 

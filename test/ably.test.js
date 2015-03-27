@@ -33,8 +33,8 @@ describe('Ably', function() {
         assert.equal(typeof ably.when, 'function');
     });
 
-    it('has a getSubscribers method', function() {
-        assert.equal(typeof ably.getSubscribers, 'function');
+    it('has a getAllSubscribers method', function() {
+        assert.equal(typeof ably.getAllSubscribers, 'function');
     });
 
     describe('.getTest(name)', function() {
@@ -142,7 +142,7 @@ describe('Ably', function() {
             ably.when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback);
             ably.when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
 
-            assert.deepEqual(ably.getSubscribers(), subscribers);
+            assert.deepEqual(ably.getAllSubscribers(), subscribers);
         });
 
         it('can be chained', function() {
@@ -164,7 +164,7 @@ describe('Ably', function() {
                 .when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback)
                 .when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
 
-            assert.deepEqual(ably.getSubscribers(), subscribers);
+            assert.deepEqual(ably.getAllSubscribers(), subscribers);
         });
     });
 });
