@@ -27,7 +27,8 @@
         this.tests.push(params);
     };
 
-    Ably.prototype.addTests = function (newTests) {
+    Ably.prototype.addTests = function (tests) {
+        this.tests = this.tests.concat(tests);
     };
 
     Ably.prototype.getTests = function () {
