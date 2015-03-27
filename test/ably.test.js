@@ -9,23 +9,23 @@ describe('Ably', function() {
         ably = new Ably();
     });
 
-    it('has an addTest method', function() {
+    it('is an object', function() {
         assert.equal(typeof ably, 'object');
+    });
+
+    it('has an addTest method', function() {
         assert.equal(typeof ably.addTest, 'function');
     });
 
     it('has an addTests method', function() {
-        assert.equal(typeof ably, 'object');
         assert.equal(typeof ably.addTests, 'function');
     });
 
     it('has a getTests method', function() {
-        assert.equal(typeof ably, 'object');
         assert.equal(typeof ably.getTests, 'function');
     });
 
     it('has a when method', function() {
-        assert.equal(typeof ably, 'object');
         assert.equal(typeof ably.when, 'function');
     });
 
