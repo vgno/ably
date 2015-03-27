@@ -42,7 +42,7 @@ describe('Ably', function() {
     });
 
     describe('.getTest(name)', function() {
-        it('gets test named \'name\'', function() {
+        it('retrieves test named \'name\'', function() {
 
             var test = {name:'button-text'};
 
