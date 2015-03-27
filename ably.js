@@ -21,6 +21,7 @@
 
     var Ably = function Ably() {
         this.tests = [];
+        this.subscribers = [];
     };
 
     Ably.prototype.addTest = function (params) {
@@ -38,10 +39,16 @@
     };
 
     Ably.prototype.when = function (test, variant, callback) {
-        return [test, variant, callback];
+        this.subscribers.push({
+            test: test,
+            variant: variant,
+            callback: callback
+        });
+        return this;
     };
 
     Ably.prototype.getSubscribers = function () {
+        return this.subscribers;
     };
 
     return Ably;
