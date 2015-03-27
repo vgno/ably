@@ -1,8 +1,13 @@
 var assert = require('assert');
-var ably = require('../ably.js');
+var Ably = require('../ably.js'),
+    ably;
 
 describe('Ably', function() {
     'use strict';
+
+    beforeEach(function() {
+        ably = new Ably();
+    });
 
     it('has an addTest method', function() {
         assert.equal(typeof ably, 'object');
