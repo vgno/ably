@@ -7,3 +7,8 @@ before_script:
   - npm install -g mocha
 script:
   - npm run coverage
+after_script:
+  - npm install codeclimate-test-reporter && cat coverage/lcov.info | codeclimate
+env:
+  global:
+    - secure: h0A1kKlSKOjR5q7xAeX/NjaZGWKFHK3DS/0mTGWSx+ZTnWPDabqvlVBtPKJduBMTKar8GGRJu4l2bkrovDq6Qdkbopr1uF993T6iRe4o1JJSwQrJKJ2wem7MVjj3jab3OoIhVI01Oi2sh/+IMwKU9Cw0ZebN6NW3qKONSWNuuVY=
