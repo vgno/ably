@@ -30,7 +30,7 @@ describe('Ably', function() {
     });
 
     describe('.addTest()', function() {
-        it('adds tests retrievable by getTests()', function() {
+        it('adds tests', function() {
             var tests = [
                 {name:'button-color'},
                 {name:'button-text'}
@@ -45,7 +45,7 @@ describe('Ably', function() {
 
     describe('.addTests()', function() {
 
-        it('adds tests retrievable by getTests()', function() {
+        it('adds tests', function() {
 
             var tests = [
                 {name:'button-border'},
