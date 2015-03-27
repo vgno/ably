@@ -19,6 +19,10 @@
 }(this, function () {
     'use strict';
 
+    function Exception(message) {
+       this.message = message;
+    }
+
     var Ably = function Ably() {
         this.tests = [];
         this.subscribers = [];
@@ -40,6 +44,7 @@
                 return this.tests[i];
             }
         }
+        throw new Exception('test \'' + name + '\' not found');
     };
 
     Ably.prototype.getTests = function () {

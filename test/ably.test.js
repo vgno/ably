@@ -48,6 +48,18 @@ describe('Ably', function() {
 
             assert.equal(ably.getTest(test.name), test);
         });
+
+        it('throws exception if test not found', function() {
+
+            var test = {name:'button-text'};
+
+            ably.addTest({name:'button-color'});
+            ably.addTest({name:'button-size'});
+
+            assert.throws(function() {
+                ably.getTest(test.name);
+            });
+        });
     });
 
     describe('.addTest()', function() {
