@@ -25,14 +25,14 @@
 
     Ably.prototype.addTest = function (params) {
         this.tests.push(params);
-    },
+    };
 
     Ably.prototype.addTests = function (newTests) {
-    },
+    };
 
     Ably.prototype.getTests = function () {
         return this.tests;
-    },
+    };
 
     Ably.prototype.when = function (test, variant, callback) {
 
