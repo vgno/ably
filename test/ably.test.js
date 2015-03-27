@@ -41,6 +41,19 @@ describe('Ably', function() {
 
             assert.deepEqual(ably.getTests(), tests);
         });
+
+        it('can be chained', function() {
+            var tests = [
+                {name:'button-color'},
+                {name:'button-text'}
+                ];
+
+            ably
+                .addTest(tests[0])
+                .addTest(tests[1]);
+
+            assert.deepEqual(ably.getTests(), tests);
+        });
     });
 
     describe('.addTests()', function() {
@@ -55,6 +68,24 @@ describe('Ably', function() {
             ably.addTests(tests);
 
             assert.deepEqual(ably.getTests(), tests);
+        });
+
+        it('can be chained', function() {
+
+            var tests1 = [
+                {name:'button-border'},
+                {name:'button-shadow'}
+                ],
+                tests2 = [
+                {name:'button-border'},
+                {name:'button-shadow'}
+                ];
+
+            ably
+                .addTests(tests1)
+                .addTests(tests2);
+
+            assert.deepEqual(ably.getTests(), tests1.concat(tests2));
         });
     });
 });

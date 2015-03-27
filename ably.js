@@ -19,16 +19,18 @@
 }(this, function () {
     'use strict';
 
-    var Ably = function() {
+    var Ably = function Ably() {
         this.tests = [];
     };
 
     Ably.prototype.addTest = function (params) {
         this.tests.push(params);
+        return this;
     };
 
     Ably.prototype.addTests = function (tests) {
         this.tests = this.tests.concat(tests);
+        return this;
     };
 
     Ably.prototype.getTests = function () {
