@@ -29,6 +29,10 @@ describe('Ably', function() {
         assert.equal(typeof ably.when, 'function');
     });
 
+    it('has a getSubscribers method', function() {
+        assert.equal(typeof ably.getSubscribers, 'function');
+    });
+
     describe('.addTest()', function() {
         it('adds tests', function() {
             var tests = [

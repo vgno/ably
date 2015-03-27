@@ -41,5 +41,8 @@
         return [test, variant, callback];
     };
 
+    Ably.prototype.getSubscribers = function () {
+    };
+
     return Ably;
 }));
