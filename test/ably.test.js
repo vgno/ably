@@ -37,6 +37,10 @@ describe('Ably', function() {
         assert.equal(typeof ably.getAllSubscribers, 'function');
     });
 
+    it('has a getSubscribers method', function() {
+        assert.equal(typeof ably.getSubscribers, 'function');
+    });
+
     describe('.getTest(name)', function() {
         it('gets test named \'name\'', function() {
 
@@ -119,6 +123,45 @@ describe('Ably', function() {
                 .addTests(tests2);
 
             assert.deepEqual(ably.getTests(), tests1.concat(tests2));
+        });
+    });
+
+    describe('.getSubscribers(test, variant)', function() {
+
+        it('returns all subscribers for test and variant and nothing else', function() {
+
+            var test = 'button-color',
+                variant = 'red';
+
+            var subscribers = [
+                {
+                    test: test,
+                    variant: variant,
+                    callback: function dummyCallback1() {}
+                },
+                {
+                    test: test,
+                    variant: 'green',
+                    callback: function dummyCallback2() {}
+                },
+                {
+                    test: 'button-text',
+                    variant: 'buy',
+                    callback: function dummyCallback3() {}
+                },
+                {
+                    test: 'button-background-color',
+                    variant: variant,
+                    callback: function dummyCallback4() {}
+                }
+                ];
+
+            ably.when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback);
+            ably.when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
+            ably.when(subscribers[2].test, subscribers[2].variant, subscribers[2].callback);
+            ably.when(subscribers[3].test, subscribers[3].variant, subscribers[3].callback);
+
+            assert.deepEqual(ably.getSubscribers(test, variant), [subscribers[0]]);
         });
     });
 

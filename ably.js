@@ -60,6 +60,17 @@
         return this;
     };
 
+    Ably.prototype.getSubscribers = function (test, variant) {
+        var subscribers = [];
+        for (var i = 0; i < this.subscribers.length; i++) {
+            var s = this.subscribers[i];
+            if (s.test === test && s.variant === variant) {
+                subscribers.push(s);
+            }
+        }
+        return subscribers;
+    };
+
     Ably.prototype.getAllSubscribers = function () {
         return this.subscribers;
     };
