@@ -34,6 +34,14 @@
         return this;
     };
 
+    Ably.prototype.getTest = function (name) {
+        for (var i = 0; i < this.tests.length; i++) {
+            if (this.tests[i].name === name) {
+                return this.tests[i];
+            }
+        }
+    };
+
     Ably.prototype.getTests = function () {
         return this.tests;
     };

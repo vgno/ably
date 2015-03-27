@@ -21,6 +21,10 @@ describe('Ably', function() {
         assert.equal(typeof ably.addTests, 'function');
     });
 
+    it('has a getTest method', function() {
+        assert.equal(typeof ably.getTest, 'function');
+    });
+
     it('has a getTests method', function() {
         assert.equal(typeof ably.getTests, 'function');
     });
@@ -31,6 +35,19 @@ describe('Ably', function() {
 
     it('has a getSubscribers method', function() {
         assert.equal(typeof ably.getSubscribers, 'function');
+    });
+
+    describe('.getTest(name)', function() {
+        it('gets test named \'name\'', function() {
+
+            var test = {name:'button-text'};
+
+            ably.addTest({name:'button-color'});
+            ably.addTest(test);
+            ably.addTest({name:'button-size'});
+
+            assert.equal(ably.getTest(test.name), test);
+        });
     });
 
     describe('.addTest()', function() {
