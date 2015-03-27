@@ -92,4 +92,50 @@ describe('Ably', function() {
             assert.deepEqual(ably.getTests(), tests1.concat(tests2));
         });
     });
+
+    describe('.when()', function() {
+
+        it('adds subscribers', function() {
+
+            var subscribers = [
+                {
+                    test: 'button-color',
+                    variant: 'red',
+                    callback: function dummyCallback() {}
+                },
+                {
+                    test: 'button-color',
+                    variant: 'green',
+                    callback: function dummyCallback() {}
+                }
+                ];
+
+            ably.when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback);
+            ably.when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
+
+            assert.deepEqual(ably.getSubscribers(), subscribers);
+        });
+
+        it('can be chained', function() {
+
+            var subscribers = [
+                {
+                    test: 'button-color',
+                    variant: 'red',
+                    callback: function dummyCallback() {}
+                },
+                {
+                    test: 'button-color',
+                    variant: 'green',
+                    callback: function dummyCallback() {}
+                }
+                ];
+
+            ably
+                .when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback)
+                .when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
+
+            assert.deepEqual(ably.getSubscribers(), subscribers);
+        });
+    });
 });
