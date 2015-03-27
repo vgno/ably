@@ -98,5 +98,8 @@
     "disallowTrailingWhitespace": true,
     "validateLineBreaks": "LF",
 
-    "excludeFiles": ["node_modules/**"]
+    "excludeFiles": [
+        "node_modules/**",
+        "coverage/**"
+    ]
 }
