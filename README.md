@@ -1,6 +1,8 @@
 # ably
 Provides a framework to perform A/B tests in the browser. This is still work in progress.
 
+[![Build Status](https://travis-ci.org/vgno/ably.svg)](https://travis-ci.org/vgno/ably)
+
 ## Usage example
 
 Call `ably.addTest` and pass it an array with configuration of the test you want to run.
