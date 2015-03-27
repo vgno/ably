@@ -38,7 +38,7 @@
     };
 
     Ably.prototype.when = function (test, variant, callback) {
-
+        return [test, variant, callback];
     };
 
     return Ably;
