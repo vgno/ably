@@ -1,5 +1,5 @@
 # ably
-Provides a framework to perform A/B tests in the browser
+Provides a framework to perform A/B tests in the browser. This is still work in progress.
 
 ## Usage example
 
