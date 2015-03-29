@@ -209,5 +209,67 @@ describe('Ably', function() {
 
             assert.deepEqual(ably.getAllSubscribers(), subscribers);
         });
+
+        it('subscribes to assignment in a sane manner', function(done) {
+
+            var callbacksCalled = [],
+                randomizerCalls = 0;
+
+            var test = {
+                name: 'button-color',
+                randomizer: function randomizer(callback) {
+                    callback('red');
+                    randomizerCalls++;
+                }
+            };
+
+            ably.when('button-color', 'green', function callback() {
+                callbacksCalled.push(1);
+            });
+
+            ably.when('button-color', 'red', function callback() {
+                callbacksCalled.push(2);
+            });
+
+            ably.when('label-text', 'red', function callback() {
+                callbacksCalled.push(3);
+            });
+
+            ably.when('button-color', 'red', function callback() {
+                callbacksCalled.push(4);
+            });
+
+            ably.when('label-text', 'green', function callback() {
+                callbacksCalled.push(5);
+            });
+
+            ably.addTest(test);
+
+            ably.when('button-color', 'green', function callback() {
+                callbacksCalled.push(6);
+            });
+
+            ably.when('button-color', 'red', function callback() {
+                callbacksCalled.push(7);
+            });
+
+            ably.when('label-text', 'red', function callback() {
+                callbacksCalled.push(8);
+            });
+
+            ably.when('button-color', 'red', function callback() {
+                callbacksCalled.push(9);
+            });
+
+            ably.when('label-text', 'green', function callback() {
+                callbacksCalled.push(10);
+            });
+
+            setTimeout(function verify() {
+                assert.deepEqual(callbacksCalled, [2, 4, 7, 9]);
+                assert.equal(randomizerCalls, 1);
+                done();
+            }, 20);
+        });
     });
 });
