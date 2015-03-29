@@ -33,14 +33,6 @@ describe('Ably', function() {
         assert.equal(typeof ably.when, 'function');
     });
 
-    it('has a getAllSubscribers method', function() {
-        assert.equal(typeof ably.getAllSubscribers, 'function');
-    });
-
-    it('has a getSubscribers method', function() {
-        assert.equal(typeof ably.getSubscribers, 'function');
-    });
-
     describe('.getTest(name)', function() {
         it('retrieves test named \'name\'', function() {
 
@@ -126,89 +118,8 @@ describe('Ably', function() {
         });
     });
 
-    describe('.getSubscribers(test, variant)', function() {
-
-        it('returns all subscribers for test and variant and nothing else', function() {
-
-            var test = 'button-color',
-                variant = 'red';
-
-            var subscribers = [
-                {
-                    test: test,
-                    variant: variant,
-                    callback: function dummyCallback1() {}
-                },
-                {
-                    test: test,
-                    variant: 'green',
-                    callback: function dummyCallback2() {}
-                },
-                {
-                    test: 'button-text',
-                    variant: 'buy',
-                    callback: function dummyCallback3() {}
-                },
-                {
-                    test: 'button-background-color',
-                    variant: variant,
-                    callback: function dummyCallback4() {}
-                }
-                ];
-
-            ably.when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback);
-            ably.when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
-            ably.when(subscribers[2].test, subscribers[2].variant, subscribers[2].callback);
-            ably.when(subscribers[3].test, subscribers[3].variant, subscribers[3].callback);
-
-            assert.deepEqual(ably.getSubscribers(test, variant), [subscribers[0]]);
-        });
-    });
 
     describe('.when()', function() {
-
-        it('adds subscribers', function() {
-
-            var subscribers = [
-                {
-                    test: 'button-color',
-                    variant: 'red',
-                    callback: function dummyCallback() {}
-                },
-                {
-                    test: 'button-color',
-                    variant: 'green',
-                    callback: function dummyCallback() {}
-                }
-                ];
-
-            ably.when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback);
-            ably.when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
-
-            assert.deepEqual(ably.getAllSubscribers(), subscribers);
-        });
-
-        it('can be chained', function() {
-
-            var subscribers = [
-                {
-                    test: 'button-color',
-                    variant: 'red',
-                    callback: function dummyCallback() {}
-                },
-                {
-                    test: 'button-color',
-                    variant: 'green',
-                    callback: function dummyCallback() {}
-                }
-                ];
-
-            ably
-                .when(subscribers[0].test, subscribers[0].variant, subscribers[0].callback)
-                .when(subscribers[1].test, subscribers[1].variant, subscribers[1].callback);
-
-            assert.deepEqual(ably.getAllSubscribers(), subscribers);
-        });
 
         it('subscribes to assignment in a sane manner', function(done) {
 
@@ -223,47 +134,38 @@ describe('Ably', function() {
                 }
             };
 
-            ably.when('button-color', 'green', function callback() {
-                callbacksCalled.push(1);
-            });
-
-            ably.when('button-color', 'red', function callback() {
-                callbacksCalled.push(2);
-            });
-
-            ably.when('label-text', 'red', function callback() {
-                callbacksCalled.push(3);
-            });
-
-            ably.when('button-color', 'red', function callback() {
-                callbacksCalled.push(4);
-            });
-
-            ably.when('label-text', 'green', function callback() {
-                callbacksCalled.push(5);
-            });
-
-            ably.addTest(test);
-
-            ably.when('button-color', 'green', function callback() {
-                callbacksCalled.push(6);
-            });
-
-            ably.when('button-color', 'red', function callback() {
-                callbacksCalled.push(7);
-            });
-
-            ably.when('label-text', 'red', function callback() {
-                callbacksCalled.push(8);
-            });
-
-            ably.when('button-color', 'red', function callback() {
-                callbacksCalled.push(9);
-            });
-
-            ably.when('label-text', 'green', function callback() {
-                callbacksCalled.push(10);
-            });
+            ably.
+                when('button-color', 'green', function callback() {
+                    callbacksCalled.push(1);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(2);
+                })
+                .when('label-text', 'red', function callback() {
+                    callbacksCalled.push(3);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(4);
+                })
+                .when('label-text', 'green', function callback() {
+                    callbacksCalled.push(5);
+                })
+                .addTest(test)
+                .when('button-color', 'green', function callback() {
+                    callbacksCalled.push(6);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(7);
+                })
+                .when('label-text', 'red', function callback() {
+                    callbacksCalled.push(8);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(9);
+                })
+                .when('label-text', 'green', function callback() {
+                    callbacksCalled.push(10);
+                });
 
             setTimeout(function verify() {
                 assert.deepEqual(callbacksCalled, [2, 4, 7, 9]);
