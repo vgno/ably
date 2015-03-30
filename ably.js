@@ -1,20 +1,26 @@
-(function (root, factory) {
+(function (root, classFactory) {
     'use strict';
+
+    /* istanbul ignore next: untestable with Node-style definition */
+    function getInstance(AClass) {
+        return new AClass();
+    }
+
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
+        /* istanbul ignore next: untestable with Node-style definition */
         define([], function() {
-            var Ably = factory();
-            return new Ably();
+            return getInstance(classFactory());
         });
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory();
+        module.exports = classFactory();
     } else {
         // Browser globals (root is window)
-        var Ably = factory();
-        root.ably = new Ably();
+        /* istanbul ignore next: untestable with Node-style definition */
+        root.ably = getInstance(classFactory());
   }
 }(this, function () {
     'use strict';
