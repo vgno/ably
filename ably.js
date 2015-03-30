@@ -27,10 +27,6 @@
 }(this, function () {
     'use strict';
 
-    function Exception(message) {
-       this.message = message;
-    }
-
     var Ably = function Ably() {
 
         // Private methods
@@ -165,7 +161,7 @@
                 return this.tests[i];
             }
         }
-        throw new Exception('test \'' + name + '\' not found');
+        throw new Error('test \'' + name + '\' not found');
     };
 
     Ably.prototype.getTests = function () {
