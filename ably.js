@@ -44,7 +44,6 @@
 
     Test.prototype.getAssignment = function() {
         return this.assignment;
-        // if no assignment throw error
     };
 
     Test.prototype.isPendingAssignment = function() {
