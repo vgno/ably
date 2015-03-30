@@ -215,11 +215,30 @@ describe('Ably', function() {
                     callbacksCalled.push(10);
                 });
 
+            setTimeout(function() {
+                ably
+                    .when('button-color', 'green', function callback() {
+                        callbacksCalled.push(11);
+                    })
+                    .when('button-color', 'red', function callback() {
+                        callbacksCalled.push(12);
+                    })
+                    .when('label-text', 'red', function callback() {
+                        callbacksCalled.push(13);
+                    })
+                    .when('button-color', 'red', function callback() {
+                        callbacksCalled.push(14);
+                    })
+                    .when('label-text', 'green', function callback() {
+                        callbacksCalled.push(15);
+                    });
+            }, 10);
+
             setTimeout(function verify() {
-                assert.deepEqual(callbacksCalled, [7, 9]);
+                assert.deepEqual(callbacksCalled, [7, 9, 12, 14]);
                 assert.equal(randomizerCalls, 1);
                 done();
-            }, 10);
+            }, 15);
         });
 
         it('can subscribe both before and after adding test', function(done) {
@@ -257,11 +276,30 @@ describe('Ably', function() {
                     callbacksCalled.push(10);
                 });
 
+            setTimeout(function() {
+                ably
+                    .when('button-color', 'green', function callback() {
+                        callbacksCalled.push(11);
+                    })
+                    .when('button-color', 'red', function callback() {
+                        callbacksCalled.push(12);
+                    })
+                    .when('label-text', 'red', function callback() {
+                        callbacksCalled.push(13);
+                    })
+                    .when('button-color', 'red', function callback() {
+                        callbacksCalled.push(14);
+                    })
+                    .when('label-text', 'green', function callback() {
+                        callbacksCalled.push(15);
+                    });
+            }, 10);
+
             setTimeout(function verify() {
-                assert.deepEqual(callbacksCalled, [2, 4, 7, 9]);
+                assert.deepEqual(callbacksCalled, [2, 4, 7, 9, 12, 14]);
                 assert.equal(randomizerCalls, 1);
                 done();
-            }, 20);
+            }, 15);
         });
     });
 });
