@@ -34,10 +34,10 @@
         }
 
         function requestAssignment() {
-            if (!self.isPendingAssignment()) {
-                self.markPendingAssignment();
+            if (!isPendingAssignment()) {
+                markPendingAssignment();
                 self.randomizer(function(assignment) {
-                    self.clearPendingAssignment();
+                    clearPendingAssignment();
                     setAssignment(assignment);
                     notifySubscribers();
                 });
@@ -46,6 +46,18 @@
 
         function setAssignment(assignment) {
             self.assignment = assignment;
+        }
+
+        function isPendingAssignment() {
+            return self.hasOwnProperty('pendingAssignment');
+        }
+
+        function markPendingAssignment() {
+            self.pendingAssignment = true;
+        }
+
+        function clearPendingAssignment() {
+            delete(self.pendingAssignment);
         }
 
         this.name = options.name;
@@ -72,18 +84,6 @@
 
     AblyTest.prototype.getAssignment = function() {
         return this.assignment;
-    };
-
-    AblyTest.prototype.isPendingAssignment = function() {
-        return this.hasOwnProperty('pendingAssignment');
-    };
-
-    AblyTest.prototype.markPendingAssignment = function() {
-        this.pendingAssignment = true;
-    };
-
-    AblyTest.prototype.clearPendingAssignment = function() {
-        delete(this.pendingAssignment);
     };
 
     return AblyTest;
