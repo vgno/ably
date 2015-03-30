@@ -118,7 +118,6 @@ describe('Ably', function() {
         });
     });
 
-
     describe('.when()', function() {
 
         it('subscribes to assignment in a sane manner', function(done) {
