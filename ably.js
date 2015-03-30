@@ -27,55 +27,89 @@
 }(this, function () {
     'use strict';
 
+    var Test = function Test(options) {
+
+        this.name = options.name;
+        this.randomizer = options.randomizer;
+        this.scope = options.scope;
+    };
+
+    Test.prototype.hasAssignment = function() {
+        return this.hasOwnProperty('assignment');
+    };
+
+    Test.prototype.setAssignment = function(assignment) {
+        this.assignment = assignment;
+    };
+
+    Test.prototype.getAssignment = function() {
+        return this.assignment;
+        // if no assignment throw error
+    };
+
+    Test.prototype.isPendingAssignment = function() {
+        return this.hasOwnProperty('pendingAssignment');
+    };
+
+    Test.prototype.markPendingAssignment = function() {
+        this.pendingAssignment = true;
+    };
+
+    Test.prototype.clearPendingAssignment = function() {
+        delete(this.pendingAssignment);
+    };
+
+    Test.prototype.requestAssignment = function(callback) {
+        if (!this.isPendingAssignment()) {
+            this.markPendingAssignment();
+            var self = this;
+            this.randomizer(function(assignment) {
+                self.clearPendingAssignment();
+                callback(assignment);
+            });
+        }
+    };
+
+    Test.prototype.triggerRequestForAssignment = function(callback) {
+        var self = this;
+        this.requestAssignment(function(assignment) {
+            self.setAssignment(assignment);
+            callback(assignment);
+        });
+    };
+
+    var Subscriber = function Subscriber(options) {
+        this.test = options.test;
+        this.variant = options.variant;
+        this.callback = options.callback;
+    };
+
+    Subscriber.prototype.notify = function() {
+        var self = this;
+        setTimeout(function notifySubscriberNow() {
+            self.callback();
+        }, 1);
+    };
+
+    Subscriber.prototype.matches = function(test, variant) {
+        return this.test === test && this.variant === variant;
+    };
+
     var Ably = function Ably() {
 
-        // Private methods
-        function notifySubscriber(subscriber) {
-            setTimeout(function notifySubscriberNow() {
-                subscriber.callback();
-            }, 1);
+        function triggerRequestForAssignment(test) {
+            test.triggerRequestForAssignment(function(assignment) {
+                notifyMatchingSubscribers(test.name, assignment);
+            });
         }
 
+        // Private methods
         function notifyMatchingSubscribers(test, assignment) {
             for (var i = 0; i < self.subscribers.length; i++) {
-                var s = self.subscribers[i];
-                if (s.test === test && s.variant === assignment) {
-                    notifySubscriber(self.subscribers[i]);
+                var subscriber = self.subscribers[i];
+                if (subscriber.matches(test, assignment)) {
+                    subscriber.notify();
                 }
-            }
-        }
-
-        function hasAssignment(test) {
-            return test.hasOwnProperty('assignment');
-        }
-
-        function setAssignment(test, assignment) {
-            test.assignment = assignment;
-        }
-
-        function getAssignment(test) {
-            return test.assignment;
-        }
-
-        function isPendingAssignment(test) {
-            return test.hasOwnProperty('pendingAssignment');
-        }
-
-        function markPendingAssignment(test) {
-            test.pendingAssignment = true;
-        }
-
-        function clearPendingAssignment(test) {
-            delete(test.pendingAssignment);
-        }
-
-        function requestAssignment(t, callback) {
-            if (!isPendingAssignment(t)) {
-                markPendingAssignment(t);
-                t.randomizer(function(assignment) {
-                    clearPendingAssignment(t);
-                    callback(assignment);
-                });
             }
         }
 
@@ -84,21 +118,14 @@
             self.subscribers.push(subscriber);
 
             // Make sure to notify the subscriber now or in the future
-            if (hasAssignment(test)) {
-                if (subscriber.variant === getAssignment(test)) {
-                    notifySubscriber(subscriber);
+            if (test.hasAssignment()) {
+                if (subscriber.variant === test.getAssignment()) {
+                    subscriber.notify();
                 }
             } else {
                 // Trigger request for assignment
                 triggerRequestForAssignment(test);
             }
-        }
-
-        function triggerRequestForAssignment(test) {
-            requestAssignment(test, function(assignment) {
-                setAssignment(test, assignment);
-                notifyMatchingSubscribers(test.name, assignment);
-            });
         }
 
         this.tests = [];
@@ -109,11 +136,11 @@
         // Privileged methods
         this.when = function (testName, variant, callback) {
 
-            var subscriber = {
+            var subscriber = new Subscriber({
                 test: testName,
                 variant: variant,
                 callback: callback
-            };
+            });
             var test;
 
             try {
@@ -131,11 +158,11 @@
 
         this.addTest = function (options) {
 
-            var test = {
+            var test = new Test({
                 name: options.name,
                 randomizer: options.randomizer,
                 scope: options.scope
-            };
+            });
 
             this.tests.push(test);
 
