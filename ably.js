@@ -49,28 +49,28 @@
             }
         }
 
-        function hasAssignment(testObject) {
-            return testObject.hasOwnProperty('assignment');
+        function hasAssignment(test) {
+            return test.hasOwnProperty('assignment');
         }
 
-        function setAssignment(testObject, assignment) {
-            testObject.assignment = assignment;
+        function setAssignment(test, assignment) {
+            test.assignment = assignment;
         }
 
-        function getAssignment(testObject) {
-            return testObject.assignment;
+        function getAssignment(test) {
+            return test.assignment;
         }
 
-        function isPendingAssignment(testObject) {
-            return testObject.hasOwnProperty('pendingAssignment');
+        function isPendingAssignment(test) {
+            return test.hasOwnProperty('pendingAssignment');
         }
 
-        function markPendingAssignment(testObject) {
-            testObject.pendingAssignment = true;
+        function markPendingAssignment(test) {
+            test.pendingAssignment = true;
         }
 
-        function clearPendingAssignment(testObject) {
-            delete(testObject.pendingAssignment);
+        function clearPendingAssignment(test) {
+            delete(test.pendingAssignment);
         }
 
         function requestAssignment(t, callback) {
@@ -83,18 +83,18 @@
             }
         }
 
-        function notifySubscriberOnAssignment(testObject, subscriber) {
+        function notifySubscriberOnAssignment(test, subscriber) {
 
             self.subscribers.push(subscriber);
 
             // Make sure to notify the subscriber now or in the future
-            if (hasAssignment(testObject)) {
-                if (subscriber.variant === getAssignment(testObject)) {
+            if (hasAssignment(test)) {
+                if (subscriber.variant === getAssignment(test)) {
                     notifySubscriber(subscriber);
                 }
             } else {
                 // Trigger request for assignment
-                triggerRequestForAssignment(testObject);
+                triggerRequestForAssignment(test);
             }
         }
 
@@ -111,24 +111,24 @@
         var self = this;
 
         // Privileged methods
-        this.when = function (test, variant, callback) {
+        this.when = function (testName, variant, callback) {
 
             var subscriber = {
-                test: test,
+                test: testName,
                 variant: variant,
                 callback: callback
             };
-            var testObject;
+            var test;
 
             try {
-                testObject = this.getTest(test);
+                test = this.getTest(subscriber.test);
             } catch (e) {
                 // Add subscriber to notify when the test becomes available
                 this.subscribers.push(subscriber);
                 return this;
             }
 
-            notifySubscriberOnAssignment(testObject, subscriber);
+            notifySubscriberOnAssignment(test, subscriber);
 
             return this;
         };
