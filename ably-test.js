@@ -38,10 +38,14 @@
                 self.markPendingAssignment();
                 self.randomizer(function(assignment) {
                     self.clearPendingAssignment();
-                    self.setAssignment(assignment);
+                    setAssignment(assignment);
                     notifySubscribers();
                 });
             }
+        }
+
+        function setAssignment(assignment) {
+            self.assignment = assignment;
         }
 
         this.name = options.name;
@@ -64,10 +68,6 @@
 
     AblyTest.prototype.hasAssignment = function() {
         return this.hasOwnProperty('assignment');
-    };
-
-    AblyTest.prototype.setAssignment = function(assignment) {
-        this.assignment = assignment;
     };
 
     AblyTest.prototype.getAssignment = function() {
