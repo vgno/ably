@@ -120,21 +120,80 @@ describe('Ably', function() {
 
     describe('.when()', function() {
 
-        it('subscribes to assignment in a sane manner', function(done) {
-
-            var callbacksCalled = [],
-                randomizerCalls = 0;
-
-            var test = {
+        var callbacksCalled,
+            randomizerCalls,
+            test = {
                 name: 'button-color',
                 randomizer: function randomizer(callback) {
-                    callback('red');
+                    setTimeout(function () {
+                        callback('red');
+                    }, 5);
                     randomizerCalls++;
                 }
             };
 
-            ably.
-                when('button-color', 'green', function callback() {
+        beforeEach(function() {
+            callbacksCalled = [];
+            randomizerCalls = 0;
+
+        });
+
+        it('can subscribe before adding test', function(done) {
+            ably
+                .when('button-color', 'green', function callback() {
+                    callbacksCalled.push(1);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(2);
+                })
+                .when('label-text', 'red', function callback() {
+                    callbacksCalled.push(3);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(4);
+                })
+                .when('label-text', 'green', function callback() {
+                    callbacksCalled.push(5);
+                })
+                .addTest(test);
+
+            setTimeout(function verify() {
+                assert.deepEqual(callbacksCalled, [2, 4]);
+                assert.equal(randomizerCalls, 1);
+                done();
+            }, 10);
+        });
+
+        it('can subscribe after adding test', function(done) {
+            ably
+                .addTest(test)
+                .when('button-color', 'green', function callback() {
+                    callbacksCalled.push(6);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(7);
+                })
+                .when('label-text', 'red', function callback() {
+                    callbacksCalled.push(8);
+                })
+                .when('button-color', 'red', function callback() {
+                    callbacksCalled.push(9);
+                })
+                .when('label-text', 'green', function callback() {
+                    callbacksCalled.push(10);
+                });
+
+            setTimeout(function verify() {
+                assert.deepEqual(callbacksCalled, [7, 9]);
+                assert.equal(randomizerCalls, 1);
+                done();
+            }, 10);
+        });
+
+        it('can subscribe both before and after adding test', function(done) {
+
+            ably
+                .when('button-color', 'green', function callback() {
                     callbacksCalled.push(1);
                 })
                 .when('button-color', 'red', function callback() {
