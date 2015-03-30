@@ -175,9 +175,10 @@
     };
 
     Ably.prototype.addTests = function (tests) {
-        for (var i = 0; i < tests.length; i++) {
-            this.addTest(tests[i]);
-        }
+        var self = this;
+        tests.forEach(function(test) {
+            self.addTest(test);
+        });
         return this;
     };
 
