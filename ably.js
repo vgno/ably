@@ -126,11 +126,27 @@
 
             return this;
         };
-    };
 
-    Ably.prototype.addTest = function (params) {
-        this.tests.push(params);
-        return this;
+        this.addTest = function (options) {
+
+            var test = {
+                name: options.name,
+                randomizer: options.randomizer,
+                scope: options.scope
+            };
+
+            this.tests.push(test);
+
+            if (this.subscribers.length > 0) {
+
+                // Trigger request for assignment
+                requestAssignment(test, function(assignment) {
+                    setAssignment(test, assignment);
+                    notifyMatchingSubscribers(test.name, assignment);
+                });
+            }
+            return this;
+        };
     };
 
     Ably.prototype.addTests = function (tests) {
