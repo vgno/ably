@@ -2,6 +2,19 @@ var assert = require('assert');
 var Ably = require('../ably.js'),
     ably;
 
+assert.testsEqual = function deepDeepEqual(actual, expected) {
+    'use strict';
+    assert.equal(actual.name, expected.name);
+};
+
+assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
+    'use strict';
+    assert.equal(actual.length, expected.length);
+    for (var i = 0; i < actual.length; i++) {
+        assert.testsEqual(actual, expected);
+    }
+};
+
 describe('Ably', function() {
     'use strict';
 
@@ -33,55 +46,67 @@ describe('Ably', function() {
         assert.equal(typeof ably.when, 'function');
     });
 
+    var tests = [
+        {
+            name: 'button-color',
+            randomizer: function randomizer(callback) {
+                callback('red');
+            }
+        },
+        {
+            name: 'button-text',
+            randomizer: function randomizer(callback) {
+                callback('Buy');
+            }
+        },
+        {
+            name: 'button-size',
+            randomizer: function randomizer(callback) {
+                callback('large');
+            }
+        }
+    ];
+
     describe('.getTest(name)', function() {
+
         it('retrieves test named \'name\'', function() {
 
-            var test = {name:'button-text'};
+            ably.addTest(tests[0]);
+            ably.addTest(tests[1]);
+            ably.addTest(tests[2]);
 
-            ably.addTest({name:'button-color'});
-            ably.addTest(test);
-            ably.addTest({name:'button-size'});
-
-            assert.equal(ably.getTest(test.name), test);
+            assert.testsEqual(ably.getTest(tests[1].name), tests[1]);
         });
 
         it('throws exception if test not found', function() {
 
-            var test = {name:'button-text'};
-
-            ably.addTest({name:'button-color'});
-            ably.addTest({name:'button-size'});
+            ably.addTest(tests[0]);
+            ably.addTest(tests[2]);
 
             assert.throws(function() {
-                ably.getTest(test.name);
+                ably.getTest(tests[1].name);
             });
         });
     });
 
     describe('.addTest()', function() {
         it('adds tests', function() {
-            var tests = [
-                {name:'button-color'},
-                {name:'button-text'}
-                ];
 
             ably.addTest(tests[0]);
             ably.addTest(tests[1]);
+            ably.addTest(tests[2]);
 
-            assert.deepEqual(ably.getTests(), tests);
+            assert.deepTestsEqual(ably.getTests(), tests);
         });
 
         it('can be chained', function() {
-            var tests = [
-                {name:'button-color'},
-                {name:'button-text'}
-                ];
 
             ably
                 .addTest(tests[0])
-                .addTest(tests[1]);
+                .addTest(tests[1])
+                .addTest(tests[2]);
 
-            assert.deepEqual(ably.getTests(), tests);
+            assert.deepTestsEqual(ably.getTests(), tests);
         });
     });
 
@@ -89,32 +114,20 @@ describe('Ably', function() {
 
         it('adds tests', function() {
 
-            var tests = [
-                {name:'button-border'},
-                {name:'button-shadow'}
-                ];
-
             ably.addTests(tests);
 
-            assert.deepEqual(ably.getTests(), tests);
+            assert.deepTestsEqual(ably.getTests(), tests);
         });
 
         it('can be chained', function() {
 
-            var tests1 = [
-                {name:'button-border'},
-                {name:'button-shadow'}
-                ],
-                tests2 = [
-                {name:'button-border'},
-                {name:'button-shadow'}
-                ];
-
             ably
-                .addTests(tests1)
-                .addTests(tests2);
+                .addTests([tests[0], tests[1]])
+                .addTests([tests[2]]);
 
-            assert.deepEqual(ably.getTests(), tests1.concat(tests2));
+            var returnedTests = ably.getTests();
+
+            assert.testsEqual(returnedTests[0], tests[0]);
         });
     });
 
@@ -135,7 +148,6 @@ describe('Ably', function() {
         beforeEach(function() {
             callbacksCalled = [];
             randomizerCalls = 0;
-
         });
 
         it('can subscribe before adding test', function(done) {
