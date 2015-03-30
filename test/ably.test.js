@@ -149,6 +149,21 @@ describe('Ably', function() {
             assert.deepTestsEqual(returnedTests, tests);
             assert.notDeepEqual(returnedTests, tests);
         });
+
+        it('does not call the randomizer if no subscribers', function() {
+
+            var randomizerCalls = 0,
+                test = {
+                    name: 'button-color',
+                    randomizer: function randomizer() {
+                        randomizerCalls++;
+                    }
+                };
+
+            ably.addTest(test);
+
+            assert.equal(randomizerCalls, 0);
+        });
     });
 
     describe('.when()', function() {
