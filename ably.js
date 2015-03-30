@@ -29,9 +29,44 @@
 
     var Test = function Test(options) {
 
+        function notifySubscribers() {
+
+            self.subscribers.forEach(function(subscriber) {
+                if (subscriber.matchesTestAndVariant(self.name, self.getAssignment())) {
+                    subscriber.notify();
+                }
+            });
+
+            self.subscribers = [];
+        }
+
+        function requestAssignment() {
+            if (!self.isPendingAssignment()) {
+                self.markPendingAssignment();
+                self.randomizer(function(assignment) {
+                    self.clearPendingAssignment();
+                    self.setAssignment(assignment);
+                    notifySubscribers();
+                });
+            }
+        }
+
         this.name = options.name;
         this.randomizer = options.randomizer;
         this.scope = options.scope;
+        this.subscribers = [];
+
+        var self = this;
+
+        this.addSubscriber = function(subscriber) {
+            this.subscribers.push(subscriber);
+
+            if (this.hasAssignment()) {
+                notifySubscribers();
+            } else {
+                requestAssignment();
+            }
+        };
     };
 
     Test.prototype.hasAssignment = function() {
@@ -58,25 +93,6 @@
         delete(this.pendingAssignment);
     };
 
-    Test.prototype.requestAssignment = function(callback) {
-        if (!this.isPendingAssignment()) {
-            this.markPendingAssignment();
-            var self = this;
-            this.randomizer(function(assignment) {
-                self.clearPendingAssignment();
-                callback(assignment);
-            });
-        }
-    };
-
-    Test.prototype.triggerRequestForAssignment = function(callback) {
-        var self = this;
-        this.requestAssignment(function(assignment) {
-            self.setAssignment(assignment);
-            callback(assignment);
-        });
-    };
-
     var Subscriber = function Subscriber(options) {
         this.test = options.test;
         this.variant = options.variant;
@@ -90,45 +106,33 @@
         }, 1);
     };
 
-    Subscriber.prototype.matches = function(test, variant) {
+    Subscriber.prototype.matchesTest = function(test) {
+        return this.test === test.name;
+    };
+
+    Subscriber.prototype.matchesTestAndVariant = function(test, variant) {
         return this.test === test && this.variant === variant;
     };
 
     var Ably = function Ably() {
 
-        function triggerRequestForAssignment(test) {
-            test.triggerRequestForAssignment(function(assignment) {
-                notifyMatchingSubscribers(test.name, assignment);
+        function relayPendingSubscribers(test) {
+
+            var unmatchedSubscribers = [];
+
+            self.pendingSubscribers.forEach(function(pendingSubscriber) {
+                if (pendingSubscriber.matchesTest(test)) {
+                    test.addSubscriber(pendingSubscriber);
+                } else {
+                    unmatchedSubscribers.push(pendingSubscriber);
+                }
             });
-        }
 
-        // Private methods
-        function notifyMatchingSubscribers(test, assignment) {
-            for (var i = 0; i < self.subscribers.length; i++) {
-                var subscriber = self.subscribers[i];
-                if (subscriber.matches(test, assignment)) {
-                    subscriber.notify();
-                }
-            }
-        }
-
-        function notifySubscriberOnAssignment(test, subscriber) {
-
-            self.subscribers.push(subscriber);
-
-            // Make sure to notify the subscriber now or in the future
-            if (test.hasAssignment()) {
-                if (subscriber.variant === test.getAssignment()) {
-                    subscriber.notify();
-                }
-            } else {
-                // Trigger request for assignment
-                triggerRequestForAssignment(test);
-            }
+            self.pendingSubscribers = unmatchedSubscribers;
         }
 
         this.tests = [];
-        this.subscribers = [];
+        this.pendingSubscribers = [];
 
         var self = this;
 
@@ -145,12 +149,11 @@
             try {
                 test = this.getTest(subscriber.test);
             } catch (e) {
-                // Add subscriber to notify when the test becomes available
-                this.subscribers.push(subscriber);
+                this.pendingSubscribers.push(subscriber);
                 return this;
             }
 
-            notifySubscriberOnAssignment(test, subscriber);
+            test.addSubscriber(subscriber);
 
             return this;
         };
@@ -165,11 +168,8 @@
 
             this.tests.push(test);
 
-            if (this.subscribers.length > 0) {
+            relayPendingSubscribers(test);
 
-                // Trigger request for assignment
-                triggerRequestForAssignment(test);
-            }
             return this;
         };
     };
