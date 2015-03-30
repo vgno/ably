@@ -150,7 +150,9 @@
     };
 
     Ably.prototype.addTests = function (tests) {
-        this.tests = this.tests.concat(tests);
+        for (var i = 0; i < tests.length; i++) {
+            this.addTest(tests[i]);
+        }
         return this;
     };
 
