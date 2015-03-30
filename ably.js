@@ -94,11 +94,15 @@
                 }
             } else {
                 // Trigger request for assignment
-                requestAssignment(testObject, function(assignment) {
-                    setAssignment(testObject, assignment);
-                    notifyMatchingSubscribers(testObject.name, assignment);
-                });
+                triggerRequestForAssignment(testObject);
             }
+        }
+
+        function triggerRequestForAssignment(test) {
+            requestAssignment(test, function(assignment) {
+                setAssignment(test, assignment);
+                notifyMatchingSubscribers(test.name, assignment);
+            });
         }
 
         this.tests = [];
@@ -142,10 +146,7 @@
             if (this.subscribers.length > 0) {
 
                 // Trigger request for assignment
-                requestAssignment(test, function(assignment) {
-                    setAssignment(test, assignment);
-                    notifyMatchingSubscribers(test.name, assignment);
-                });
+                triggerRequestForAssignment(test);
             }
             return this;
         };
