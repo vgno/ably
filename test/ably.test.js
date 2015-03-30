@@ -108,6 +108,16 @@ describe('Ably', function() {
 
             assert.deepTestsEqual(ably.getTests(), tests);
         });
+
+        it('creates a deep copy', function() {
+
+            ably.addTest(tests[0]);
+
+            var returnedTests = ably.getTests();
+
+            assert.testsEqual(returnedTests[0], tests[0]);
+            assert.notEqual(returnedTests[0], tests[0]);
+        });
     });
 
     describe('.addTests()', function() {
@@ -128,6 +138,16 @@ describe('Ably', function() {
             var returnedTests = ably.getTests();
 
             assert.testsEqual(returnedTests[0], tests[0]);
+        });
+
+        it('creates deep copies', function() {
+
+            ably.addTests(tests);
+
+            var returnedTests = ably.getTests();
+
+            assert.deepTestsEqual(returnedTests, tests);
+            assert.notDeepEqual(returnedTests, tests);
         });
     });
 
