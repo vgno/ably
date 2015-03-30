@@ -6,22 +6,24 @@
         return new AClass();
     }
 
+    /* istanbul ignore next: untestable with Node-style definition */
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        /* istanbul ignore next: untestable with Node-style definition */
         define([], function() {
             return getInstance(classFactory());
         });
-    } else if (typeof exports === 'object') {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like environments that support module.exports,
-        // like Node.
-        module.exports = classFactory();
     } else {
-        // Browser globals (root is window)
-        /* istanbul ignore next: untestable with Node-style definition */
-        root.ably = getInstance(classFactory());
-  }
+        /* istanbul ignore else: untestable with Node-style definition */
+        if (typeof exports === 'object') {
+            // Node. Does not work with strict CommonJS, but
+            // only CommonJS-like environments that support module.exports,
+            // like Node.
+            module.exports = classFactory();
+        } else {
+            // Browser globals (root is window)
+            root.ably = getInstance(classFactory());
+        }
+    }
 }(this, function () {
     'use strict';
 
