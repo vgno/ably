@@ -27,7 +27,7 @@
 }(this, function () {
     'use strict';
 
-    var Test = function Test(options) {
+    var AblyTest = function AblyTest(options) {
 
         function notifySubscribers() {
 
@@ -69,48 +69,48 @@
         };
     };
 
-    Test.prototype.hasAssignment = function() {
+    AblyTest.prototype.hasAssignment = function() {
         return this.hasOwnProperty('assignment');
     };
 
-    Test.prototype.setAssignment = function(assignment) {
+    AblyTest.prototype.setAssignment = function(assignment) {
         this.assignment = assignment;
     };
 
-    Test.prototype.getAssignment = function() {
+    AblyTest.prototype.getAssignment = function() {
         return this.assignment;
     };
 
-    Test.prototype.isPendingAssignment = function() {
+    AblyTest.prototype.isPendingAssignment = function() {
         return this.hasOwnProperty('pendingAssignment');
     };
 
-    Test.prototype.markPendingAssignment = function() {
+    AblyTest.prototype.markPendingAssignment = function() {
         this.pendingAssignment = true;
     };
 
-    Test.prototype.clearPendingAssignment = function() {
+    AblyTest.prototype.clearPendingAssignment = function() {
         delete(this.pendingAssignment);
     };
 
-    var Subscriber = function Subscriber(options) {
+    var AblySubscriber = function AblySubscriber(options) {
         this.test = options.test;
         this.variant = options.variant;
         this.callback = options.callback;
     };
 
-    Subscriber.prototype.notify = function() {
+    AblySubscriber.prototype.notify = function() {
         var self = this;
         setTimeout(function notifySubscriberNow() {
             self.callback();
         }, 1);
     };
 
-    Subscriber.prototype.matchesTest = function(test) {
+    AblySubscriber.prototype.matchesTest = function(test) {
         return this.test === test.name;
     };
 
-    Subscriber.prototype.matchesTestAndVariant = function(test, variant) {
+    AblySubscriber.prototype.matchesTestAndVariant = function(test, variant) {
         return this.test === test && this.variant === variant;
     };
 
@@ -139,7 +139,7 @@
         // Privileged methods
         this.when = function (testName, variant, callback) {
 
-            var subscriber = new Subscriber({
+            var subscriber = new AblySubscriber({
                 test: testName,
                 variant: variant,
                 callback: callback
@@ -160,7 +160,7 @@
 
         this.addTest = function (options) {
 
-            var test = new Test({
+            var test = new AblyTest({
                 name: options.name,
                 randomizer: options.randomizer,
                 scope: options.scope
