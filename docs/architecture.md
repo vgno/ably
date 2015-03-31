@@ -29,7 +29,7 @@ function randomizer(callback, variants);
  * @param  {Function} callback The callback to pass the variant to
  * @param  {Array}    variants An array of variants to choose from
  */
-function mathRandomRandomizer(callback, variants) {
+function exampleRandomizer(callback, variants) {
     callback(variants[Math.floor(Math.random() * variants.length)]);
 }
 
