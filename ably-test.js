@@ -63,6 +63,7 @@
         this.name = options.name;
         this.randomizer = options.randomizer;
         this.scope = options.scope;
+        this.variants = options.variants;
         this.subscribers = [];
 
         var self = this;

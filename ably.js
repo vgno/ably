@@ -66,6 +66,7 @@
 
             var test = new AblyTest({
                 name: options.name,
+                variants: options.variants,
                 randomizer: options.randomizer,
                 scope: options.scope
             });

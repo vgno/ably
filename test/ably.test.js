@@ -5,6 +5,7 @@ var Ably = require('../ably.js'),
 assert.testsEqual = function deepDeepEqual(actual, expected) {
     'use strict';
     assert.equal(actual.name, expected.name);
+    assert.equal(actual.variants, expected.variants);
     assert.equal(actual.randomizer, expected.randomizer);
     assert.equal(actual.scope, expected.scope);
 };
@@ -51,18 +52,21 @@ describe('Ably', function() {
     var tests = [
         {
             name: 'button-color',
+            variants: ['red', 'green'],
             randomizer: function randomizer(callback) {
                 callback('red');
             }
         },
         {
             name: 'button-text',
+            variants: ['buy', 'subscribe'],
             randomizer: function randomizer(callback) {
                 callback('Buy');
             }
         },
         {
             name: 'button-size',
+            variants: ['large', 'small'],
             randomizer: function randomizer(callback) {
                 callback('large');
             }
@@ -157,6 +161,7 @@ describe('Ably', function() {
             var randomizerCalls = 0,
                 test = {
                     name: 'button-color',
+                    variants: ['red', 'green'],
                     randomizer: function randomizer() {
                         randomizerCalls++;
                     }
@@ -174,6 +179,7 @@ describe('Ably', function() {
             randomizerCalls,
             test = {
                 name: 'button-color',
+                variants: ['red', 'green'],
                 randomizer: function randomizer(callback) {
                     setTimeout(function () {
                         callback('red');
