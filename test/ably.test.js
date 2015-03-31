@@ -5,6 +5,8 @@ var Ably = require('../ably.js'),
 assert.testsEqual = function deepDeepEqual(actual, expected) {
     'use strict';
     assert.equal(actual.name, expected.name);
+    assert.equal(actual.randomizer, expected.randomizer);
+    assert.equal(actual.scope, expected.scope);
 };
 
 assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
