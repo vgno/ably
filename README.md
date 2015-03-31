@@ -12,10 +12,8 @@ Call `ably.addTest` and pass it an array with configuration of the test you want
 ably.addTest(
     {
         name: 'button-color',
-        randomizer: new MathRandomRandomizer([
-            'red': 40, 
-            'green': 60
-        ]),
+        variants: ['red', 'green'],
+        randomizer: ably.mathRandomRandomizer,
         scope: new CookieScope()
     }
 );
