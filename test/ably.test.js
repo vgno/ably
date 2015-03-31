@@ -124,6 +124,22 @@ describe('Ably', function() {
             assert.testsEqual(returnedTests[0], tests[0]);
             assert.notEqual(returnedTests[0], tests[0]);
         });
+
+        it('does not call the randomizer if no subscribers', function() {
+
+            var randomizerCalls = 0,
+                test = {
+                    name: 'button-color',
+                    variants: ['red', 'green'],
+                    randomizer: function randomizer() {
+                        randomizerCalls++;
+                    }
+                };
+
+            ably.addTest(test);
+
+            assert.equal(randomizerCalls, 0);
+        });
     });
 
     describe('.addTests()', function() {
@@ -167,7 +183,7 @@ describe('Ably', function() {
                     }
                 };
 
-            ably.addTest(test);
+            ably.addTests([test]);
 
             assert.equal(randomizerCalls, 0);
         });
