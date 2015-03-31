@@ -140,6 +140,81 @@ describe('Ably', function() {
 
             assert.equal(randomizerCalls, 0);
         });
+
+        it('adds a test with the current randomizer', function(done) {
+
+            var assignment,
+                test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    randomizer: ably.randomizer
+                };
+
+            ably.addTest(test);
+
+            ably.when('header-color', 'orange', function() {
+                assignment = 'orange';
+            });
+
+            ably.when('header-color', 'yellow', function() {
+                assignment = 'yellow';
+            });
+
+            setTimeout(function() {
+                assert.equal(assignment === 'orange' || assignment === 'yellow', true);
+                done();
+            }, 10);
+        });
+
+        it('adds a test with the default randomizer', function(done) {
+
+            var assignment,
+                test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    randomizer: ably.defaultRandomizer
+                };
+
+            ably.addTest(test);
+
+            ably.when('header-color', 'orange', function() {
+                assignment = 'orange';
+            });
+
+            ably.when('header-color', 'yellow', function() {
+                assignment = 'yellow';
+            });
+
+            setTimeout(function() {
+                assert.equal(assignment === 'orange' || assignment === 'yellow', true);
+                done();
+            }, 10);
+        });
+
+        it('adds a test with the math random randomizer', function(done) {
+
+            var assignment,
+                test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    randomizer: ably.mathRandomRandomizer
+                };
+
+            ably.addTest(test);
+
+            ably.when('header-color', 'orange', function() {
+                assignment = 'orange';
+            });
+
+            ably.when('header-color', 'yellow', function() {
+                assignment = 'yellow';
+            });
+
+            setTimeout(function() {
+                assert.equal(assignment === 'orange' || assignment === 'yellow', true);
+                done();
+            }, 10);
+        });
     });
 
     describe('.addTests()', function() {
@@ -340,5 +415,8 @@ describe('Ably', function() {
                 done();
             }, 15);
         });
+
+        // if the subscriber is not defined or null or not a function
+        // cannot add test twice
     });
 });

@@ -35,8 +35,15 @@
             self.pendingSubscribers = unmatchedSubscribers;
         }
 
+        function mathRandomRandomizer(callback, variants) {
+            callback(variants[Math.floor(Math.random() * variants.length)]);
+        }
+
         this.tests = [];
         this.pendingSubscribers = [];
+        this.randomizer = mathRandomRandomizer;
+        this.defaultRandomizer = mathRandomRandomizer;
+        this.mathRandomRandomizer = mathRandomRandomizer;
 
         var self = this;
 

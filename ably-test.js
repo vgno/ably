@@ -40,7 +40,7 @@
                     clearPendingAssignment();
                     setAssignment(assignment);
                     notifySubscribers();
-                });
+                }, self.variants);
             }
         }
 
