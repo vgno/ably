@@ -61,7 +61,7 @@ describe('Ably', function() {
             name: 'button-text',
             variants: ['buy', 'subscribe'],
             randomizer: function randomizer(callback) {
-                callback('Buy');
+                callback('buy');
             }
         },
         {
