@@ -14,7 +14,7 @@
             module.exports = factory();
         } else {
             // Browser globals (root is window)
-            root.ablyTest = factory();
+            root.AblyTest = factory();
         }
     }
 }(this, function () {
