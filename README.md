@@ -31,13 +31,12 @@ The JS API allows you to attach event handlers to different variants of tests.
 
 ```js
 ably
-    .when('button-color', 'red', function (button) {
-        button.style.backgroundColor = '#ff0000';
+    .when('button-color', 'red', function () {
+        document.getElementById('purchase-button').style.backgroundColor = '#ff0000';
     })
-    .when('button-color', 'green', function (button) {
-        button.style.backgroundColor = '#00ff00';
-    })
-    .run(document.getElementById('purchase-button'));
+    .when('button-color', 'green', function () {
+        document.getElementById('purchase-button').style.backgroundColor = '#00ff00';
+    });
 ```
 
 ### HTML & CSS APIs
