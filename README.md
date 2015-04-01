@@ -35,15 +35,15 @@ Ably exposes three APIs: JS, HTML and CSS.
 
 ### JS API
 
-The JS API allows you to attach event handlers to different variants of tests.
+The JS API allows you to subscribe to different variants.
 
 ```js
 ably
     .when('button-color', 'red', function () {
-        document.getElementById('purchase-button').style.backgroundColor = '#ff0000';
+        $('buy-button').css('background-color', 'red');
     })
     .when('button-color', 'green', function () {
-        document.getElementById('purchase-button').style.backgroundColor = '#00ff00';
+        $('buy-button').css('background-color', 'green');
     });
 ```
 
