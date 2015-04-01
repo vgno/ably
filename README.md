@@ -6,9 +6,8 @@ Provides a framework to perform A/B tests in the browser. This is still work in 
 
 ## Usage example
 
-Call `ably.addTest` and pass it an array with configuration of the test you want to run.
-
 ```js
+// Add a test
 ably.addTest(
     {
         name: 'button-color',
@@ -17,6 +16,15 @@ ably.addTest(
         scope: new CookieScope()
     }
 );
+
+// Subscribe to variants
+ably
+    .when('button-color', 'red', function () {
+        $('buy-button').css('background-color', 'red');
+    })
+    .when('button-color', 'green', function () {
+        $('buy-button').css('background-color', 'green');
+    });
 ```
 
 ## APIs
