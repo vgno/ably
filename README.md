@@ -49,14 +49,9 @@ ably
 
 ### HTML & CSS APIs
 
-Purpose:
+The HTML & CSS APIs make it possible to write an A/B test almost entirely in HTML or CSS. They also help avoid the flickering effect when showing/hiding/manipulating DOM elements via Javascript.
 
-1. Make it possible to write an A/B test entirely in HTML or CSS without writing (almost) any Javascript.
-2. Help avoid the flickering effect when showing/hiding/manipulating DOM elements via Javascript after the DOM is ready.
-
-This is achieved by adding the selected variants as classes to the `body` element. This makes the browser able to style page elements early, before the entire DOM is loaded.
-
-The variant classes will be added to the `body` element by Ably. The routine that adds those classes needs to be invoked as early as possible, preferably right after the opening `body` tag.
+This is achieved by making the browser able to style elements early, before the DOM is even fully loaded.
 
 #### HTML API
 
