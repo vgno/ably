@@ -49,9 +49,9 @@ ably
 
 ### HTML & CSS APIs
 
-The HTML & CSS APIs make it possible to write an A/B test almost entirely in HTML or CSS. They also help avoid the flickering effect when showing/hiding/manipulating DOM elements via Javascript.
+The goal is to describe A/B variants entirely in HTML & CSS.
 
-This is achieved by making the browser able to style elements early, before the DOM is even fully loaded.
+Using the HTML & CSS APIs helps avoid the flickering effect when manipulating DOM elements via Javascript. This is achieved by empowering the browser to style elements early, while the DOM is still parsed.
 
 #### HTML API
 
