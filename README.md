@@ -53,13 +53,7 @@ ably
     });
 ```
 
-### HTML & CSS APIs
-
-The goal is to describe A/B variants entirely in HTML & CSS.
-
-Using the HTML & CSS APIs helps avoid the flickering effect that you can observe when you manipulating DOM elements via Javascript. This is achieved by empowering the browser to style elements early, while the DOM is still parsed.
-
-#### HTML API
+### HTML API
 
 Use it to alternate **content**.
 
@@ -75,17 +69,7 @@ Use it to alternate **content**.
 
 Ably will only show the selected variant.
 
-Behind the scenes Ably adds the variant that got selected as a class to your `<body>` element
-
-```html
-<body class="ably-button-text-buy">
-```
-
-...and generates some CSS to make it work.
-
-From this moment on the logic of showing/hiding the variants is offloaded entirely to the browser. This works really fast. The browser knows how to style your elements before they are even parsed!
-
-#### CSS API
+### CSS API
 
 Use it to alternate **styling**.
 
@@ -116,6 +100,20 @@ body.ably-button-color-green #buy-now-button
     background-color: #00ff00;
 }
 ```
+
+### Why use HTML & CSS APIs?
+
+Use the HTML & CSS APIs when you want to describe variants that alternate **content** or **styling**. Using the HTML & CSS APIs helps avoid the flickering effect that you can observe when you manipulate DOM elements via Javascript.
+
+This is achieved by empowering the browser to style elements early, while the DOM is still parsed. Behind the scenes Ably adds the variant that got selected as a class to your `<body>` element
+
+```html
+<body class="ably-button-text-buy">
+```
+
+...and generates some CSS to make it work.
+
+From this moment on the logic of showing/hiding the variants is offloaded entirely to the browser. This works really fast. The browser knows how to style your elements before they are even parsed!
 
 ## Architecture
 
