@@ -51,7 +51,7 @@ ably
 
 The goal is to describe A/B variants entirely in HTML & CSS.
 
-Using the HTML & CSS APIs helps avoid the flickering effect when manipulating DOM elements via Javascript. This is achieved by empowering the browser to style elements early, while the DOM is still parsed.
+Using the HTML & CSS APIs helps avoid the flickering effect that you can observe when you manipulating DOM elements via Javascript. This is achieved by empowering the browser to style elements early, while the DOM is still parsed.
 
 #### HTML API
 
