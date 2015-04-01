@@ -58,10 +58,12 @@ ably
 Use it to alternate **content**.
 
 ```html
+  <!-- Test 'button-text' variant 'buy' -->
   <button class="ably-button-text-buy">
     Buy Now!
   </button>
-  
+
+  <!-- Test 'button-text' variant 'buy' -->
   <button class="ably-button-text-subscribe">
     Subscribe!
   </button>
