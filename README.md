@@ -39,12 +39,12 @@ Use it to alternate **behaviour**.
 
 ```js
 ably
-    .when('button-color', 'red', function () {
+    .when('thank-you-action', 'alert', function () {
         $('buy-button').click(function() {
             alert('Thank you!');
         });
     })
-    .when('button-color', 'green', function () {
+    .when('thank-you-action', 'redirect', function () {
         $('buy-button').click(function() {
             location.href = '/thank-you-page.html';
         });
