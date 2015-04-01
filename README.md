@@ -91,7 +91,7 @@ Behind the scenes Ably adds the variant that got selected as a class to your `<b
 
 ...and generates some CSS to make it work.
 
-From this moment on the logic of showing/hiding the variants is offset entirely to the browser. This works really fast. The browser knows how to style your elements before they are even parsed!
+From this moment on the logic of showing/hiding the variants is offloaded entirely to the browser. This works really fast. The browser knows how to style your elements before they are even parsed!
 
 #### CSS API
 
