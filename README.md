@@ -35,15 +35,19 @@ Ably exposes three APIs: JS, HTML and CSS.
 
 ### JS API
 
-The JS API allows you to subscribe to different variants.
+Use it to alternate **behaviour**.
 
 ```js
 ably
     .when('button-color', 'red', function () {
-        $('buy-button').css('background-color', 'red');
+        $('buy-button').click(function() {
+            alert('Thank you!');
+        });
     })
     .when('button-color', 'green', function () {
-        $('buy-button').css('background-color', 'green');
+        $('buy-button').click(function() {
+            location.href = '/thank-you-page.html';
+        });
     });
 ```
 
@@ -55,21 +59,7 @@ Using the HTML & CSS APIs helps avoid the flickering effect that you can observe
 
 #### HTML API
 
-Let's say you want to find out if `Buy` or `Subscribe` is a better caption for your button.
-
-Define your test in JS:
-
-```js
-// Define the test
-ably.addTest({
-    name: 'button-text',
-    variants: ['buy', 'subscribe'],
-    randomizer: ably.mathRandomRandomizer,
-    scope: new CookieScope()
-});
-```
-
-Add elements for each variant:
+Use it to alternate **content**.
 
 ```html
   <button class="ably-button-text-buy">
@@ -94,6 +84,8 @@ Behind the scenes Ably adds the variant that got selected as a class to your `<b
 From this moment on the logic of showing/hiding the variants is offloaded entirely to the browser. This works really fast. The browser knows how to style your elements before they are even parsed!
 
 #### CSS API
+
+Use it to alternate **styling**.
 
 HTML:
 
