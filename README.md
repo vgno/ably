@@ -101,7 +101,7 @@ body.ably-button-color-green #buy-now-button
 }
 ```
 
-### Why use HTML & CSS APIs?
+### Why use the HTML & CSS APIs?
 
 Use the HTML & CSS APIs when you want to describe variants that alternate **content** or **styling**. Using the HTML & CSS APIs helps avoid the flickering effect that you can observe when you manipulate DOM elements via Javascript.
 
