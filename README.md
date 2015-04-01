@@ -19,9 +19,11 @@ ably.addTest(
 
 // Subscribe to variants
 ably
+    // Subscribe to test 'button-color' variant 'red'
     .when('button-color', 'red', function () {
         $('buy-button').css('background-color', 'red');
     })
+    // Subscribe to test 'button-color' variant 'green'
     .when('button-color', 'green', function () {
         $('buy-button').css('background-color', 'green');
     });
@@ -39,11 +41,13 @@ Use it to alternate **behaviour**.
 
 ```js
 ably
+    // Subscribe to test 'thank-you-action' variant 'alert'
     .when('thank-you-action', 'alert', function () {
         $('buy-button').click(function() {
             alert('Thank you!');
         });
     })
+    // Subscribe to test 'thank-you-action' variant 'redirect'
     .when('thank-you-action', 'redirect', function () {
         $('buy-button').click(function() {
             location.href = '/thank-you-page.html';
