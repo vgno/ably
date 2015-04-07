@@ -6,6 +6,8 @@ Provides a framework to perform A/B tests in the browser. This is still work in 
 
 ## Usage example
 
+### Define tests
+
 ```js
 // Add a test
 ably.addTest({
@@ -14,8 +16,11 @@ ably.addTest({
     randomizer: 'uniform',
     scope: 'cookie'
 });
+```
 
-// Subscribe to variants
+### Subscribe to variants
+
+```js
 ably
     // Subscribe to test 'button-color' variant 'red'
     .when('button-color', 'red', function () {
