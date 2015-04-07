@@ -11,8 +11,8 @@ Provides a framework to perform A/B tests in the browser. This is still work in 
 ably.addTest({
     name: 'button-color',
     variants: ['red', 'green'],
-    randomizer: ably.mathRandomRandomizer,
-    scope: new CookieScope()
+    randomizer: 'uniform',
+    scope: 'cookie'
 });
 
 // Subscribe to variants
