@@ -39,6 +39,23 @@
             callback(variants[Math.floor(Math.random() * variants.length)]);
         }
 
+        function interpretRandomizer(options) {
+            var randomizer;
+            if (!options.hasOwnProperty('randomizer')) {
+                randomizer = self.randomizers['default'];
+            } else {
+                if (typeof options.randomizer === 'function') {
+                    randomizer = options.randomizer;
+                } else {
+                    if (!self.randomizers.hasOwnProperty(options.randomizer)) {
+                        throw new Error('randomizer \'' + options.randomizer + '\' not found');
+                    }
+                    randomizer = self.randomizers[options.randomizer];
+                }
+            }
+            return randomizer;
+        }
+
         this.tests = [];
         this.pendingSubscribers = [];
         this.randomizers = {
@@ -73,24 +90,10 @@
 
         this.addTest = function (options) {
 
-            var randomizer;
-            if (!options.hasOwnProperty('randomizer')) {
-                randomizer = this.randomizers['default'];
-            } else {
-                if (typeof options.randomizer === 'function') {
-                    randomizer = options.randomizer;
-                } else {
-                    if (!this.randomizers.hasOwnProperty(options.randomizer)) {
-                        throw new Error('randomizer \'' + options.randomizer + '\' not found');
-                    }
-                    randomizer = this.randomizers[options.randomizer];
-                }
-            }
-
             var test = new AblyTest({
                 name: options.name,
                 variants: options.variants,
-                randomizer: randomizer,
+                randomizer: interpretRandomizer(options),
                 scope: options.scope
             });
 
