@@ -40,20 +40,19 @@
         }
 
         function interpretRandomizer(options) {
-            var randomizer;
             if (!options.hasOwnProperty('randomizer')) {
-                randomizer = self.randomizers['default'];
-            } else {
-                if (typeof options.randomizer === 'function') {
-                    randomizer = options.randomizer;
-                } else {
-                    if (!self.randomizers.hasOwnProperty(options.randomizer)) {
-                        throw new Error('randomizer \'' + options.randomizer + '\' not found');
-                    }
-                    randomizer = self.randomizers[options.randomizer];
-                }
+                return self.randomizers['default'];
             }
-            return randomizer;
+
+            if (typeof options.randomizer === 'function') {
+                return options.randomizer;
+            }
+
+            if (self.randomizers.hasOwnProperty(options.randomizer)) {
+                return self.randomizers[options.randomizer];
+            }
+
+            throw new Error('randomizer \'' + options.randomizer + '\' not found');
         }
 
         this.tests = [];
