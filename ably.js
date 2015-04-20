@@ -35,8 +35,8 @@
             self.pendingSubscribers = unmatchedSubscribers;
         }
 
-        function uniformRandomizer(callback, variants) {
-            callback(variants[Math.floor(Math.random() * variants.length)]);
+        function uniformRandomizer(callback, test) {
+            callback(test.variants[Math.floor(Math.random() * test.variants.length)]);
         }
 
         function interpretRandomizer(options) {

@@ -227,6 +227,30 @@ describe('Ably', function() {
                 done();
             }, 10);
         });
+
+        describe('the passed in randomizer', function() {
+            it('gets the test object as the second argument', function(done) {
+                var assignment,
+                    expectedTest = {
+                        name: 'header-color',
+                        variants: ['orange', 'yellow'],
+                        randomizer: function(callback, actualTest) {
+                            assert.testsEqual(actualTest, expectedTest);
+                            done();
+                        }
+                    };
+
+                ably.addTest(expectedTest);
+
+                ably.when('header-color', 'orange', function() {
+                    assignment = 'orange';
+                });
+
+                ably.when('header-color', 'yellow', function() {
+                    assignment = 'yellow';
+                });
+            });
+        });
     });
 
     describe('.addTests()', function() {
