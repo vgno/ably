@@ -39,7 +39,7 @@
             callback(test.variants[Math.floor(Math.random() * test.variants.length)]);
         }
 
-        function interpretRandomizer(options) {
+        function interpretRandomizerOptions(options) {
             if (!options.hasOwnProperty('randomizer')) {
                 return self.randomizers['default'];
             }
@@ -91,7 +91,7 @@
             var test = new AblyTest({
                 name: options.name,
                 variants: options.variants,
-                randomizer: interpretRandomizer(options),
+                randomizer: interpretRandomizerOptions(options),
                 scope: options.scope
             });
 
