@@ -35,15 +35,15 @@
             self.pendingSubscribers = unmatchedSubscribers;
         }
 
-        function mathRandomRandomizer(callback, variants) {
+        function uniformRandomizer(callback, variants) {
             callback(variants[Math.floor(Math.random() * variants.length)]);
         }
 
         this.tests = [];
         this.pendingSubscribers = [];
-        this.randomizer = mathRandomRandomizer;
-        this.defaultRandomizer = mathRandomRandomizer;
-        this.mathRandomRandomizer = mathRandomRandomizer;
+        this.randomizer = uniformRandomizer;
+        this.defaultRandomizer = uniformRandomizer;
+        this.uniformRandomizer = uniformRandomizer;
 
         var self = this;
 
@@ -71,10 +71,21 @@
 
         this.addTest = function (options) {
 
+            var randomizer;
+            if (typeof options.randomizer === 'function') {
+                randomizer = options.randomizer;
+            } else {
+                if (options.randomizer === 'uniform') {
+                    randomizer = this.uniformRandomizer;
+                } else if (options.randomizer === 'default') {
+                    randomizer = this.defaultRandomizer;
+                }
+            }
+
             var test = new AblyTest({
                 name: options.name,
                 variants: options.variants,
-                randomizer: options.randomizer,
+                randomizer: randomizer,
                 scope: options.scope
             });
 
