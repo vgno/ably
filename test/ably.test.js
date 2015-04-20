@@ -172,7 +172,7 @@ describe('Ably', function() {
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: ably.defaultRandomizer
+                    randomizer: 'default'
                 };
 
             ably.addTest(test);
@@ -191,13 +191,13 @@ describe('Ably', function() {
             }, 10);
         });
 
-        it('adds a test with the math random randomizer', function(done) {
+        it('adds a test with the uniform randomizer', function(done) {
 
             var assignment,
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: ably.mathRandomRandomizer
+                    randomizer: 'uniform'
                 };
 
             ably.addTest(test);
