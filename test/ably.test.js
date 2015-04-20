@@ -228,6 +228,30 @@ describe('Ably', function() {
                 ably.addTest(test);
             });
         });
+
+        it('works if no randomizer provided', function(done) {
+
+            var assignment,
+                test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow']
+                };
+
+            ably.addTest(test);
+
+            ably.when('header-color', 'orange', function() {
+                assignment = 'orange';
+            });
+
+            ably.when('header-color', 'yellow', function() {
+                assignment = 'yellow';
+            });
+
+            setTimeout(function() {
+                assert.equal(assignment === 'orange' || assignment === 'yellow', true);
+                done();
+            }, 10);
+        });
     });
 
     describe('.addTests()', function() {
