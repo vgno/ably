@@ -41,9 +41,11 @@
 
         this.tests = [];
         this.pendingSubscribers = [];
-        this.randomizer = uniformRandomizer;
-        this.defaultRandomizer = uniformRandomizer;
-        this.uniformRandomizer = uniformRandomizer;
+        this.randomizers = {
+            uniform: uniformRandomizer,
+            'default': uniformRandomizer
+        };
+        this.randomizer = this.randomizers['default'];
 
         var self = this;
 
@@ -75,11 +77,7 @@
             if (typeof options.randomizer === 'function') {
                 randomizer = options.randomizer;
             } else {
-                if (options.randomizer === 'uniform') {
-                    randomizer = this.uniformRandomizer;
-                } else if (options.randomizer === 'default') {
-                    randomizer = this.defaultRandomizer;
-                }
+                randomizer = this.randomizers[options.randomizer];
             }
 
             var test = new AblyTest({
