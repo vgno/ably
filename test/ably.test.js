@@ -227,70 +227,6 @@ describe('Ably', function() {
                 done();
             }, 10);
         });
-
-        describe('the passed in randomizer', function() {
-            it('gets the test object as the second argument', function(done) {
-                var assignment,
-                    expectedTest = {
-                        name: 'header-color',
-                        variants: ['orange', 'yellow'],
-                        randomizer: function(callback, actualTest) {
-                            assert.testsEqual(actualTest, expectedTest);
-                            done();
-                        }
-                    };
-
-                ably.addTest(expectedTest);
-
-                ably.when('header-color', 'orange', function() {
-                    assignment = 'orange';
-                });
-
-                ably.when('header-color', 'yellow', function() {
-                    assignment = 'yellow';
-                });
-            });
-
-            it('can be used for multiple tests', function(done) {
-
-                var correctAssignments = 0,
-                    randomizer = function(callback, test) {
-                            if (test.name === 'header-color') {
-                                callback('orange');
-                            }
-                            if (test.name === 'button-text') {
-                                callback('buy');
-                            }
-                        },
-                        tests = [
-                        {
-                            name: 'header-color',
-                            variants: ['orange', 'yellow'],
-                            randomizer: randomizer
-                        },
-                        {
-                            name: 'button-text',
-                            variants: ['buy', 'subscribe'],
-                            randomizer: randomizer
-                        }
-                        ];
-
-                ably.addTests(tests);
-
-                ably.when('header-color', 'orange', function() {
-                    correctAssignments++;
-                });
-
-                ably.when('button-text', 'buy', function() {
-                    correctAssignments++;
-                });
-
-                setTimeout(function() {
-                    assert.equal(correctAssignments, 2);
-                    done();
-                }, 10);
-            });
-        });
     });
 
     describe('.addTests()', function() {
@@ -337,6 +273,70 @@ describe('Ably', function() {
             ably.addTests([test]);
 
             assert.equal(randomizerCalls, 0);
+        });
+    });
+
+    describe('the randomizer', function() {
+        it('gets the test object as the second argument', function(done) {
+            var assignment,
+                expectedTest = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    randomizer: function(callback, actualTest) {
+                        assert.testsEqual(actualTest, expectedTest);
+                        done();
+                    }
+                };
+
+            ably.addTest(expectedTest);
+
+            ably.when('header-color', 'orange', function() {
+                assignment = 'orange';
+            });
+
+            ably.when('header-color', 'yellow', function() {
+                assignment = 'yellow';
+            });
+        });
+
+        it('can be used for multiple tests', function(done) {
+
+            var correctAssignments = 0,
+                randomizer = function(callback, test) {
+                        if (test.name === 'header-color') {
+                            callback('orange');
+                        }
+                        if (test.name === 'button-text') {
+                            callback('buy');
+                        }
+                    },
+                    tests = [
+                    {
+                        name: 'header-color',
+                        variants: ['orange', 'yellow'],
+                        randomizer: randomizer
+                    },
+                    {
+                        name: 'button-text',
+                        variants: ['buy', 'subscribe'],
+                        randomizer: randomizer
+                    }
+                    ];
+
+            ably.addTests(tests);
+
+            ably.when('header-color', 'orange', function() {
+                correctAssignments++;
+            });
+
+            ably.when('button-text', 'buy', function() {
+                correctAssignments++;
+            });
+
+            setTimeout(function() {
+                assert.equal(correctAssignments, 2);
+                done();
+            }, 10);
         });
     });
 
