@@ -61,7 +61,6 @@
             uniform: uniformRandomizer,
             'default': uniformRandomizer
         };
-        this.randomizer = this.randomizers['default'];
 
         var self = this;
 
