@@ -77,6 +77,9 @@
             if (typeof options.randomizer === 'function') {
                 randomizer = options.randomizer;
             } else {
+                if (!this.randomizers.hasOwnProperty(options.randomizer)) {
+                    throw new Error('randomizer \'' + options.randomizer + '\' not found');
+                }
                 randomizer = this.randomizers[options.randomizer];
             }
 

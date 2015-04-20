@@ -215,6 +215,19 @@ describe('Ably', function() {
                 done();
             }, 10);
         });
+
+        it('throws exception if randomizer not found', function() {
+
+            var test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    randomizer: 'nonExistentRandomizerIJustMadeUp'
+                };
+
+            assert.throws(function() {
+                ably.addTest(test);
+            });
+        });
     });
 
     describe('.addTests()', function() {
