@@ -97,21 +97,19 @@ body.ably-button-color-green #buy-now-button
 }
 ```
 
-### Why use the HTML & CSS APIs?
+### Why HTML & CSS APIs?
 
-Use the HTML & CSS APIs when you want to describe variants that alternate **content** or **styling**.
+It is possible to implement any A/B test using the JS API only.
 
-Using the APIs helps avoid the flickering effect that you can observe when you manipulate DOM elements via Javascript.
+Using the HTML & CSS APIs is recommended when you want to vary **content** or **styling** for the following reasons:
 
-This is achieved by empowering the browser to style elements early, while the DOM is still parsed. Behind the scenes Ably adds the variant that got selected as a class to your `<body>` element:
+ - **performance**
+   
+   Using the HTML & CSS APIs offloads variation of content and styling to the browser. It empowers the browser to style elements while the DOM is still parsed which helps avoid the lag related to manipulation of DOM elements via JavaScript. 
 
-```html
-<body class="ably-button-text-buy">
-```
+ - **separation of concerns**
 
-...and generates some CSS to make it work.
-
-From this moment on the logic of showing/hiding the variants is offloaded entirely to the browser. This works really fast. The browser knows how to style your elements before they are even parsed!
+   Using the HTML & CSS APIs allows to keep content and styling with other content and styling.
 
 ## Architecture
 
