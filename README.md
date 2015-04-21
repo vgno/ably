@@ -41,13 +41,13 @@ Use it to alternate **behaviour**.
 ably
     // Subscribe to test 'thank-you-action' variant 'alert'
     .when('thank-you-action', 'alert', function () {
-        $('buy-button').click(function() {
+        $('buy-button').on('click', function() {
             alert('Thank you!');
         });
     })
     // Subscribe to test 'thank-you-action' variant 'redirect'
     .when('thank-you-action', 'redirect', function () {
-        $('buy-button').click(function() {
+        $('buy-button').on('click', function() {
             location.href = '/thank-you-page.html';
         });
     });
