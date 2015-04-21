@@ -6,7 +6,7 @@ Provides a framework to perform A/B tests in the browser. This is still work in 
 
 ## Usage example
 
-### Define tests
+### 1. Define your tests
 
 ```js
 // Add a test
@@ -18,19 +18,14 @@ ably.addTest({
 });
 ```
 
-### Subscribe to variants
+### 2. Subscribe to variants
 
-```js
-ably
-    // Subscribe to test 'button-color' variant 'red'
-    .when('button-color', 'red', function () {
-        $('buy-button').css('background-color', 'red');
-    })
-    // Subscribe to test 'button-color' variant 'green'
-    .when('button-color', 'green', function () {
-        $('buy-button').css('background-color', 'green');
-    });
-```
+Subscribe to variants using of the APIs:
+ - JS API
+ - HTML API
+ - CSS API
+
+See below for details.
 
 ## APIs
 
