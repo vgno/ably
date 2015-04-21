@@ -75,16 +75,6 @@ Ably will only show the selected variant.
 
 Use it to alternate **styling**.
 
-If you want to style the following button:
-
-```html
-  <button id="buy-now-button">
-    Buy Now!
-  </button>
-```
-
-use the following CSS selectors:
-
 ```css
 /* Test 'button-color' variant 'red' */
 body.ably-button-color-red #buy-now-button
