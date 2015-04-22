@@ -6,8 +6,10 @@ assert.testsEqual = function deepDeepEqual(actual, expected) {
     'use strict';
     assert.equal(actual.name, expected.name);
     assert.equal(actual.variants, expected.variants);
+    if (typeof expected.randomizer === 'string') {
+        expected.randomizer = ably.randomizers[expected.randomizer];
+    }
     assert.equal(actual.randomizer, expected.randomizer);
-    assert.equal(actual.scope, expected.scope);
 };
 
 assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
