@@ -66,35 +66,25 @@ ably.setRandomizer(function myServerGeneratedRandomizer(callback, test) {
 
 ### Scope ###
 
-A `Scope` represents the scope of an experiment. It marks the boundary of where the experiment begins and where it ends. An experiment can be run within the scope of a cookie or within the scope of a logged-in session. Scope is simply a key-value store which remembers the state of an experiment. Specifically, it remembers which group the user was assigned to.
+A scope represents the scope of an experiment. It marks the boundary of where the experiment begins and where it ends. An experiment can be run within the scope of a cookie or within the scope of a logged-in session. A scope is simply a key-value store which remembers the state of an experiment. Specifically, it remembers which group the user was assigned to.
 
 #### Scope Interface ####
 
 | Function           | Description                              |
 | ------------------ | :--------------------------------------- |
+| `.has(key)`        | True if the scope has a value for `key`  |
 | `.get(key)`        | Get the value under key `key`            |
 | `.set(key, value)` | Set the value under key `key` to `value` |
 
 #### Example ####
 
 ```js
-var scope = new Scope();
+// See if the user was assigned to a group in the 'button-color' experiment
+scope.has('button-color');
 
 // Get the group the user was assigned to in the 'button-color' experiment
 scope.get('button-color');
 
 // Set the group the user was assigned to in the 'button-color' experiment to 'red'
-scope.set('button-color', 'red');
-```
-
-#### CookieScope ####
-
-```js
-var scope = new CookieScope();
-
-// Get the group the user was assigned to from a cookie
-scope.get('button-color');
-
-// Set the group the user was assigned to in the cookie
 scope.set('button-color', 'red');
 ```
