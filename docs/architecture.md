@@ -70,21 +70,27 @@ A scope represents the scope of an experiment. It marks the boundary of where th
 
 #### Scope Interface ####
 
-| Function           | Description                              |
-| ------------------ | :--------------------------------------- |
-| `.has(key)`        | True if the scope has a value for `key`  |
-| `.get(key)`        | Get the value under key `key`            |
-| `.set(key, value)` | Set the value under key `key` to `value` |
+The Scope interface is partially consistent with [the Web Storage interface](http://dev.w3.org/html5/webstorage/#storage-0).
+
+| Function                  | Description                              |
+| ------------------------- | :--------------------------------------- |
+| `.hasItem(key)`           | True if the scope has a value for `key`  |
+| `.getItem(key)`           | Get the value under `key`                |
+| `.setItem(key, value)`    | Set the value under `key` to `value`     |
+| `.removeItem(key, value)` | Remove the value under `key`             |
 
 #### Example ####
 
 ```js
 // See if the user was assigned to a group in the 'button-color' experiment
-scope.has('button-color');
+scope.hasItem('button-color');
 
 // Get the group the user was assigned to in the 'button-color' experiment
-scope.get('button-color');
+scope.getItem('button-color');
 
 // Set the group the user was assigned to in the 'button-color' experiment to 'red'
-scope.set('button-color', 'red');
+scope.setItem('button-color', 'red');
+
+// Forget the group the user was assigned to in the 'button-color' experiment
+scope.removeItem('button-color');
 ```
