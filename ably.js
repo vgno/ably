@@ -55,11 +55,37 @@
             throw new Error('randomizer \'' + options.randomizer + '\' not found');
         }
 
+        function interpretScopeOptions(options) {
+            if (typeof options.scope === 'object') {
+                return options.scope;
+            }
+
+            if (self.scopes.hasOwnProperty(options.scope)) {
+                return self.scopes[options.scope];
+            }
+        }
+
+        var objectScopeStorage = {},
+            objectScope = {
+                has: function(key) {
+                    return objectScopeStorage.hasOwnProperty(key);
+                },
+                get: function(key) {
+                    return objectScopeStorage[key];
+                },
+                set: function(key, value) {
+                    objectScopeStorage[key] = value;
+                }
+            };
+
         this.tests = [];
         this.pendingSubscribers = [];
         this.randomizers = {
             uniform: uniformRandomizer,
             'default': uniformRandomizer
+        };
+        this.scopes = {
+            object: objectScope
         };
 
         var self = this;
@@ -92,7 +118,7 @@
                 name: options.name,
                 variants: options.variants,
                 randomizer: interpretRandomizerOptions(options),
-                scope: options.scope
+                scope: interpretScopeOptions(options)
             });
 
             this.tests.push(test);
