@@ -63,6 +63,8 @@
             if (self.scopes.hasOwnProperty(options.scope)) {
                 return self.scopes[options.scope];
             }
+
+            throw new Error('scope \'' + options.scope + '\' not found');
         }
 
         var objectScopeStorage = {},

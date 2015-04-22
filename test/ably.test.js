@@ -237,6 +237,19 @@ describe('Ably', function() {
                 done();
             }, 10);
         });
+
+        it('throws exception if scope not found', function() {
+
+            var test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    scope: 'yeahLikeThatCouldBeTheNameOfAScope'
+                };
+
+            assert.throws(function() {
+                ably.addTest(test);
+            });
+        });
     });
 
     it('uses scope to get and set assignment', function(done) {
