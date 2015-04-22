@@ -264,13 +264,13 @@ describe('Ably', function() {
                 callback('orange');
             },
             scope = {
-                has: function(key) {
+                hasItem: function(key) {
                     return realScopeStorage.hasOwnProperty(key);
                 },
-                get: function(key) {
+                getItem: function(key) {
                     return makeupScopeStorage[key];
                 },
-                set: function(key, value) {
+                setItem: function(key, value) {
                     realScopeStorage[key] = value;
                 }
             },

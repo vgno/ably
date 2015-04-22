@@ -73,13 +73,13 @@
 
         var objectScopeStorage = {},
             objectScope = {
-                has: function(key) {
+                hasItem: function(key) {
                     return objectScopeStorage.hasOwnProperty(key);
                 },
-                get: function(key) {
+                getItem: function(key) {
                     return objectScopeStorage[key];
                 },
-                set: function(key, value) {
+                setItem: function(key, value) {
                     objectScopeStorage[key] = value;
                 }
             };

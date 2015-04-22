@@ -45,7 +45,7 @@
         }
 
         function setAssignment(assignment) {
-            self.scope.set(self.name, assignment);
+            self.scope.setItem(self.name, assignment);
         }
 
         function isPendingAssignment() {
@@ -80,11 +80,11 @@
     };
 
     AblyTest.prototype.hasAssignment = function() {
-        return this.scope.has(this.name);
+        return this.scope.hasItem(this.name);
     };
 
     AblyTest.prototype.getAssignment = function() {
-        return this.scope.get(this.name);
+        return this.scope.getItem(this.name);
     };
 
     return AblyTest;
