@@ -239,6 +239,58 @@ describe('Ably', function() {
         });
     });
 
+    it('uses scope to get and set assignment', function(done) {
+
+        var ably1 = new Ably(),
+            ably2 = new Ably(),
+            realScopeStorage = {},
+            makeupScopeStorage = {
+                'header-color': 'blue'
+            },
+            randomizer = function (callback) {
+                callback('orange');
+            },
+            scope = {
+                has: function(key) {
+                    return realScopeStorage.hasOwnProperty(key);
+                },
+                get: function(key) {
+                    return makeupScopeStorage[key];
+                },
+                set: function(key, value) {
+                    realScopeStorage[key] = value;
+                }
+            },
+            test1 = {
+                name: 'header-color',
+                variants: ['orange', 'blue'],
+                randomizer: randomizer,
+                scope: scope
+            },
+            test2 = {
+                name: 'header-color',
+                variants: ['orange', 'blue'],
+                randomizer: randomizer,
+                scope: scope
+            },
+            assignment2;
+
+        ably1.addTest(test1);
+        ably1.when('header-color', 'orange', function() {
+        });
+
+        ably2.addTest(test2);
+        ably2.when('header-color', 'blue', function() {
+            assignment2 = 'blue';
+        });
+
+        setTimeout(function() {
+            assert.equal(realScopeStorage['header-color'], 'orange');
+            assert.equal(assignment2, 'blue');
+            done();
+        }, 10);
+    });
+
     describe('.addTests()', function() {
 
         it('adds tests', function() {
