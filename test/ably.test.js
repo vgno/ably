@@ -57,21 +57,24 @@ describe('Ably', function() {
             variants: ['red', 'green'],
             randomizer: function randomizer(callback) {
                 callback('red');
-            }
+            },
+            scope: 'object'
         },
         {
             name: 'button-text',
             variants: ['buy', 'subscribe'],
             randomizer: function randomizer(callback) {
                 callback('buy');
-            }
+            },
+            scope: 'object'
         },
         {
             name: 'button-size',
             variants: ['large', 'small'],
             randomizer: function randomizer(callback) {
                 callback('large');
-            }
+            },
+            scope: 'object'
         }
     ];
 
@@ -135,7 +138,8 @@ describe('Ably', function() {
                     variants: ['red', 'green'],
                     randomizer: function randomizer() {
                         randomizerCalls++;
-                    }
+                    },
+                    scope: 'object'
                 };
 
             ably.addTest(test);
@@ -149,7 +153,8 @@ describe('Ably', function() {
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: 'default'
+                    randomizer: 'default',
+                    scope: 'object'
                 };
 
             ably.addTest(test);
@@ -174,7 +179,8 @@ describe('Ably', function() {
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: 'uniform'
+                    randomizer: 'uniform',
+                    scope: 'object'
                 };
 
             ably.addTest(test);
@@ -198,7 +204,8 @@ describe('Ably', function() {
             var test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: 'nonExistentRandomizerIJustMadeUp'
+                    randomizer: 'nonExistentRandomizerIJustMadeUp',
+                    scope: 'object'
                 };
 
             assert.throws(function() {
@@ -211,7 +218,8 @@ describe('Ably', function() {
             var assignment,
                 test = {
                     name: 'header-color',
-                    variants: ['orange', 'yellow']
+                    variants: ['orange', 'yellow'],
+                    scope: 'object'
                 };
 
             ably.addTest(test);
@@ -269,7 +277,8 @@ describe('Ably', function() {
                     variants: ['red', 'green'],
                     randomizer: function randomizer() {
                         randomizerCalls++;
-                    }
+                    },
+                    scope: 'object'
                 };
 
             ably.addTests([test]);
@@ -287,7 +296,8 @@ describe('Ably', function() {
                     randomizer: function(callback, actualTest) {
                         assert.testsEqual(actualTest, expectedTest);
                         done();
-                    }
+                    },
+                    scope: 'object'
                 };
 
             ably.addTest(expectedTest);
@@ -316,12 +326,14 @@ describe('Ably', function() {
                     {
                         name: 'header-color',
                         variants: ['orange', 'yellow'],
-                        randomizer: randomizer
+                        randomizer: randomizer,
+                        scope: 'object'
                     },
                     {
                         name: 'button-text',
                         variants: ['buy', 'subscribe'],
-                        randomizer: randomizer
+                        randomizer: randomizer,
+                        scope: 'object'
                     }
                     ];
 
@@ -354,7 +366,8 @@ describe('Ably', function() {
                         callback('red');
                     }, 5);
                     randomizerCalls++;
-                }
+                },
+                scope: 'object'
             };
 
         beforeEach(function() {
