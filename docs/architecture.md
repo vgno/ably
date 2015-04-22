@@ -77,7 +77,6 @@ The Scope interface is partially consistent with [the Web Storage interface](htt
 | `.hasItem(key)`           | True if the scope has a value for `key`  |
 | `.getItem(key)`           | Get the value under `key`                |
 | `.setItem(key, value)`    | Set the value under `key` to `value`     |
-| `.removeItem(key)`        | Remove the value under `key`             |
 
 #### Example ####
 
@@ -90,7 +89,4 @@ scope.getItem('button-color');
 
 // Set the group the user was assigned to in the 'button-color' experiment to 'red'
 scope.setItem('button-color', 'red');
-
-// Forget the group the user was assigned to in the 'button-color' experiment
-scope.removeItem('button-color');
 ```
