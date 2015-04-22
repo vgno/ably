@@ -56,6 +56,10 @@
         }
 
         function interpretScopeOptions(options) {
+            if (!options.hasOwnProperty('scope')) {
+                return self.scopes['default'];
+            }
+
             if (typeof options.scope === 'object') {
                 return options.scope;
             }
@@ -87,7 +91,8 @@
             'default': uniformRandomizer
         };
         this.scopes = {
-            object: objectScope
+            object: objectScope,
+            'default': objectScope
         };
 
         var self = this;

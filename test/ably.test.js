@@ -304,6 +304,31 @@ describe('Ably', function() {
         }, 10);
     });
 
+    it('accepts no scope provided', function(done) {
+
+        var assignment,
+            test = {
+                name: 'header-color',
+                variants: ['orange', 'yellow'],
+                randomizer: 'uniform'
+            };
+
+        ably.addTest(test);
+
+        ably.when('header-color', 'orange', function() {
+            assignment = 'orange';
+        });
+
+        ably.when('header-color', 'yellow', function() {
+            assignment = 'yellow';
+        });
+
+        setTimeout(function() {
+            assert.equal(assignment === 'orange' || assignment === 'yellow', true);
+            done();
+        }, 10);
+    });
+
     describe('.addTests()', function() {
 
         it('adds tests', function() {
