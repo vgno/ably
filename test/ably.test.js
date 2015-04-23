@@ -250,83 +250,69 @@ describe('Ably', function() {
                 ably.addTest(test);
             });
         });
-    });
 
-    it('uses scope to get and set assignment', function(done) {
+        it('uses scope to get and set assignment', function(done) {
 
-        var ably1 = new Ably(),
-            ably2 = new Ably(),
-            realScopeStorage = {},
-            makeupScopeStorage = {
-                'header-color': 'blue'
-            },
-            randomizer = function (callback) {
-                callback('orange');
-            },
-            scope = {
-                hasItem: function(key) {
-                    return realScopeStorage.hasOwnProperty(key);
+            var ably1 = new Ably(),
+                ably2 = new Ably(),
+                realScopeStorage = {},
+                makeupScopeStorage = {
+                    'header-color': 'blue'
                 },
-                getItem: function(key) {
-                    return makeupScopeStorage[key];
+                randomizer = function (callback) {
+                    callback('orange');
                 },
-                setItem: function(key, value) {
-                    realScopeStorage[key] = value;
-                }
-            },
-            test1 = {
-                name: 'header-color',
-                variants: ['orange', 'blue'],
-                randomizer: randomizer,
-                scope: scope
-            },
-            test2 = {
-                name: 'header-color',
-                variants: ['orange', 'blue'],
-                randomizer: randomizer,
-                scope: scope
-            },
-            assignment2;
+                scope = {
+                    hasItem: function(key) {
+                        return realScopeStorage.hasOwnProperty(key);
+                    },
+                    getItem: function(key) {
+                        return makeupScopeStorage[key];
+                    },
+                    setItem: function(key, value) {
+                        realScopeStorage[key] = value;
+                    }
+                },
+                test1 = {
+                    name: 'header-color',
+                    variants: ['orange', 'blue'],
+                    randomizer: randomizer,
+                    scope: scope
+                },
+                test2 = {
+                    name: 'header-color',
+                    variants: ['orange', 'blue'],
+                    randomizer: randomizer,
+                    scope: scope
+                },
+                assignment2;
 
-        ably1.addTest(test1);
-        ably1.when('header-color', 'orange', function() {
+            ably1.addTest(test1);
+            ably1.when('header-color', 'orange', function() {
+            });
+
+            ably2.addTest(test2);
+            ably2.when('header-color', 'blue', function() {
+                assignment2 = 'blue';
+            });
+
+            setTimeout(function() {
+                assert.equal(realScopeStorage['header-color'], 'orange');
+                assert.equal(assignment2, 'blue');
+                done();
+            }, 10);
         });
 
-        ably2.addTest(test2);
-        ably2.when('header-color', 'blue', function() {
-            assignment2 = 'blue';
+        it('accepts no scope provided', function() {
+
+            var test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    randomizer: 'uniform'
+                };
+
+            ably.addTest(test);
         });
-
-        setTimeout(function() {
-            assert.equal(realScopeStorage['header-color'], 'orange');
-            assert.equal(assignment2, 'blue');
-            done();
-        }, 10);
-    });
-
-    it('accepts no scope provided', function(done) {
-
-        var assignment,
-            test = {
-                name: 'header-color',
-                variants: ['orange', 'yellow'],
-                randomizer: 'uniform'
-            };
-
-        ably.addTest(test);
-
-        ably.when('header-color', 'orange', function() {
-            assignment = 'orange';
-        });
-
-        ably.when('header-color', 'yellow', function() {
-            assignment = 'yellow';
-        });
-
-        setTimeout(function() {
-            assert.equal(assignment === 'orange' || assignment === 'yellow', true);
-            done();
-        }, 10);
     });
 
     describe('.addTests()', function() {
