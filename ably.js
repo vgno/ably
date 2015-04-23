@@ -82,6 +82,17 @@
                 setItem: function(key, value) {
                     objectScopeStorage[key] = value;
                 }
+            },
+            localStorageScope = {
+                hasItem: function(key) {
+                    return localStorage.getItem(key) !== null;
+                },
+                getItem: function(key) {
+                    return localStorage.getItem(key);
+                },
+                setItem: function(key, value) {
+                    localStorage.setItem(key, value);
+                }
             };
 
         this.tests = [];
@@ -92,6 +103,7 @@
         };
         this.scopes = {
             object: objectScope,
+            localStorage: localStorageScope,
             'default': objectScope
         };
 
