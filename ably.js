@@ -104,7 +104,7 @@
         this.scopes = {
             object: objectScope,
             localStorage: localStorageScope,
-            'default': objectScope
+            'default': localStorageScope
         };
 
         var self = this;
