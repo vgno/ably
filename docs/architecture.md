@@ -12,8 +12,6 @@ A randomizer assigns test subjects to groups.
 
 #### Use an existing randomizer
 
-Ably exposes a randomizer you can use out of the box.
-
 ##### The `uniform` randomizer
 
 A type of randomizer that assigns users to groups with equal probability of being assigned to each group. The uniform randomizer relies on the uniform distribution of values of the `Math.random()` function.
