@@ -85,6 +85,10 @@ body.ably-button-color-green #buy-now-button
 }
 ```
 
+## API Reference
+
+Read more about all supported options in the [API Reference](docs/api.md).
+
 ## Architecture
 
 Read more about the architecture in [Architecture](docs/architecture.md).
