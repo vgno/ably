@@ -16,15 +16,7 @@ Ably exposes a randomizer you can use out of the box.
 
 ##### The `uniform` randomizer
 
-A type of randomizer that assigns users to groups with equal probability of being assigned to each group. 
-
-Example:
-
-If you have two variants: `A` and `B`, you will get 50% chance of being assigned to group `A` and 50% chance of being assigned to group `B`. If you have three variants: `A`, `B` and `C`, you will get roughly 33.33% chance of being assigned to each group.
-
-The randomizer relies on the uniform distribution of values of the `Math.random()` function.
-
-To use it, supply `'uniform'` as the value of the `'randomizer'` option when adding a test.
+A type of randomizer that assigns users to groups with equal probability of being assigned to each group. The uniform randomizer relies on the uniform distribution of values of the `Math.random()` function.
 
 Usage example:
 
