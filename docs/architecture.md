@@ -10,40 +10,28 @@ Each *experiment* has its own *randomizer* and its own *scope*.
 
 A randomizer assigns test subjects to groups.
 
-#### Use an existing randomizer
+Example randomizers:
 
-##### The `uniform` randomizer
+#### The `uniform` randomizer
 
 A type of randomizer that assigns users to groups with equal probability of being assigned to each group. The uniform randomizer relies on the uniform distribution of values of the `Math.random()` function.
 
-Usage example:
+#### Set the randomizer
+
+##### For a single test
+
+As a string:
 
 ```js
 // Add a test
 ably.addTest({
     name: 'button-color',
     variants: ['red', 'green'],
-    randomizer: 'uniform',
-    scope: 'cookie'
+    randomizer: 'uniform'
 });
 ```
 
-#### Supply your own randomizer
-
-A randomizer matches the following prototype:
-
-```js
-/**
- * Assigns to a variant by calling the callback
- * @param  {Function} callback The callback to pass the variant to
- * @param  {AblyTest} test The test being randomized
- */
-function randomizer(callback, test);
-```
-
-##### For a single test
-
-Pass a function as the value of the `randomizer` option when adding a test:
+As a function:
 
 ```js
 // Add a test
@@ -58,7 +46,13 @@ ably.addTest({
 
 ##### As the default randomizer
 
-The *default* randomizer is used for all tests added without a randomizer which have been added after the default randomizer was set. If you didn't set the default randomizer, it is the uniform randomizer by default.
+As a string:
+
+```js
+ably.setDefaultRandomizer('uniform');
+```
+
+As a function:
 
 ```js
 ably.setDefaultRandomizer(function myServerGeneratedRandomizer(callback, test) {
@@ -72,6 +66,19 @@ ably.setDefaultRandomizer(function myServerGeneratedRandomizer(callback, test) {
         callback(json.assigment);
     });
 });
+```
+
+#### Randomizer Interface
+
+A randomizer matches the following prototype:
+
+```js
+/**
+ * Assigns to a variant by calling the callback
+ * @param  {Function} callback The callback to pass the variant to
+ * @param  {AblyTest} test The test being randomized
+ */
+function randomizer(callback, test);
 ```
 
 ### Scope
