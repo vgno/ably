@@ -18,12 +18,7 @@ ably.addTest({
 
 ### 2. Subscribe to variants
 
-Subscribe to variants using one of the exposed APIs:
- - JS API
- - HTML API
- - CSS API
-
-See below for details.
+Subscribe to variants using one of the exposed APIs.
 
 ## APIs
 
