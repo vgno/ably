@@ -15,5 +15,9 @@
     "cs": " jscs .",
     "test": "mocha",
     "pretest": "npm run lint && npm run cs"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/vgno/ably.git"
   }
 }
