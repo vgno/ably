@@ -6,12 +6,12 @@
 
 Define a test.
 
-| Parameter            | Type                   | Required                | Description
-| -------------------- | :--------------------- | ----------------------- | :--------------------------------------
-| `options.name`       | `string`               | Yes                     | Name of the test. It has to be unique.
-| `options.variants`   | `array(string)`        | Yes                     | Possible variants (A, B, C).
-| `options.randomizer` | `string` or `function` | No (default: `uniform`) | A randomizer assigns test subjects to groups (`uniform` or a custom function, see the *Randomizers* section below).
-| `options.scope`      | `string` or `object`   | No (default: `device`)  | A scope marks the boundary of where the experiment begins and where it ends (`device`, `device` or a custom object, see the *Scopes* section below).
+| Parameter            | Type                   | Required                  | Description
+| -------------------- | :--------------------- | ------------------------- | :--------------------------------------
+| `options.name`       | `string`               | Yes                       | Name of the test. It has to be unique.
+| `options.variants`   | `array(string)`        | Yes                       | Possible variants (A, B, C).
+| `options.randomizer` | `string` or `function` | No (default: `'uniform'`) | A randomizer assigns test subjects to groups (`'uniform'` or a custom function, see the *Randomizers* section below).
+| `options.scope`      | `string` or `object`   | No (default: `'device'`)  | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
 
 ### Randomizers
 
@@ -101,8 +101,8 @@ Supply an object that matches the following prototype:
 
 Subscribe to a variant of a test.
 
-| Parameter  | Type       | Description
-| ---------- | :--------- | :--------------------------------------
-| `test`     | `string`   | Name of the test to subscribe to.
-| `variant`  | `string`   | Variant to subscribe to.
-| `callback` | `function` | Function to call when the variant is chosen.
+| Parameter  | Type       | Required | Description
+| ---------- | :--------- | -------- | :--------------------------------------
+| `test`     | `string`   | Yes      | Name of the test to subscribe to.
+| `variant`  | `string`   | Yes      | Variant to subscribe to.
+| `callback` | `function` | Yes      | Function to call when the variant is chosen.
