@@ -12,7 +12,9 @@ Provides a framework to perform A/B tests in the browser. This is still work in 
 // Add a test
 ably.addTest({
     name: 'button-color',
-    variants: ['red', 'green']
+    variants: ['red', 'green'],
+    randomizer: 'uniform',
+    scope: 'device'
 });
 ```
 
