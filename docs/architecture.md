@@ -74,11 +74,81 @@ ably.setDefaultRandomizer(function myServerGeneratedRandomizer(callback, test) {
 });
 ```
 
-### Scope ###
+### Scope
 
-A scope represents the scope of an experiment. It marks the boundary of where the experiment begins and where it ends. An experiment can be run within the scope of a cookie or within the scope of a logged-in session. A scope is simply a key-value store which remembers the state of an experiment. Specifically, it remembers which group the user was assigned to.
+A scope marks the boundary of where the experiment begins and where it ends.
 
-#### Scope Interface ####
+Example scopes:
+
+#### The `pageview` scope
+
+The experiment lives as long as the page is not reloaded (in practice: as long as JavaScript objects live). Users will be reassigned to a new group upon a page reload and will get a new group in other browser windows.
+
+#### The `device` scope
+
+The experiment lives within the scope of a device (in practice: as long as the web storage on a device lives). Users will retain their group through page reloads and multiple windows but will get a new group on a different device, if they use private mode or when they clear browser data.
+
+#### Set the scope
+
+##### For a single test
+
+As a string:
+
+```js
+// Add a test
+ably.addTest({
+    name: 'button-color',
+    variants: ['red', 'green'],
+    scope: 'device'
+});
+```
+
+As an object:
+
+```js
+// Add a test
+ably.addTest({
+    name: 'button-color',
+    variants: ['red', 'green'],
+    scope: {
+        hasItem: function(key) {
+            return localStorage.getItem(key) !== null;
+        },
+        getItem: function(key) {
+            return localStorage.getItem(key);
+        },
+        setItem: function(key, value) {
+            localStorage.setItem(key, value);
+        }
+    }
+});
+```
+
+##### As the default scope
+
+As a string:
+
+```js
+ably.setDefaultScope('pageview');
+```
+
+As an object:
+
+```js
+ably.setDefaultRandomizer({
+    hasItem: function(key) {
+        return localStorage.getItem(key) !== null;
+    },
+    getItem: function(key) {
+        return localStorage.getItem(key);
+    },
+    setItem: function(key, value) {
+        localStorage.setItem(key, value);
+    }
+});
+```
+
+#### Scope Interface
 
 The Scope interface is partially consistent with [the Web Storage interface](http://dev.w3.org/html5/webstorage/#storage-0).
 
@@ -87,16 +157,3 @@ The Scope interface is partially consistent with [the Web Storage interface](htt
 | `.hasItem(key)`           | True if the scope has a value for `key`  |
 | `.getItem(key)`           | Get the value under `key`                |
 | `.setItem(key, value)`    | Set the value under `key` to `value`     |
-
-#### Example ####
-
-```js
-// See if the user was assigned to a group in the 'button-color' experiment
-scope.hasItem('button-color');
-
-// Get the group the user was assigned to in the 'button-color' experiment
-scope.getItem('button-color');
-
-// Set the group the user was assigned to in the 'button-color' experiment to 'red'
-scope.setItem('button-color', 'red');
-```
