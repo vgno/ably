@@ -39,7 +39,7 @@
             callback(test.variants[Math.floor(Math.random() * test.variants.length)]);
         }
 
-        function weightedSampler(callback, test) {
+        function mathRandomSampler(callback, test) {
 
             var total = 0,
                 current = 0,
@@ -128,9 +128,8 @@
         this.tests = [];
         this.pendingSubscribers = [];
         this.samplers = {
-            uniform: uniformSampler,
-            weighted: weightedSampler,
-            'default': uniformSampler
+            mathRandom: mathRandomSampler,
+            'default': mathRandomSampler
         };
         this.scopes = {
             pageview: pageViewScope,
