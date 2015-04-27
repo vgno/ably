@@ -6,12 +6,13 @@
 
 Define a test.
 
-| Parameter            | Type                   | Required                  | Description
-| -------------------- | :--------------------- | ------------------------- | :--------------------------------------
-| `options.name`       | `string`               | Yes                       | Name of the test. It has to be unique.
-| `options.variants`   | `array(string)`        | Yes                       | Possible variants (A, B, C).
-| `options.sampler`    | `string` or `function` | No (default: `'uniform'`) | A sampler assigns test subjects to groups (`'uniform'` or a custom function, see the *Samplers* section below).
-| `options.scope`      | `string` or `object`   | No (default: `'device'`)  | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
+| Parameter            | Type                   | Required                     | Description
+| -------------------- | :--------------------- | ---------------------------- | :--------------------------------------
+| `options.name`       | `string`               | Yes                          | Name of the test. It has to be unique.
+| `options.variants`   | `array(string)`        | Yes                          | Possible variants (A, B, C).
+| `options.sampler`    | `string` or `function` | No (default: `'uniform'`)    | A sampler assigns test subjects to groups (`'uniform'`, `'weighted'` or a custom function, see the *Samplers* section below).
+| `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
+| `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for the `'weighted'` sampler. If this parameter is omitted, equal weights are used.
 
 ### Samplers
 
@@ -22,6 +23,10 @@ A sampler assigns test subjects to groups.
 ##### The `uniform` sampler
 
 A type of sampler that assigns users to groups with equal probability of being assigned to each group. The uniform sampler relies on the uniform distribution of values of the `Math.random()` function.
+
+##### The `weighted` sampler
+
+A type of sampler that assigns users to groups with probabilities depending on weights provided in the `weights` option. The weighted sampler relies on the uniform distribution of values of the `Math.random()` function.
 
 #### Use your own sampler
 
