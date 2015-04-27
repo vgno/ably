@@ -46,7 +46,7 @@
                 random,
                 variant;
 
-            if (!test.hasOwnProperty('weights')) {
+            if (typeof test.weights === 'undefined') {
                 return uniformSampler(callback, test);
             }
 
