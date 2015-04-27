@@ -12,7 +12,7 @@ Define a test.
 | `options.variants`   | `array(string)`        | Yes                          | Possible variants (A, B, C).
 | `options.sampler`    | `string` or `function` | No (default: `'mathRandom'`) | A sampler assigns test subjects to groups (`'mathRandom'` or a custom function, see the *Samplers* section below).
 | `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
-| `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for sampler that support them. (The `mathRandom` sampler supports weights.) If this parameter is omitted, equal weights are assumed.
+| `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for samplers that support them. (The `mathRandom` sampler supports weights.) If this parameter is omitted, equal weights are assumed.
 
 ### Samplers
 
