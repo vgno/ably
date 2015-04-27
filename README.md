@@ -46,7 +46,7 @@ ably
     });
 ```
 
-### HTML API
+### HTML API (not implemented yet)
 
 Use it to alternate **content**.
 
@@ -64,7 +64,7 @@ Use it to alternate **content**.
 
 Ably will only show the selected variant.
 
-### CSS API
+### CSS API (not implemented yet)
 
 Use it to alternate **styling**.
 
