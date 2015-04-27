@@ -71,19 +71,19 @@
             throw new Error('scope \'' + options.scope + '\' not found');
         }
 
-        var objectScopeStorage = {},
-            objectScope = {
+        var pageViewScopeStorage = {},
+            pageViewScope = {
                 hasItem: function(key) {
-                    return objectScopeStorage.hasOwnProperty(key);
+                    return pageViewScopeStorage.hasOwnProperty(key);
                 },
                 getItem: function(key) {
-                    return objectScopeStorage[key];
+                    return pageViewScopeStorage[key];
                 },
                 setItem: function(key, value) {
-                    objectScopeStorage[key] = value;
+                    pageViewScopeStorage[key] = value;
                 }
             },
-            localStorageScope = {
+            deviceScope = {
                 hasItem: function(key) {
                     return localStorage.getItem(key) !== null;
                 },
@@ -102,9 +102,9 @@
             'default': uniformRandomizer
         };
         this.scopes = {
-            object: objectScope,
-            localStorage: localStorageScope,
-            'default': localStorageScope
+            pageview: pageViewScope,
+            device: deviceScope,
+            'default': deviceScope
         };
 
         var self = this;

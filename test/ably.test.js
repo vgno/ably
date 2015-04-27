@@ -58,7 +58,7 @@ describe('Ably', function() {
             randomizer: function randomizer(callback) {
                 callback('red');
             },
-            scope: 'object'
+            scope: 'pageview'
         },
         {
             name: 'button-text',
@@ -66,7 +66,7 @@ describe('Ably', function() {
             randomizer: function randomizer(callback) {
                 callback('buy');
             },
-            scope: 'object'
+            scope: 'pageview'
         },
         {
             name: 'button-size',
@@ -74,7 +74,7 @@ describe('Ably', function() {
             randomizer: function randomizer(callback) {
                 callback('large');
             },
-            scope: 'object'
+            scope: 'pageview'
         }
     ];
 
@@ -139,7 +139,7 @@ describe('Ably', function() {
                     randomizer: function randomizer() {
                         randomizerCalls++;
                     },
-                    scope: 'object'
+                    scope: 'pageview'
                 };
 
             ably.addTest(test);
@@ -154,7 +154,7 @@ describe('Ably', function() {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
                     randomizer: 'default',
-                    scope: 'object'
+                    scope: 'pageview'
                 };
 
             ably.addTest(test);
@@ -180,7 +180,7 @@ describe('Ably', function() {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
                     randomizer: 'uniform',
-                    scope: 'object'
+                    scope: 'pageview'
                 };
 
             ably.addTest(test);
@@ -205,7 +205,7 @@ describe('Ably', function() {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
                     randomizer: 'nonExistentRandomizerIJustMadeUp',
-                    scope: 'object'
+                    scope: 'pageview'
                 };
 
             assert.throws(function() {
@@ -219,7 +219,7 @@ describe('Ably', function() {
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    scope: 'object'
+                    scope: 'pageview'
                 };
 
             ably.addTest(test);
@@ -354,7 +354,7 @@ describe('Ably', function() {
                     randomizer: function randomizer() {
                         randomizerCalls++;
                     },
-                    scope: 'object'
+                    scope: 'pageview'
                 };
 
             ably.addTests([test]);
@@ -373,7 +373,7 @@ describe('Ably', function() {
                         assert.testsEqual(actualTest, expectedTest);
                         done();
                     },
-                    scope: 'object'
+                    scope: 'pageview'
                 };
 
             ably.addTest(expectedTest);
@@ -403,13 +403,13 @@ describe('Ably', function() {
                         name: 'header-color',
                         variants: ['orange', 'yellow'],
                         randomizer: randomizer,
-                        scope: 'object'
+                        scope: 'pageview'
                     },
                     {
                         name: 'button-text',
                         variants: ['buy', 'subscribe'],
                         randomizer: randomizer,
-                        scope: 'object'
+                        scope: 'pageview'
                     }
                     ];
 
@@ -443,7 +443,7 @@ describe('Ably', function() {
                     }, 5);
                     randomizerCalls++;
                 },
-                scope: 'object'
+                scope: 'pageview'
             };
 
         beforeEach(function() {
