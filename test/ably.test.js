@@ -199,6 +199,42 @@ describe('Ably', function() {
             }, 10);
         });
 
+        it('adds a test with the weighted sampler', function(done) {
+
+            var distributions = {
+                    orange: 0,
+                    yellow: 0
+                },
+                test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    sampler: 'weighted',
+                    scope: 'pageview',
+                    weights: {orange: 10, yellow: 90}
+                },
+                markOrange = function() {
+                    distributions.orange++;
+                },
+                markYellow = function() {
+                    distributions.yellow++;
+                };
+
+            for (var i = 0; i < 1000; i++) {
+                test.name = 'header-color' + i;
+                ably.addTest(test);
+                ably.when('header-color' + i, 'orange', markOrange);
+                ably.when('header-color' + i, 'yellow', markYellow);
+            }
+
+            setTimeout(function() {
+                assert.equal(distributions.orange >= 80, true);
+                assert.equal(distributions.orange <= 120, true);
+                assert.equal(distributions.yellow >= 880, true);
+                assert.equal(distributions.yellow <= 920, true);
+                done();
+            }, 100);
+        });
+
         it('throws exception if sampler not found', function() {
 
             var test = {

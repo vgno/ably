@@ -64,6 +64,7 @@
         this.sampler = options.sampler;
         this.scope = options.scope;
         this.variants = options.variants;
+        this.weights = options.weights;
         this.subscribers = [];
 
         var self = this;

@@ -39,6 +39,36 @@
             callback(test.variants[Math.floor(Math.random() * test.variants.length)]);
         }
 
+        function weightedSampler(callback, test) {
+
+            var total = 0,
+                current = 0,
+                random,
+                variant;
+
+            if (!test.hasOwnProperty('weights')) {
+                return uniformSampler(callback, test);
+            }
+
+            for (variant in test.weights) {
+                if (test.weights.hasOwnProperty(variant)) {
+                    total += test.weights[variant];
+                }
+            }
+
+            random = Math.random() * total;
+
+            for (variant in test.weights) {
+                if (test.weights.hasOwnProperty(variant)) {
+                    if (random < current + test.weights[variant]) {
+                        callback(variant);
+                        return;
+                    }
+                    current += test.weights[variant];
+                }
+            }
+        }
+
         function interpretSamplerOptions(options) {
             if (!options.hasOwnProperty('sampler')) {
                 return self.samplers['default'];
@@ -99,6 +129,7 @@
         this.pendingSubscribers = [];
         this.samplers = {
             uniform: uniformSampler,
+            weighted: weightedSampler,
             'default': uniformSampler
         };
         this.scopes = {
@@ -137,7 +168,8 @@
                 name: options.name,
                 variants: options.variants,
                 sampler: interpretSamplerOptions(options),
-                scope: interpretScopeOptions(options)
+                scope: interpretScopeOptions(options),
+                weights: options.weights
             });
 
             this.tests.push(test);
