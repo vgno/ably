@@ -35,24 +35,24 @@
             self.pendingSubscribers = unmatchedSubscribers;
         }
 
-        function uniformRandomizer(callback, test) {
+        function uniformSampler(callback, test) {
             callback(test.variants[Math.floor(Math.random() * test.variants.length)]);
         }
 
-        function interpretRandomizerOptions(options) {
-            if (!options.hasOwnProperty('randomizer')) {
-                return self.randomizers['default'];
+        function interpretSamplerOptions(options) {
+            if (!options.hasOwnProperty('sampler')) {
+                return self.samplers['default'];
             }
 
-            if (typeof options.randomizer === 'function') {
-                return options.randomizer;
+            if (typeof options.sampler === 'function') {
+                return options.sampler;
             }
 
-            if (self.randomizers.hasOwnProperty(options.randomizer)) {
-                return self.randomizers[options.randomizer];
+            if (self.samplers.hasOwnProperty(options.sampler)) {
+                return self.samplers[options.sampler];
             }
 
-            throw new Error('randomizer \'' + options.randomizer + '\' not found');
+            throw new Error('sampler \'' + options.sampler + '\' not found');
         }
 
         function interpretScopeOptions(options) {
@@ -97,9 +97,9 @@
 
         this.tests = [];
         this.pendingSubscribers = [];
-        this.randomizers = {
-            uniform: uniformRandomizer,
-            'default': uniformRandomizer
+        this.samplers = {
+            uniform: uniformSampler,
+            'default': uniformSampler
         };
         this.scopes = {
             pageview: pageViewScope,
@@ -136,7 +136,7 @@
             var test = new AblyTest({
                 name: options.name,
                 variants: options.variants,
-                randomizer: interpretRandomizerOptions(options),
+                sampler: interpretSamplerOptions(options),
                 scope: interpretScopeOptions(options)
             });
 

@@ -2,13 +2,11 @@
 
 Ably contains a collection of *experiments*.
 
-Each *experiment* has its own *randomizer* and its own *scope*.
+Each *experiment* has its own *sampler* and its own *scope*.
 
-![Ably experiment architecture](ably-experiment-architecture.png)
+### Sampler ###
 
-### Randomizer ###
-
-A randomizer assigns test subjects to groups.
+A sampler assigns test subjects to groups.
 
 ### Scope
 

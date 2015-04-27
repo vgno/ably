@@ -10,20 +10,20 @@ Define a test.
 | -------------------- | :--------------------- | ------------------------- | :--------------------------------------
 | `options.name`       | `string`               | Yes                       | Name of the test. It has to be unique.
 | `options.variants`   | `array(string)`        | Yes                       | Possible variants (A, B, C).
-| `options.randomizer` | `string` or `function` | No (default: `'uniform'`) | A randomizer assigns test subjects to groups (`'uniform'` or a custom function, see the *Randomizers* section below).
+| `options.sampler`    | `string` or `function` | No (default: `'uniform'`) | A sampler assigns test subjects to groups (`'uniform'` or a custom function, see the *Samplers* section below).
 | `options.scope`      | `string` or `object`   | No (default: `'device'`)  | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
 
-### Randomizers
+### Samplers
 
-A randomizer assigns test subjects to groups.
+A sampler assigns test subjects to groups.
 
-#### Predefined randomizers
+#### Predefined samplers
 
-##### The `uniform` randomizer
+##### The `uniform` sampler
 
-A type of randomizer that assigns users to groups with equal probability of being assigned to each group. The uniform randomizer relies on the uniform distribution of values of the `Math.random()` function.
+A type of sampler that assigns users to groups with equal probability of being assigned to each group. The uniform sampler relies on the uniform distribution of values of the `Math.random()` function.
 
-#### Use your own randomizer
+#### Use your own sampler
 
 Supply a function that matches the following prototype:
 
@@ -33,19 +33,19 @@ Supply a function that matches the following prototype:
  * @param  {Function} callback The callback to pass the variant to
  * @param  {AblyTest} test The test being randomized
  */
-function randomizer(callback, test);
+function sampler(callback, test);
 ```
 
 Examples:
 
 ```js
-function myServerGeneratedRandomizer(callback, test) {
+function myServerGeneratedSampler(callback, test) {
     callback(document.getElementById('server-generated-data').dataset[test.name].assignment);
 }
 ```
 
 ```js
-function myServerGeneratedRandomizer(callback, test) {
+function myServerGeneratedSampler(callback, test) {
     $.getJSON("/assigment/" + test.name, function(json) {
         callback(json.assigment);
     });
@@ -78,14 +78,14 @@ Supply an object that matches the following prototype:
      * @returns {boolean} True if the user is already assigned to a group within the test, false otherwise
      */
     hasItem: function(key) {},
-    
+
     /**
      * Get the group the user is assigned to within a test
      * @param   {string} key Test name
      * @returns {string} Name of the group the user is assigned to within the test
      */
     getItem: function(key) {},
-    
+
     /**
      * Set the group the user is assigned to within a test
      * @param {string} key Test name

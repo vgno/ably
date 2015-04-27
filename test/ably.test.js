@@ -6,10 +6,10 @@ assert.testsEqual = function deepDeepEqual(actual, expected) {
     'use strict';
     assert.equal(actual.name, expected.name);
     assert.equal(actual.variants, expected.variants);
-    if (typeof expected.randomizer === 'string') {
-        expected.randomizer = ably.randomizers[expected.randomizer];
+    if (typeof expected.sampler === 'string') {
+        expected.sampler = ably.samplers[expected.sampler];
     }
-    assert.equal(actual.randomizer, expected.randomizer);
+    assert.equal(actual.sampler, expected.sampler);
 };
 
 assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
@@ -55,7 +55,7 @@ describe('Ably', function() {
         {
             name: 'button-color',
             variants: ['red', 'green'],
-            randomizer: function randomizer(callback) {
+            sampler: function sampler(callback) {
                 callback('red');
             },
             scope: 'pageview'
@@ -63,7 +63,7 @@ describe('Ably', function() {
         {
             name: 'button-text',
             variants: ['buy', 'subscribe'],
-            randomizer: function randomizer(callback) {
+            sampler: function sampler(callback) {
                 callback('buy');
             },
             scope: 'pageview'
@@ -71,7 +71,7 @@ describe('Ably', function() {
         {
             name: 'button-size',
             variants: ['large', 'small'],
-            randomizer: function randomizer(callback) {
+            sampler: function sampler(callback) {
                 callback('large');
             },
             scope: 'pageview'
@@ -130,30 +130,30 @@ describe('Ably', function() {
             assert.notEqual(returnedTests[0], tests[0]);
         });
 
-        it('does not call the randomizer if no subscribers', function() {
+        it('does not call the sampler if no subscribers', function() {
 
-            var randomizerCalls = 0,
+            var samplerCalls = 0,
                 test = {
                     name: 'button-color',
                     variants: ['red', 'green'],
-                    randomizer: function randomizer() {
-                        randomizerCalls++;
+                    sampler: function sampler() {
+                        samplerCalls++;
                     },
                     scope: 'pageview'
                 };
 
             ably.addTest(test);
 
-            assert.equal(randomizerCalls, 0);
+            assert.equal(samplerCalls, 0);
         });
 
-        it('adds a test with the default randomizer', function(done) {
+        it('adds a test with the default sampler', function(done) {
 
             var assignment,
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: 'default',
+                    sampler: 'default',
                     scope: 'pageview'
                 };
 
@@ -173,13 +173,13 @@ describe('Ably', function() {
             }, 10);
         });
 
-        it('adds a test with the uniform randomizer', function(done) {
+        it('adds a test with the uniform sampler', function(done) {
 
             var assignment,
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: 'uniform',
+                    sampler: 'uniform',
                     scope: 'pageview'
                 };
 
@@ -199,12 +199,12 @@ describe('Ably', function() {
             }, 10);
         });
 
-        it('throws exception if randomizer not found', function() {
+        it('throws exception if sampler not found', function() {
 
             var test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: 'nonExistentRandomizerIJustMadeUp',
+                    sampler: 'nonExistentSamplerIJustMadeUp',
                     scope: 'pageview'
                 };
 
@@ -213,7 +213,7 @@ describe('Ably', function() {
             });
         });
 
-        it('works if no randomizer provided', function(done) {
+        it('works if no sampler provided', function(done) {
 
             var assignment,
                 test = {
@@ -259,7 +259,7 @@ describe('Ably', function() {
                 makeupScopeStorage = {
                     'header-color': 'blue'
                 },
-                randomizer = function (callback) {
+                sampler = function (callback) {
                     callback('orange');
                 },
                 scope = {
@@ -276,13 +276,13 @@ describe('Ably', function() {
                 test1 = {
                     name: 'header-color',
                     variants: ['orange', 'blue'],
-                    randomizer: randomizer,
+                    sampler: sampler,
                     scope: scope
                 },
                 test2 = {
                     name: 'header-color',
                     variants: ['orange', 'blue'],
-                    randomizer: randomizer,
+                    sampler: sampler,
                     scope: scope
                 },
                 assignment2;
@@ -308,7 +308,7 @@ describe('Ably', function() {
             var test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: 'uniform'
+                    sampler: 'uniform'
                 };
 
             ably.addTest(test);
@@ -345,31 +345,31 @@ describe('Ably', function() {
             assert.notDeepEqual(returnedTests, tests);
         });
 
-        it('does not call the randomizer if no subscribers', function() {
+        it('does not call the sampler if no subscribers', function() {
 
-            var randomizerCalls = 0,
+            var samplerCalls = 0,
                 test = {
                     name: 'button-color',
                     variants: ['red', 'green'],
-                    randomizer: function randomizer() {
-                        randomizerCalls++;
+                    sampler: function sampler() {
+                        samplerCalls++;
                     },
                     scope: 'pageview'
                 };
 
             ably.addTests([test]);
 
-            assert.equal(randomizerCalls, 0);
+            assert.equal(samplerCalls, 0);
         });
     });
 
-    describe('the randomizer', function() {
+    describe('the sampler', function() {
         it('gets the test object as the second argument', function(done) {
             var assignment,
                 expectedTest = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    randomizer: function(callback, actualTest) {
+                    sampler: function(callback, actualTest) {
                         assert.testsEqual(actualTest, expectedTest);
                         done();
                     },
@@ -390,7 +390,7 @@ describe('Ably', function() {
         it('can be used for multiple tests', function(done) {
 
             var correctAssignments = 0,
-                randomizer = function(callback, test) {
+                sampler = function(callback, test) {
                         if (test.name === 'header-color') {
                             callback('orange');
                         }
@@ -402,13 +402,13 @@ describe('Ably', function() {
                     {
                         name: 'header-color',
                         variants: ['orange', 'yellow'],
-                        randomizer: randomizer,
+                        sampler: sampler,
                         scope: 'pageview'
                     },
                     {
                         name: 'button-text',
                         variants: ['buy', 'subscribe'],
-                        randomizer: randomizer,
+                        sampler: sampler,
                         scope: 'pageview'
                     }
                     ];
@@ -433,22 +433,22 @@ describe('Ably', function() {
     describe('.when()', function() {
 
         var callbacksCalled,
-            randomizerCalls,
+            samplerCalls,
             test = {
                 name: 'button-color',
                 variants: ['red', 'green'],
-                randomizer: function randomizer(callback) {
+                sampler: function sampler(callback) {
                     setTimeout(function () {
                         callback('red');
                     }, 5);
-                    randomizerCalls++;
+                    samplerCalls++;
                 },
                 scope: 'pageview'
             };
 
         beforeEach(function() {
             callbacksCalled = [];
-            randomizerCalls = 0;
+            samplerCalls = 0;
         });
 
         it('can subscribe before adding test', function(done) {
@@ -472,7 +472,7 @@ describe('Ably', function() {
 
             setTimeout(function verify() {
                 assert.deepEqual(callbacksCalled, [2, 4]);
-                assert.equal(randomizerCalls, 1);
+                assert.equal(samplerCalls, 1);
                 done();
             }, 10);
         });
@@ -517,7 +517,7 @@ describe('Ably', function() {
 
             setTimeout(function verify() {
                 assert.deepEqual(callbacksCalled, [7, 9, 12, 14]);
-                assert.equal(randomizerCalls, 1);
+                assert.equal(samplerCalls, 1);
                 done();
             }, 15);
         });
@@ -578,7 +578,7 @@ describe('Ably', function() {
 
             setTimeout(function verify() {
                 assert.deepEqual(callbacksCalled, [2, 4, 7, 9, 12, 14]);
-                assert.equal(randomizerCalls, 1);
+                assert.equal(samplerCalls, 1);
                 done();
             }, 15);
         });

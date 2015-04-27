@@ -36,7 +36,7 @@
         function requestAssignment() {
             if (!isPendingAssignment()) {
                 markPendingAssignment();
-                self.randomizer(function(assignment) {
+                self.sampler(function(assignment) {
                     clearPendingAssignment();
                     setAssignment(assignment);
                     notifySubscribers();
@@ -61,7 +61,7 @@
         }
 
         this.name = options.name;
-        this.randomizer = options.randomizer;
+        this.sampler = options.sampler;
         this.scope = options.scope;
         this.variants = options.variants;
         this.subscribers = [];
