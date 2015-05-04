@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Global inclusion</title>
+    <script type="text/javascript" src="../ably-test.js"></script>
+    <script type="text/javascript" src="../ably-subscriber.js"></script>
+    <script type="text/javascript" src="../ably.js"></script>
+    <script type="text/javascript" src="../ably-instance.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+        ably.addTests([
+            {
+                name: 'button-color',
+                variants: ['red', 'green'],
+                sampler: 'mathRandom',
+                scope: 'pageview'
+            },
+            {
+                name: 'button-text',
+                variants: ['buy', 'subscribe'],
+                sampler: 'mathRandom',
+                scope: 'device'
+            }
+        ]);
+
+    </script>
+
+    <h1>Ably Global inclusion</h1>
+
+    <button id="buy-button"></button>
+
+    <script type="text/javascript">
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            var button = document.getElementById('buy-button');
+
+            ably.when('button-color', 'red', function() {
+                button.style.backgroundColor = '#ff0000';
+            });
+
+            ably.when('button-color', 'green', function() {
+                button.style.backgroundColor = '#00ff00';
+            });
+
+            ably.when('button-text', 'buy', function() {
+                button.innerHTML = 'Buy Now!';
+            });
+
+            ably.when('button-text', 'subscribe', function() {
+                button.innerHTML = 'Subscribe!';
+            });
+        });
+
+    </script>
+  </body>
+</html>
