@@ -128,7 +128,7 @@
         this.tests = [];
         this.pendingSubscribers = [];
         this.samplers = {
-            mathRandom: mathRandomSampler,
+            local: mathRandomSampler,
             'default': mathRandomSampler
         };
         this.scopes = {

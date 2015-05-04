@@ -10,9 +10,9 @@ Define a test.
 | -------------------- | :--------------------- | ---------------------------- | :--------------------------------------
 | `options.name`       | `string`               | Yes                          | Name of the test. It has to be unique.
 | `options.variants`   | `array(string)`        | Yes                          | Possible variants (A, B, C).
-| `options.sampler`    | `string` or `function` | No (default: `'mathRandom'`) | A sampler assigns test subjects to groups (`'mathRandom'` or a custom function, see the *Samplers* section below).
+| `options.sampler`    | `string` or `function` | No (default: `'local'`) | A sampler assigns test subjects to groups (`'local'` or a custom function, see the *Samplers* section below).
 | `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
-| `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for samplers that support them. (The `mathRandom` sampler supports weights.) If this parameter is omitted, equal weights are assumed.
+| `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for samplers that support them. (The `local` sampler supports weights.) If this parameter is omitted, equal weights are assumed.
 
 ### Samplers
 
@@ -20,9 +20,9 @@ A sampler assigns test subjects to groups.
 
 #### Predefined samplers
 
-##### The `mathRandom` sampler
+##### The `local` sampler
 
-A type of sampler that assigns users to groups using the JavaScript `Math.random()` routine as the seed. If the `weights` option is provided, the sampler will assign to groups with probabilities proportinate to the weights. Otherwise the sampler will assign to groups with roughly equal probabilities. The sampler relies on the uniform distribution of values of the `Math.random()` function.
+A type of sampler that assigns users to groups locally. In JavaScript it is done using the JavaScript `Math.random()` routine as the seed. If the `weights` option is provided, the sampler will assign to groups with probabilities proportinate to the weights. Otherwise the sampler will assign to groups with roughly equal probabilities. The sampler in JavaScript relies on the uniform distribution of values of the `Math.random()` function.
 
 #### Use your own sampler
 

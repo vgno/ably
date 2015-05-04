@@ -173,13 +173,13 @@ describe('Ably', function() {
             }, 10);
         });
 
-        it('adds a test with the mathRandom sampler', function(done) {
+        it('adds a test with the local sampler', function(done) {
 
             var assignment,
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    sampler: 'mathRandom',
+                    sampler: 'local',
                     scope: 'pageview'
                 };
 
@@ -308,7 +308,7 @@ describe('Ably', function() {
             var test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    sampler: 'mathRandom'
+                    sampler: 'local'
                 };
 
             ably.addTest(test);
@@ -438,7 +438,7 @@ describe('Ably', function() {
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    sampler: 'mathRandom',
+                    sampler: 'local',
                     scope: 'pageview',
                     weights: {orange: 10, yellow: 90}
                 },
