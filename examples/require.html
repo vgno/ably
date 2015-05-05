@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Require inclusion</title>
+
+    <script type="text/javascript" data-main="../ably-instance.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js
+"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+    require(['ably-instance'], function(ably) {
+        ably.addTests([
+            {
+                name: 'button-color',
+                variants: ['red', 'green'],
+                sampler: 'local',
+                scope: 'pageview',
+                weights: {
+                    red: 40,
+                    green: 60
+                }
+            },
+            {
+                name: 'button-text',
+                variants: ['buy', 'subscribe'],
+                sampler: 'local',
+                scope: 'pageview'
+            }
+        ]);
+    });
+
+    </script>
+
+    <h1>Ably Require inclusion</h1>
+
+    <button id="buy-button"></button>
+
+    <script type="text/javascript">
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            require(['ably-instance'], function(ably) {
+
+                var button = document.getElementById('buy-button');
+
+                ably.when('button-color', 'red', function() {
+                    button.style.backgroundColor = '#ff0000';
+                });
+
+                ably.when('button-color', 'green', function() {
+                    button.style.backgroundColor = '#00ff00';
+                });
+
+                ably.when('button-text', 'buy', function() {
+                    button.innerHTML = 'Buy Now!';
+                });
+
+                ably.when('button-text', 'subscribe', function() {
+                    button.innerHTML = 'Subscribe!';
+                });
+            });
+        });
+
+    </script>
+  </body>
+</html>
