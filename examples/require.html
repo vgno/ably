@@ -14,19 +14,11 @@
         ably.addTests([
             {
                 name: 'button-color',
-                variants: ['red', 'green'],
-                sampler: 'local',
-                scope: 'pageview',
-                weights: {
-                    red: 40,
-                    green: 60
-                }
+                variants: ['red', 'green']
             },
             {
                 name: 'button-text',
-                variants: ['buy', 'subscribe'],
-                sampler: 'local',
-                scope: 'pageview'
+                variants: ['buy', 'subscribe']
             }
         ]);
     });
