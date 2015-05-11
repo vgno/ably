@@ -1,8 +1,8 @@
 # ably
 
-[![Build Status](http://img.shields.io/travis/vgno/ably/master.svg?style=flat-square)](https://travis-ci.org/vgno/ably)[![Test Coverage](http://img.shields.io/codeclimate/coverage/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)[![Code Climate](http://img.shields.io/codeclimate/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)![Status](https://img.shields.io/badge/maturity-unstable-red.svg?style=flat-square)
+[![Build Status](http://img.shields.io/travis/vgno/ably/master.svg?style=flat-square)](https://travis-ci.org/vgno/ably)[![Test Coverage](http://img.shields.io/codeclimate/coverage/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)[![Code Climate](http://img.shields.io/codeclimate/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)
 
-Provides a practical front-end API for defining what test variants look like (under A/B or multivariate testing) in separation from test administration. Link it to your test administration backend or use the included basic front-end sampler to get started. This is work in progress.
+Provides a practical front-end API for defining what test variants look like (under A/B or multivariate testing) in separation from test administration. Link it to your test administration backend or use the included basic front-end sampler to get started.
 
 ## Usage example
 
