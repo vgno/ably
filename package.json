@@ -1,5 +1,5 @@
 {
-  "name": "ably",
+  "name": "vgno-ably",
   "description": "Provides a framework to perform A/B tests in the browser",
   "keywords": [
     "A/B test",
