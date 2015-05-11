@@ -1,0 +1,28 @@
+{
+  "name": "vgno-ably",
+  "main": "ably.js",
+  "version": "1.0.1",
+  "homepage": "https://github.com/vgno/ably",
+  "authors": [
+    "Wadim Grasza <wadim.grasza@gmail.com>"
+  ],
+  "description": "Your frontend test subscriber (under A/B or multivariate testing)",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "A/B",
+    "testing",
+    "experiment"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
