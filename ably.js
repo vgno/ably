@@ -85,17 +85,32 @@
             throw new Error('sampler \'' + options.sampler + '\' not found');
         }
 
+        function firstAvailableScope(scopes) {
+            var i, scope;
+            for (i = 0; i < scopes.length; i++) {
+                scope = scopes[i];
+                if (typeof scope.isAvailable !== 'function' || scope.isAvailable()) {
+                    return scope;
+                }
+            }
+            throw new Error('no available scope provided');
+        }
+
+        function availableScope(scope) {
+            return firstAvailableScope([scope, self.scopes.pageview]);
+        }
+
         function interpretScopeOptions(options) {
             if (!options.hasOwnProperty('scope')) {
-                return self.scopes['default'];
+                return availableScope(self.scopes['default']);
             }
 
             if (typeof options.scope === 'object') {
-                return options.scope;
+                return availableScope(options.scope);
             }
 
             if (self.scopes.hasOwnProperty(options.scope)) {
-                return self.scopes[options.scope];
+                return availableScope(self.scopes[options.scope]);
             }
 
             throw new Error('scope \'' + options.scope + '\' not found');
@@ -111,6 +126,9 @@
                 },
                 setItem: function(key, value) {
                     pageViewScopeStorage[key] = value;
+                },
+                isAvailable: function() {
+                    return true;
                 }
             },
             deviceScope = {
@@ -122,6 +140,17 @@
                 },
                 setItem: function(key, value) {
                     localStorage.setItem(key, value);
+                },
+                isAvailable: function() {
+                    var testKey = '__test_localStorage_capability_ably_18c09e96bdd2cfe6ca47f3285f1b935d';
+                    try {
+                        var storage = window.localStorage;
+                        storage.setItem(testKey, '1');
+                        storage.removeItem(testKey);
+                        return true;
+                    } catch (error) {
+                        return false;
+                    }
                 }
             };
 
