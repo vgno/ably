@@ -487,6 +487,15 @@ describe('Ably', function() {
             samplerCalls = 0;
         });
 
+        it('passes test into callback', function(done) {
+            ably
+                .addTest(test)
+                .when('button-color', 'red', function callback(passedTest) {
+                    assert.testsEqual(passedTest, test);
+                    done();
+                });
+        });
+
         it('can subscribe before adding test', function(done) {
             ably
                 .when('button-color', 'green', function callback() {
@@ -617,6 +626,16 @@ describe('Ably', function() {
                 assert.equal(samplerCalls, 1);
                 done();
             }, 15);
+        });
+
+        it('can subscribe to all variants', function(done) {
+
+            ably
+                .addTest(test)
+                .when('button-color', function callback(passedTest) {
+                    assert.testsEqual(passedTest, test);
+                    done();
+                });
         });
 
         // if the subscriber is not defined or null or not a function

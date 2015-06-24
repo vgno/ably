@@ -171,11 +171,20 @@
         // Privileged methods
         this.when = function (testName, variant, callback) {
 
-            var subscriber = new AblySubscriber({
-                test: testName,
-                variant: variant,
-                callback: callback
-            });
+            var subscriberOptions = {
+                test: testName
+            };
+
+            // if variant is a function, it actually is callback
+            if (typeof variant === 'function') {
+                callback = variant;
+            } else {
+                subscriberOptions.variant = variant;
+            }
+
+            subscriberOptions.callback = callback;
+
+            var subscriber = new AblySubscriber(subscriberOptions);
             var test;
 
             try {

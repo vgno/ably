@@ -26,7 +26,7 @@
 
             self.subscribers.forEach(function(subscriber) {
                 if (subscriber.matchesTestAndVariant(self.name, self.getAssignment())) {
-                    subscriber.notify();
+                    subscriber.notify(self);
                 }
             });
 
