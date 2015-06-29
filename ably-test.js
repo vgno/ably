@@ -23,12 +23,14 @@
     var AblyTest = function AblyTest(options) {
 
         function notifySubscribers() {
+            var subscriber;
 
-            self.subscribers.forEach(function(subscriber) {
+            for (var i = 0; i < self.subscribers.length; i++) {
+                subscriber = self.subscribers[i];
                 if (subscriber.matchesTestAndVariant(self.name, self.getAssignment())) {
                     subscriber.notify(self);
                 }
-            });
+            }
 
             self.subscribers = [];
         }

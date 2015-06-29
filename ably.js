@@ -22,15 +22,18 @@
 
         function relayPendingSubscribers(test) {
 
-            var unmatchedSubscribers = [];
+            var unmatchedSubscribers = [],
+                pendingSubscriber;
 
-            self.pendingSubscribers.forEach(function(pendingSubscriber) {
+            for (var i = 0; i < self.pendingSubscribers.length; i++) {
+                pendingSubscriber = self.pendingSubscribers[i];
+
                 if (pendingSubscriber.matchesTest(test)) {
                     test.addSubscriber(pendingSubscriber);
                 } else {
                     unmatchedSubscribers.push(pendingSubscriber);
                 }
-            });
+            }
 
             self.pendingSubscribers = unmatchedSubscribers;
         }
@@ -218,10 +221,9 @@
     };
 
     Ably.prototype.addTests = function (tests) {
-        var self = this;
-        tests.forEach(function(test) {
-            self.addTest(test);
-        });
+        for (var i = 0; i < tests.length; i++) {
+            this.addTest(tests[i]);
+        }
         return this;
     };
 
