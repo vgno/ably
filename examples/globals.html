@@ -3,22 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <title>Global inclusion</title>
-    <script type="text/javascript" src="../ably-test.js"></script>
-    <script type="text/javascript" src="../ably-subscriber.js"></script>
-    <script type="text/javascript" src="../ably.js"></script>
-    <script type="text/javascript" src="../ably-instance.js"></script>
+    <script type="text/javascript" src="../dist/ably.min.js"></script>
   </head>
   <body>
     <script type="text/javascript">
-
+        window.ably = new Ably();
         ably.addTests([
             {
                 name: 'button-color',
-                variants: ['red', 'green']
+                variants: ['red', 'green'],
+                scope: 'pageview'
             },
             {
                 name: 'button-text',
-                variants: ['buy', 'subscribe']
+                variants: ['buy', 'subscribe'],
+                scope: 'pageview'
             }
         ]);
 
