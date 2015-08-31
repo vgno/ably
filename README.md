@@ -87,3 +87,9 @@ Read more about all supported options in the [API Reference](docs/api.md).
 ## Architecture
 
 Read more about the architecture in [Architecture](docs/architecture.md).
+
+## Browser tests
+
+BrowserStack has gracefully agreed to provide us with a sponsored plan. We will soon start relying on their infrastructure to run automated browser tests.
+
+![BrowserStack logo](docs/browserstack-logo.png)
