@@ -134,7 +134,7 @@
                     return true;
                 }
             },
-            deviceScope = {
+            localStorageScope = {
                 hasItem: function(key) {
                     return localStorage.getItem(key) !== null;
                 },
@@ -165,8 +165,8 @@
         };
         this.scopes = {
             pageview: pageViewScope,
-            device: deviceScope,
-            'default': deviceScope
+            device: localStorageScope,
+            'default': localStorageScope
         };
 
         var self = this;
