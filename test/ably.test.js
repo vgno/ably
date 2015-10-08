@@ -251,7 +251,20 @@ describe('Ably', function() {
             });
         });
 
-        it('uses scope to get and set assignment', function(done) {
+        it('accepts no scope provided', function() {
+
+            var test = {
+                    name: 'header-color',
+                    variants: ['orange', 'yellow'],
+                    sampler: 'local'
+                };
+
+            ably.addTest(test);
+        });
+    });
+
+    describe('scope', function() {
+        it('is used to get and set assignment', function(done) {
 
             var ably1 = new Ably(),
                 ably2 = new Ably(),
@@ -301,17 +314,6 @@ describe('Ably', function() {
                 assert.equal(assignment2, 'blue');
                 done();
             }, 10);
-        });
-
-        it('accepts no scope provided', function() {
-
-            var test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'local'
-                };
-
-            ably.addTest(test);
         });
     });
 
