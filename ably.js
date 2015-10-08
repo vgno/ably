@@ -18,7 +18,7 @@
 }(this, function (AblyTest, AblySubscriber) {
     'use strict';
 
-    var Ably = function Ably() {
+    var Ably = function Ably(namespace) {
 
         function relayPendingSubscribers(test) {
 
@@ -157,6 +157,10 @@
                 }
             };
 
+        if (namespace === undefined) {
+            namespace = 'default';
+        }
+        this.namespace = namespace;
         this.tests = [];
         this.pendingSubscribers = [];
         this.samplers = {

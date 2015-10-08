@@ -31,6 +31,13 @@ describe('Ably', function() {
         assert.equal(typeof ably, 'object');
     });
 
+    it('accepts namespace', function() {
+        var namespace = 'just a test namespace in order to test namespaces';
+        ably = new Ably(namespace);
+
+        assert.equal(ably.namespace, namespace);
+    });
+
     it('has an addTest method', function() {
         assert.equal(typeof ably.addTest, 'function');
     });
