@@ -21,7 +21,7 @@
     "type": "git",
     "url": "https://github.com/vgno/ably.git"
   },
-  "version": "1.2.0",
+  "version": "2.0.0-alpha.pre",
   "devDependencies": {
     "uglifyjs": "^2.4.10"
   }
