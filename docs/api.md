@@ -74,25 +74,22 @@ Supply an object that matches the following prototype:
 ```js
 {
     /**
-     * Check if the user is assigned to a group within a test
-     * @param   {string} key Test name
-     * @returns {boolean} True if the user is already assigned to a group within the test, false otherwise
+     * Save data in the scope
+     * @param   {*} data Data to save in the scope
      */
-    hasItem: function(key) {},
+    save: function(data) {},
 
     /**
-     * Get the group the user is assigned to within a test
-     * @param   {string} key Test name
-     * @returns {string} Name of the group the user is assigned to within the test
+     * Load data from the scope
+     * @returns {*} Data loaded from the scope
      */
-    getItem: function(key) {},
+    load: function() {},
 
     /**
-     * Set the group the user is assigned to within a test
-     * @param {string} key Test name
-     * @param {string} value Name of the group the user is assigned to within the test
+     * Is scope supported
+     * @returns {boolean} True if scope is supported, false otherwise
      */
-    setItem: function(key, value) {}
+    isSupported: function() {},
 }
 ```
 
