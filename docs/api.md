@@ -59,13 +59,13 @@ A scope marks the boundary of where the experiment begins and where it ends.
 
 #### Predefined scopes
 
-##### The `pageview` scope
+##### The `memory` scope
 
-The experiment lives as long as the page is not reloaded (in practice: as long as JavaScript objects live). Users will be reassigned to a new group upon a page reload and will get a new group in other browser windows.
+The experiment lives as long as the temporary in-memory storage is alive. For instance, in browsers users will be reassigned to a new group upon a page reload and will get a new group in other browser windows.
 
 ##### The `device` scope
 
-The experiment lives within the scope of a device (in practice: as long as the web storage on a device lives). Users will retain their group through page reloads and multiple windows but will get a new group on a different device, if they use private mode or when they clear browser data.
+The experiment lives within the scope of a device. In browsers, users will retain their group through page reloads and multiple windows but will get a new group on a different device, if they use private mode or when they clear browser data.
 
 #### Use your own scope
 
