@@ -1,6 +1,9 @@
 'use strict';
 
 var AblyTest = function AblyTest(options) {
+
+    var self = this;
+
     function notifySubscribers() {
         var subscriber;
 
@@ -47,8 +50,6 @@ var AblyTest = function AblyTest(options) {
     this.variants = options.variants;
     this.weights = options.weights;
     this.subscribers = [];
-
-    var self = this;
 
     this.addSubscriber = function(subscriber) {
         this.subscribers.push(subscriber);
