@@ -264,7 +264,7 @@ describe('Ably', function() {
                 makeupScopeStorage = {
                     'header-color': 'blue'
                 },
-                sampler = function (callback) {
+                sampler = function(callback) {
                     callback('orange');
                 },
                 scope = {
@@ -460,7 +460,7 @@ describe('Ably', function() {
                 name: 'button-color',
                 variants: ['red', 'green'],
                 sampler: function sampler(callback) {
-                    setTimeout(function () {
+                    setTimeout(function() {
                         callback('red');
                     }, 5);
                     samplerCalls++;
