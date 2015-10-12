@@ -262,48 +262,60 @@ describe('Ably', function() {
                 ably2 = new Ably(),
                 realScopeStorage = {},
                 makeupScopeStorage = {
-                    'header-color': 'blue'
+                    namespaces: {
+                        default: {
+                            'header-color': {
+                                variant: 'blue',
+                                date: new Date()
+                            }
+                        }
+                    }
                 },
                 sampler = function(callback) {
                     callback('orange');
                 },
-                scope = {
-                    hasItem: function(key) {
-                        return realScopeStorage.hasOwnProperty(key);
+                scope1 = {
+                    save: function(data) {
+                        makeupScopeStorage = data;
                     },
-                    getItem: function(key) {
-                        return makeupScopeStorage[key];
+                    load: function() {
+                        return makeupScopeStorage;
+                    }
+                },
+                scope2 = {
+                    save: function(data) {
+                        realScopeStorage = data;
                     },
-                    setItem: function(key, value) {
-                        realScopeStorage[key] = value;
+                    load: function() {
+                        return realScopeStorage;
                     }
                 },
                 test1 = {
                     name: 'header-color',
                     variants: ['orange', 'blue'],
                     sampler: sampler,
-                    scope: scope
+                    scope: scope1
                 },
                 test2 = {
                     name: 'header-color',
                     variants: ['orange', 'blue'],
                     sampler: sampler,
-                    scope: scope
+                    scope: scope2
                 },
-                assignment2;
+                assignment1;
 
             ably1.addTest(test1);
-            ably1.when('header-color', 'orange', function() {
+            ably1.when('header-color', 'blue', function() {
+                assignment1 = 'blue';
             });
 
             ably2.addTest(test2);
-            ably2.when('header-color', 'blue', function() {
-                assignment2 = 'blue';
+            ably2.when('header-color', 'orange', function() {
             });
 
             setTimeout(function() {
-                assert.equal(realScopeStorage['header-color'], 'orange');
-                assert.equal(assignment2, 'blue');
+                assert.equal(realScopeStorage.namespaces.default['header-color'].variant, 'orange');
+                assert.equal(assignment1, 'blue');
                 done();
             }, 10);
         });

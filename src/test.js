@@ -1,5 +1,7 @@
 'use strict';
 
+var ExpositionManager = require('./exposition-manager');
+
 var Test = function Test(options) {
     var self = this;
 
@@ -28,7 +30,7 @@ var Test = function Test(options) {
     }
 
     function setAssignment(assignment) {
-        self.scope.setItem(self.name, assignment);
+        self.expositionManager.registerExposition(self.name, assignment);
     }
 
     function isPendingAssignment() {
@@ -50,6 +52,7 @@ var Test = function Test(options) {
     this.weights = options.weights;
     this.subscribers = [];
     this.namespace = options.namespace;
+    this.expositionManager = new ExpositionManager(this.scope, this.namespace);
 
     this.addSubscriber = function(subscriber) {
         this.subscribers.push(subscriber);
@@ -63,11 +66,12 @@ var Test = function Test(options) {
 };
 
 Test.prototype.hasAssignment = function() {
-    return this.scope.hasItem(this.name);
+    return this.expositionManager.getExposition(this.name) !== null;
 };
 
 Test.prototype.getAssignment = function() {
-    return this.scope.getItem(this.name);
+    var exposition = this.expositionManager.getExposition(this.name);
+    return exposition.variant;
 };
 
 module.exports = Test;

@@ -3,14 +3,11 @@
 var scopes = {
     objectStorage: function(object) {
         return {
-            hasItem: function(key) {
-                return object.hasOwnProperty(key);
+            save: function(data) {
+                object = data;
             },
-            getItem: function(key) {
-                return object[key];
-            },
-            setItem: function(key, value) {
-                object[key] = value;
+            load: function() {
+                return object;
             },
             isAvailable: function() {
                 return typeof object === 'object' && object !== null;
@@ -18,22 +15,21 @@ var scopes = {
         };
     },
     localStorage: {
-        hasItem: function(key) {
-            return localStorage.getItem(key) !== null;
+        save: function(data) {
+            localStorage.setItem('__ably', JSON.stringify(data));
         },
-        getItem: function(key) {
-            return localStorage.getItem(key);
-        },
-        setItem: function(key, value) {
-            localStorage.setItem(key, value);
+        load: function() {
+            return JSON.parse(localStorage.getItem('__ably'));
         },
         isAvailable: function() {
-            var testKey = '__test_localStorage_capability_ably_18c09e96bdd2cfe6ca47f3285f1b935d';
+            var testKey = '__test_localStorage_capability_ably_18c09e96bdd2cfe6ca47f3285f1b935d',
+                testValue = '12345';
             try {
                 var storage = window.localStorage;
-                storage.setItem(testKey, '1');
+                storage.setItem(testKey, testValue);
+                var value = storage.getItem(testKey);
                 storage.removeItem(testKey);
-                return true;
+                return value === testValue;
             } catch (error) {
                 return false;
             }
