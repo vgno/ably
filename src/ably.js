@@ -159,7 +159,7 @@ var Ably = function Ably(namespace) {
     };
 
     // Privileged methods
-    this.when = function (testName, variant, callback) {
+    this.when = function(testName, variant, callback) {
         var subscriberOptions = {
             test: testName
         };
@@ -188,7 +188,7 @@ var Ably = function Ably(namespace) {
         return this;
     };
 
-    this.addTest = function (options) {
+    this.addTest = function(options) {
         var test = new AblyTest({
             name: options.name,
             variants: options.variants,
@@ -205,14 +205,14 @@ var Ably = function Ably(namespace) {
     };
 };
 
-Ably.prototype.addTests = function (tests) {
+Ably.prototype.addTests = function(tests) {
     for (var i = 0; i < tests.length; i++) {
         this.addTest(tests[i]);
     }
     return this;
 };
 
-Ably.prototype.getTest = function (name) {
+Ably.prototype.getTest = function(name) {
     for (var i = 0; i < this.tests.length; i++) {
         if (this.tests[i].name === name) {
             return this.tests[i];
@@ -221,7 +221,7 @@ Ably.prototype.getTest = function (name) {
     throw new Error('test \'' + name + '\' not found');
 };
 
-Ably.prototype.getTests = function () {
+Ably.prototype.getTests = function() {
     return this.tests;
 };
 
