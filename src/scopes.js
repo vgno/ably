@@ -1,19 +1,19 @@
 'use strict';
 
 var scopes = {
-    pageView: function(storage) {
+    objectStorage: function(object) {
         return {
             hasItem: function(key) {
-                return storage.hasOwnProperty(key);
+                return object.hasOwnProperty(key);
             },
             getItem: function(key) {
-                return storage[key];
+                return object[key];
             },
             setItem: function(key, value) {
-                storage[key] = value;
+                object[key] = value;
             },
             isAvailable: function() {
-                return true;
+                return typeof object === 'object' && object !== null;
             }
         };
     },

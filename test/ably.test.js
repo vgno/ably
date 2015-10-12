@@ -64,7 +64,7 @@ describe('Ably', function() {
             sampler: function sampler(callback) {
                 callback('red');
             },
-            scope: 'pageview'
+            scope: 'memory'
         },
         {
             name: 'button-text',
@@ -72,7 +72,7 @@ describe('Ably', function() {
             sampler: function sampler(callback) {
                 callback('buy');
             },
-            scope: 'pageview'
+            scope: 'memory'
         },
         {
             name: 'button-size',
@@ -80,7 +80,7 @@ describe('Ably', function() {
             sampler: function sampler(callback) {
                 callback('large');
             },
-            scope: 'pageview'
+            scope: 'memory'
         }
     ];
 
@@ -138,7 +138,7 @@ describe('Ably', function() {
                     sampler: function sampler() {
                         samplerCalls++;
                     },
-                    scope: 'pageview'
+                    scope: 'memory'
                 };
 
             ably.addTest(test);
@@ -152,7 +152,7 @@ describe('Ably', function() {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
                     sampler: 'default',
-                    scope: 'pageview'
+                    scope: 'memory'
                 };
 
             ably.addTest(test);
@@ -177,7 +177,7 @@ describe('Ably', function() {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
                     sampler: 'local',
-                    scope: 'pageview'
+                    scope: 'memory'
                 };
 
             ably.addTest(test);
@@ -201,7 +201,7 @@ describe('Ably', function() {
                 name: 'header-color',
                 variants: ['orange', 'yellow'],
                 sampler: 'nonExistentSamplerIJustMadeUp',
-                scope: 'pageview'
+                scope: 'memory'
             };
 
             assert.throws(function() {
@@ -214,7 +214,7 @@ describe('Ably', function() {
                 test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
-                    scope: 'pageview'
+                    scope: 'memory'
                 };
 
             ably.addTest(test);
@@ -307,6 +307,15 @@ describe('Ably', function() {
                 done();
             }, 10);
         });
+
+        // it('old, inactive entries are garbage-collected', function(done) {
+        // });
+
+        // it('entries are stored under a single key', function(done) {
+        // });
+
+        // it('it is possible to select namespace', function(done) {
+        // });
     });
 
     describe('.addTests()', function() {
@@ -343,7 +352,7 @@ describe('Ably', function() {
                     sampler: function sampler() {
                         samplerCalls++;
                     },
-                    scope: 'pageview'
+                    scope: 'memory'
                 };
 
             ably.addTests([test]);
@@ -361,7 +370,7 @@ describe('Ably', function() {
                     assert.testsEqual(actualTest, expectedTest);
                     done();
                 },
-                scope: 'pageview'
+                scope: 'memory'
             };
 
             ably.addTest(expectedTest);
@@ -385,13 +394,13 @@ describe('Ably', function() {
                         name: 'header-color',
                         variants: ['orange', 'yellow'],
                         sampler: sampler,
-                        scope: 'pageview'
+                        scope: 'memory'
                     },
                     {
                         name: 'button-text',
                         variants: ['buy', 'subscribe'],
                         sampler: sampler,
-                        scope: 'pageview'
+                        scope: 'memory'
                     }
                 ];
 
@@ -420,7 +429,7 @@ describe('Ably', function() {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
                     sampler: 'local',
-                    scope: 'pageview',
+                    scope: 'memory',
                     weights: {orange: 10, yellow: 90}
                 },
                 markOrange = function() {
@@ -459,7 +468,7 @@ describe('Ably', function() {
                     }, 5);
                     samplerCalls++;
                 },
-                scope: 'pageview'
+                scope: 'memory'
             };
 
         beforeEach(function() {

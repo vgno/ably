@@ -53,7 +53,7 @@ var Ably = function Ably(namespace) {
     }
 
     function availableScope(scope) {
-        return firstAvailableScope([scope, self.scopes.pageview]);
+        return firstAvailableScope([scope, self.scopes.memory]);
     }
 
     function interpretScopeOptions(options) {
@@ -83,7 +83,7 @@ var Ably = function Ably(namespace) {
         default: samplers.mathRandom
     };
     this.scopes = {
-        pageview: scopes.pageView({}),
+        memory: scopes.objectStorage({}),
         device: scopes.localStorage,
         default: scopes.localStorage
     };
