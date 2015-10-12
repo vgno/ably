@@ -4,21 +4,23 @@
     <meta charset="utf-8" />
     <title>Require inclusion</title>
 
-    <script type="text/javascript" data-main="../ably-instance.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js
+    <script type="text/javascript" data-main="ably.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js
 "></script>
   </head>
   <body>
     <script type="text/javascript">
 
-    require(['ably-instance'], function(ably) {
+    require(['ably'], function(ably) {
         ably.addTests([
             {
                 name: 'button-color',
-                variants: ['red', 'green']
+                variants: ['red', 'green'],
+                scope: 'pageview'
             },
             {
                 name: 'button-text',
-                variants: ['buy', 'subscribe']
+                variants: ['buy', 'subscribe'],
+                scope: 'pageview'
             }
         ]);
     });
@@ -33,7 +35,7 @@
 
         document.addEventListener("DOMContentLoaded", function(event) {
 
-            require(['ably-instance'], function(ably) {
+            require(['ably'], function(ably) {
 
                 var button = document.getElementById('buy-button');
 

@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Ably = require('../ably.js'),
+var Ably = require('../src/ably'),
     ably;
 
 assert.testsEqual = function deepDeepEqual(actual, expected) {
