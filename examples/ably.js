@@ -6,6 +6,7 @@ require.config({
     }
 });
 
+/* global define */
 define(['Ably'], function(Ably) {
     var ably = new Ably();
     return ably;
