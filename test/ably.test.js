@@ -354,25 +354,19 @@ describe('Ably', function() {
 
     describe('the sampler', function() {
         it('gets the test object as the second argument', function(done) {
-            var assignment,
-                expectedTest = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: function(callback, actualTest) {
-                        assert.testsEqual(actualTest, expectedTest);
-                        done();
-                    },
-                    scope: 'pageview'
-                };
+            var expectedTest = {
+                name: 'header-color',
+                variants: ['orange', 'yellow'],
+                sampler: function(callback, actualTest) {
+                    assert.testsEqual(actualTest, expectedTest);
+                    done();
+                },
+                scope: 'pageview'
+            };
 
             ably.addTest(expectedTest);
 
             ably.when('header-color', 'orange', function() {
-                assignment = 'orange';
-            });
-
-            ably.when('header-color', 'yellow', function() {
-                assignment = 'yellow';
             });
         });
 
