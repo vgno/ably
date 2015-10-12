@@ -1,12 +1,11 @@
 'use strict';
 
-var ExpositionManager = function(scope, namespace) {
-    this.scope = scope;
+var ExpositionManager = function(namespace) {
     this.namespace = namespace;
 };
 
-ExpositionManager.prototype.getExposition = function getExposition(test) {
-    var data = this.scope.load();
+ExpositionManager.prototype.getExposition = function getExposition(scope, test) {
+    var data = scope.load();
     if (data === null) {
         return null;
     }
@@ -28,8 +27,8 @@ ExpositionManager.prototype.getExposition = function getExposition(test) {
     return expositions[test];
 };
 
-ExpositionManager.prototype.registerExposition = function registerExposition(test, variant) {
-    var data = this.scope.load();
+ExpositionManager.prototype.registerExposition = function registerExposition(scope, test, variant) {
+    var data = scope.load();
     if (data === null) {
         data = {};
     }
@@ -51,7 +50,8 @@ ExpositionManager.prototype.registerExposition = function registerExposition(tes
         };
     }
 
-    this.scope.save(data);
+    scope.save(data);
+};
 };
 
 module.exports = ExpositionManager;

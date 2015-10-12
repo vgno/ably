@@ -4,6 +4,7 @@ var Test = require('./test');
 var Subscriber = require('./subscriber');
 var samplers = require('./samplers');
 var scopes = require('./scopes');
+var ExpositionManager = require('./exposition-manager');
 
 var Ably = function Ably(namespace) {
     var self = this;
@@ -87,6 +88,7 @@ var Ably = function Ably(namespace) {
         device: scopes.localStorage,
         default: scopes.localStorage
     };
+    this.expositionManager = new ExpositionManager(this.namespace);
 
     // Privileged methods
     this.when = function(testName, variant, callback) {
@@ -125,7 +127,7 @@ var Ably = function Ably(namespace) {
             sampler: interpretSamplerOptions(options),
             scope: interpretScopeOptions(options),
             weights: options.weights,
-            namespace: this.namespace
+            expositionManager: this.expositionManager
         });
 
         this.tests.push(test);
