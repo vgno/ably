@@ -158,4 +158,10 @@ Ably.prototype.getTests = function() {
     return this.tests;
 };
 
+Ably.prototype.purgeOldExpositions = function(cutoffDate) {
+    for (var i = 0; i < this.tests.length; i++) {
+        this.tests[i].purgeOldExpositions(cutoffDate);
+    }
+};
+
 module.exports = Ably;

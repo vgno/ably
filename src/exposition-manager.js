@@ -52,6 +52,42 @@ ExpositionManager.prototype.registerExposition = function registerExposition(sco
 
     scope.save(data);
 };
+
+ExpositionManager.prototype.purgeOldExpositions = function purgeOldExpositions(scope, cutoffDate) {
+    var data = scope.load();
+    if (data === null) {
+        return;
+    }
+
+    if (!data.hasOwnProperty('namespaces')) {
+        return;
+    }
+
+    var namespaces = data.namespaces;
+    if (!namespaces.hasOwnProperty(this.namespace)) {
+        return;
+    }
+
+    var expositions = namespaces[this.namespace];
+    for (var key in expositions) {
+        if (expositions.hasOwnProperty(key)) {
+            var exposition = expositions[key],
+                date;
+            if (typeof exposition.date === 'object' && exposition.date instanceof Date) {
+                date = exposition.date;
+            } else if (typeof exposition.date === 'string') {
+                date = new Date(exposition.date);
+            } else {
+                throw new Error('exposition date is expected to be a Date or a string');
+            }
+
+            if (date < cutoffDate) {
+                delete expositions[key];
+            }
+        }
+    }
+
+    scope.save(data);
 };
 
 module.exports = ExpositionManager;

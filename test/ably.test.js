@@ -640,4 +640,63 @@ describe('Ably', function() {
         // if the subscriber is not defined or null or not a function
         // cannot add test twice
     });
+
+    describe('.purgeOldExpositions()', function() {
+        it('purges only old expositions', function() {
+            var today = new Date(),
+                yesterday = (function(d) {
+                    d.setDate(d.getDate() - 1); return d;
+                }(new Date(today.valueOf()))),
+                dayBeforeYesterday = (function(d) {
+                    d.setDate(d.getDate() - 1); return d;
+                }(new Date(yesterday.valueOf()))),
+                scopeStorage = {
+                    namespaces: {
+                        default: {
+                            test1: {
+                                variant: 'blue',
+                                date: dayBeforeYesterday
+                            },
+                            test2: {
+                                variant: 'green',
+                                date: today
+                            }
+                        }
+                    }
+                },
+                scope = {
+                    save: function(data) {
+                        scopeStorage = data;
+                    },
+                    load: function() {
+                        return scopeStorage;
+                    }
+                };
+
+            ably.addTest({
+                name: 'test1',
+                variants: ['blue'],
+                scope: scope
+            });
+
+            ably.addTest({
+                name: 'test2',
+                variants: ['green'],
+                scope: scope
+            });
+
+            ably.purgeOldExpositions(yesterday);
+
+            assert.deepEqual(scopeStorage, {
+                namespaces: {
+                    default: {
+                        test2: {
+                            variant: 'green',
+                            date: today
+                        }
+                    }
+                }
+            });
+        });
+    });
 });

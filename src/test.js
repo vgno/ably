@@ -71,4 +71,8 @@ Test.prototype.getAssignment = function() {
     return exposition.variant;
 };
 
+Test.prototype.purgeOldExpositions = function(cutoffDate) {
+    this.expositionManager.purgeOldExpositions(this.scope, cutoffDate);
+};
+
 module.exports = Test;
