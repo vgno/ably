@@ -1,6 +1,6 @@
 'use strict';
 
-var AblyTest = require('./ably-test');
+var Test = require('./test');
 var Subscriber = require('./subscriber');
 
 var Ably = function Ably(namespace) {
@@ -189,7 +189,7 @@ var Ably = function Ably(namespace) {
     };
 
     this.addTest = function(options) {
-        var test = new AblyTest({
+        var test = new Test({
             name: options.name,
             variants: options.variants,
             sampler: interpretSamplerOptions(options),

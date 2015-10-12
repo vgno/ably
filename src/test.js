@@ -1,6 +1,6 @@
 'use strict';
 
-var AblyTest = function AblyTest(options) {
+var Test = function Test(options) {
     var self = this;
 
     function notifySubscribers() {
@@ -61,12 +61,12 @@ var AblyTest = function AblyTest(options) {
     };
 };
 
-AblyTest.prototype.hasAssignment = function() {
+Test.prototype.hasAssignment = function() {
     return this.scope.hasItem(this.name);
 };
 
-AblyTest.prototype.getAssignment = function() {
+Test.prototype.getAssignment = function() {
     return this.scope.getItem(this.name);
 };
 
-module.exports = AblyTest;
+module.exports = Test;
