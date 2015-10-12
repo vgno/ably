@@ -2,6 +2,7 @@
 
 var Test = require('./test');
 var Subscriber = require('./subscriber');
+var samplers = require('./samplers');
 
 var Ably = function Ably(namespace) {
     var self = this;
@@ -21,40 +22,6 @@ var Ably = function Ably(namespace) {
         }
 
         self.pendingSubscribers = unmatchedSubscribers;
-    }
-
-    function uniformSampler(callback, test) {
-        callback(test.variants[Math.floor(Math.random() * test.variants.length)]);
-    }
-
-    function mathRandomSampler(callback, test) {
-        var total = 0,
-            current = 0,
-            random,
-            variant;
-
-        if (typeof test.weights === 'undefined') {
-            uniformSampler(callback, test);
-            return;
-        }
-
-        for (variant in test.weights) {
-            if (test.weights.hasOwnProperty(variant)) {
-                total += test.weights[variant];
-            }
-        }
-
-        random = Math.random() * total;
-
-        for (variant in test.weights) {
-            if (test.weights.hasOwnProperty(variant)) {
-                if (random < current + test.weights[variant]) {
-                    callback(variant);
-                    return;
-                }
-                current += test.weights[variant];
-            }
-        }
     }
 
     function interpretSamplerOptions(options) {
@@ -149,8 +116,8 @@ var Ably = function Ably(namespace) {
     this.tests = [];
     this.pendingSubscribers = [];
     this.samplers = {
-        local: mathRandomSampler,
-        default: mathRandomSampler
+        local: samplers.mathRandom,
+        default: samplers.mathRandom
     };
     this.scopes = {
         pageview: pageViewScope,
