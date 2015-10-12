@@ -40,7 +40,7 @@ var AblyTest = function AblyTest(options) {
     }
 
     function clearPendingAssignment() {
-        delete(self.pendingAssignment);
+        delete self.pendingAssignment;
     }
 
     this.name = options.name;
