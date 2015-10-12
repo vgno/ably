@@ -1,9 +1,10 @@
+'use strict';
+
 var assert = require('assert');
 var Ably = require('../src/ably'),
     ably;
 
 assert.testsEqual = function deepDeepEqual(actual, expected) {
-    'use strict';
     assert.equal(actual.name, expected.name);
     assert.equal(actual.variants, expected.variants);
     if (typeof expected.sampler === 'string') {
@@ -13,7 +14,6 @@ assert.testsEqual = function deepDeepEqual(actual, expected) {
 };
 
 assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
-    'use strict';
     assert.equal(actual.length, expected.length);
     for (var i = 0; i < actual.length; i++) {
         assert.testsEqual(actual, expected);
@@ -21,8 +21,6 @@ assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
 };
 
 describe('Ably', function() {
-    'use strict';
-
     beforeEach(function() {
         ably = new Ably();
     });
