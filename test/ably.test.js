@@ -380,7 +380,7 @@ describe('Ably', function() {
                         callback('buy');
                     }
                 },
-                tests = [
+                multipleTests = [
                     {
                         name: 'header-color',
                         variants: ['orange', 'yellow'],
@@ -395,7 +395,7 @@ describe('Ably', function() {
                     }
                 ];
 
-            ably.addTests(tests);
+            ably.addTests(multipleTests);
 
             ably.when('header-color', 'orange', function() {
                 correctAssignments++;
