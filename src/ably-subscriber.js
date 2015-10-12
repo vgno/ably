@@ -22,9 +22,9 @@ AblySubscriber.prototype.matchesTest = function(test) {
 AblySubscriber.prototype.matchesTestAndVariant = function(test, variant) {
     if (this.hasOwnProperty('variant')) {
         return this.test === test && this.variant === variant;
-    } else {
-        return this.test === test;
     }
+
+    return this.test === test;
 };
 
 module.exports = AblySubscriber;
