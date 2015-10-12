@@ -198,11 +198,11 @@ describe('Ably', function() {
 
         it('throws exception if sampler not found', function() {
             var test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'nonExistentSamplerIJustMadeUp',
-                    scope: 'pageview'
-                };
+                name: 'header-color',
+                variants: ['orange', 'yellow'],
+                sampler: 'nonExistentSamplerIJustMadeUp',
+                scope: 'pageview'
+            };
 
             assert.throws(function() {
                 ably.addTest(test);
@@ -235,10 +235,10 @@ describe('Ably', function() {
 
         it('throws exception if scope not found', function() {
             var test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    scope: 'yeahLikeThatCouldBeTheNameOfAScope'
-                };
+                name: 'header-color',
+                variants: ['orange', 'yellow'],
+                scope: 'yeahLikeThatCouldBeTheNameOfAScope'
+            };
 
             assert.throws(function() {
                 ably.addTest(test);
@@ -247,10 +247,10 @@ describe('Ably', function() {
 
         it('accepts no scope provided', function() {
             var test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'local'
-                };
+                name: 'header-color',
+                variants: ['orange', 'yellow'],
+                sampler: 'local'
+            };
 
             ably.addTest(test);
         });
@@ -379,14 +379,14 @@ describe('Ably', function() {
         it('can be used for multiple tests', function(done) {
             var correctAssignments = 0,
                 sampler = function(callback, test) {
-                        if (test.name === 'header-color') {
-                            callback('orange');
-                        }
-                        if (test.name === 'button-text') {
-                            callback('buy');
-                        }
-                    },
-                    tests = [
+                    if (test.name === 'header-color') {
+                        callback('orange');
+                    }
+                    if (test.name === 'button-text') {
+                        callback('buy');
+                    }
+                },
+                tests = [
                     {
                         name: 'header-color',
                         variants: ['orange', 'yellow'],
@@ -399,7 +399,7 @@ describe('Ably', function() {
                         sampler: sampler,
                         scope: 'pageview'
                     }
-                    ];
+                ];
 
             ably.addTests(tests);
 
