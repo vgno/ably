@@ -1,8 +1,9 @@
 'use strict';
 
 var assert = require('assert');
-var Ably = require('../src/ably'),
-    ably;
+var Ably = require('../src/ably');
+
+var ably;
 
 assert.testsEqual = function deepDeepEqual(actual, expected) {
     assert.equal(actual.name, expected.name);
