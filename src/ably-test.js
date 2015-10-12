@@ -1,7 +1,6 @@
 'use strict';
 
 var AblyTest = function AblyTest(options) {
-
     var self = this;
 
     function notifySubscribers() {
