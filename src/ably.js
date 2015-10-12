@@ -150,12 +150,12 @@ var Ably = function Ably(namespace) {
     this.pendingSubscribers = [];
     this.samplers = {
         local: mathRandomSampler,
-        'default': mathRandomSampler
+        default: mathRandomSampler
     };
     this.scopes = {
         pageview: pageViewScope,
         device: localStorageScope,
-        'default': localStorageScope
+        default: localStorageScope
     };
 
     // Privileged methods
