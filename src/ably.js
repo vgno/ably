@@ -34,7 +34,8 @@ var Ably = function Ably(namespace) {
             variant;
 
         if (typeof test.weights === 'undefined') {
-            return uniformSampler(callback, test);
+            uniformSampler(callback, test);
+            return;
         }
 
         for (variant in test.weights) {
