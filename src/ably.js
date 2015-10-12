@@ -59,7 +59,7 @@ var Ably = function Ably(namespace) {
 
     function interpretSamplerOptions(options) {
         if (!options.hasOwnProperty('sampler')) {
-            return self.samplers['default'];
+            return self.samplers.default;
         }
 
         if (typeof options.sampler === 'function') {
@@ -90,7 +90,7 @@ var Ably = function Ably(namespace) {
 
     function interpretScopeOptions(options) {
         if (!options.hasOwnProperty('scope')) {
-            return availableScope(self.scopes['default']);
+            return availableScope(self.scopes.default);
         }
 
         if (typeof options.scope === 'object') {
