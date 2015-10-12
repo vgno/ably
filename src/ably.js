@@ -4,7 +4,6 @@ var AblyTest = require('./ably-test');
 var AblySubscriber = require('./ably-subscriber');
 
 var Ably = function Ably(namespace) {
-
     var self = this;
 
     function relayPendingSubscribers(test) {
@@ -29,7 +28,6 @@ var Ably = function Ably(namespace) {
     }
 
     function mathRandomSampler(callback, test) {
-
         var total = 0,
             current = 0,
             random,
@@ -161,7 +159,6 @@ var Ably = function Ably(namespace) {
 
     // Privileged methods
     this.when = function (testName, variant, callback) {
-
         var subscriberOptions = {
             test: testName
         };
@@ -191,7 +188,6 @@ var Ably = function Ably(namespace) {
     };
 
     this.addTest = function (options) {
-
         var test = new AblyTest({
             name: options.name,
             variants: options.variants,
