@@ -85,9 +85,7 @@ describe('Ably', function() {
     ];
 
     describe('.getTest(name)', function() {
-
         it('retrieves test named \'name\'', function() {
-
             ably.addTest(tests[0]);
             ably.addTest(tests[1]);
             ably.addTest(tests[2]);
@@ -96,7 +94,6 @@ describe('Ably', function() {
         });
 
         it('throws exception if test not found', function() {
-
             ably.addTest(tests[0]);
             ably.addTest(tests[2]);
 
@@ -108,7 +105,6 @@ describe('Ably', function() {
 
     describe('.addTest()', function() {
         it('adds tests', function() {
-
             ably.addTest(tests[0]);
             ably.addTest(tests[1]);
             ably.addTest(tests[2]);
@@ -117,7 +113,6 @@ describe('Ably', function() {
         });
 
         it('can be chained', function() {
-
             ably
                 .addTest(tests[0])
                 .addTest(tests[1])
@@ -127,7 +122,6 @@ describe('Ably', function() {
         });
 
         it('creates a deep copy', function() {
-
             ably.addTest(tests[0]);
 
             var returnedTests = ably.getTests();
@@ -137,7 +131,6 @@ describe('Ably', function() {
         });
 
         it('does not call the sampler if no subscribers', function() {
-
             var samplerCalls = 0,
                 test = {
                     name: 'button-color',
@@ -154,7 +147,6 @@ describe('Ably', function() {
         });
 
         it('adds a test with the default sampler', function(done) {
-
             var assignment,
                 test = {
                     name: 'header-color',
@@ -180,7 +172,6 @@ describe('Ably', function() {
         });
 
         it('adds a test with the local sampler', function(done) {
-
             var assignment,
                 test = {
                     name: 'header-color',
@@ -206,7 +197,6 @@ describe('Ably', function() {
         });
 
         it('throws exception if sampler not found', function() {
-
             var test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
@@ -220,7 +210,6 @@ describe('Ably', function() {
         });
 
         it('works if no sampler provided', function(done) {
-
             var assignment,
                 test = {
                     name: 'header-color',
@@ -245,7 +234,6 @@ describe('Ably', function() {
         });
 
         it('throws exception if scope not found', function() {
-
             var test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
@@ -258,7 +246,6 @@ describe('Ably', function() {
         });
 
         it('accepts no scope provided', function() {
-
             var test = {
                     name: 'header-color',
                     variants: ['orange', 'yellow'],
@@ -271,7 +258,6 @@ describe('Ably', function() {
 
     describe('scope', function() {
         it('is used to get and set assignment', function(done) {
-
             var ably1 = new Ably(),
                 ably2 = new Ably(),
                 realScopeStorage = {},
@@ -324,16 +310,13 @@ describe('Ably', function() {
     });
 
     describe('.addTests()', function() {
-
         it('adds tests', function() {
-
             ably.addTests(tests);
 
             assert.deepTestsEqual(ably.getTests(), tests);
         });
 
         it('can be chained', function() {
-
             ably
                 .addTests([tests[0], tests[1]])
                 .addTests([tests[2]]);
@@ -344,7 +327,6 @@ describe('Ably', function() {
         });
 
         it('creates deep copies', function() {
-
             ably.addTests(tests);
 
             var returnedTests = ably.getTests();
@@ -354,7 +336,6 @@ describe('Ably', function() {
         });
 
         it('does not call the sampler if no subscribers', function() {
-
             var samplerCalls = 0,
                 test = {
                     name: 'button-color',
@@ -396,7 +377,6 @@ describe('Ably', function() {
         });
 
         it('can be used for multiple tests', function(done) {
-
             var correctAssignments = 0,
                 sampler = function(callback, test) {
                         if (test.name === 'header-color') {
@@ -438,7 +418,6 @@ describe('Ably', function() {
         });
 
         it('has uniform distribution', function(done) {
-
             var distributions = {
                     orange: 0,
                     yellow: 0
@@ -475,7 +454,6 @@ describe('Ably', function() {
     });
 
     describe('.when()', function() {
-
         var callbacksCalled,
             samplerCalls,
             test = {
@@ -576,7 +554,6 @@ describe('Ably', function() {
         });
 
         it('can subscribe both before and after adding test', function(done) {
-
             ably
                 .when('button-color', 'green', function callback() {
                     callbacksCalled.push(1);
@@ -637,7 +614,6 @@ describe('Ably', function() {
         });
 
         it('can subscribe to all variants', function(done) {
-
             ably
                 .addTest(test)
                 .when('button-color', function callback(passedTest) {
