@@ -13,10 +13,9 @@
     "build-js": "webpack -p",
     "test-browser": "webpack-dev-server",
     "coverage": "istanbul cover _mocha -- -R spec",
-    "lint": "jshint .",
-    "cs": " jscs .",
+    "lint": "eslint .",
     "test": "mocha",
-    "pretest": "npm run lint && npm run cs"
+    "pretest": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -24,6 +23,8 @@
   },
   "version": "2.0.0-alpha.pre",
   "devDependencies": {
+    "eslint": "^1.5.1",
+    "vgno-coding-standards": "^3.0.0",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.0"
   }
