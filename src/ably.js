@@ -4,6 +4,9 @@ var AblyTest = require('./ably-test');
 var AblySubscriber = require('./ably-subscriber');
 
 var Ably = function Ably(namespace) {
+
+    var self = this;
+
     function relayPendingSubscribers(test) {
         var unmatchedSubscribers = [],
             pendingSubscriber;
@@ -155,8 +158,6 @@ var Ably = function Ably(namespace) {
         device: localStorageScope,
         'default': localStorageScope
     };
-
-    var self = this;
 
     // Privileged methods
     this.when = function (testName, variant, callback) {
