@@ -124,7 +124,8 @@ var Ably = function Ably(namespace) {
             variants: options.variants,
             sampler: interpretSamplerOptions(options),
             scope: interpretScopeOptions(options),
-            weights: options.weights
+            weights: options.weights,
+            namespace: this.namespace
         });
 
         this.tests.push(test);

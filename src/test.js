@@ -49,6 +49,7 @@ var Test = function Test(options) {
     this.variants = options.variants;
     this.weights = options.weights;
     this.subscribers = [];
+    this.namespace = options.namespace;
 
     this.addSubscriber = function(subscriber) {
         this.subscribers.push(subscriber);
