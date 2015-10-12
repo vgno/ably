@@ -1,7 +1,7 @@
 'use strict';
 
 var AblyTest = require('./ably-test');
-var AblySubscriber = require('./ably-subscriber');
+var Subscriber = require('./subscriber');
 
 var Ably = function Ably(namespace) {
     var self = this;
@@ -173,7 +173,7 @@ var Ably = function Ably(namespace) {
 
         subscriberOptions.callback = callback;
 
-        var subscriber = new AblySubscriber(subscriberOptions);
+        var subscriber = new Subscriber(subscriberOptions);
         var test;
 
         try {
