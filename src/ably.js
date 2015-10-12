@@ -3,6 +3,7 @@
 var Test = require('./test');
 var Subscriber = require('./subscriber');
 var samplers = require('./samplers');
+var scopes = require('./scopes');
 
 var Ably = function Ably(namespace) {
     var self = this;
@@ -40,10 +41,10 @@ var Ably = function Ably(namespace) {
         throw new Error('sampler \'' + options.sampler + '\' not found');
     }
 
-    function firstAvailableScope(scopes) {
+    function firstAvailableScope(scopeList) {
         var i, scope;
-        for (i = 0; i < scopes.length; i++) {
-            scope = scopes[i];
+        for (i = 0; i < scopeList.length; i++) {
+            scope = scopeList[i];
             if (typeof scope.isAvailable !== 'function' || scope.isAvailable()) {
                 return scope;
             }
@@ -71,44 +72,6 @@ var Ably = function Ably(namespace) {
         throw new Error('scope \'' + options.scope + '\' not found');
     }
 
-    var pageViewScopeStorage = {},
-        pageViewScope = {
-            hasItem: function(key) {
-                return pageViewScopeStorage.hasOwnProperty(key);
-            },
-            getItem: function(key) {
-                return pageViewScopeStorage[key];
-            },
-            setItem: function(key, value) {
-                pageViewScopeStorage[key] = value;
-            },
-            isAvailable: function() {
-                return true;
-            }
-        },
-        localStorageScope = {
-            hasItem: function(key) {
-                return localStorage.getItem(key) !== null;
-            },
-            getItem: function(key) {
-                return localStorage.getItem(key);
-            },
-            setItem: function(key, value) {
-                localStorage.setItem(key, value);
-            },
-            isAvailable: function() {
-                var testKey = '__test_localStorage_capability_ably_18c09e96bdd2cfe6ca47f3285f1b935d';
-                try {
-                    var storage = window.localStorage;
-                    storage.setItem(testKey, '1');
-                    storage.removeItem(testKey);
-                    return true;
-                } catch (error) {
-                    return false;
-                }
-            }
-        };
-
     if (namespace === undefined) {
         namespace = 'default';
     }
@@ -120,9 +83,9 @@ var Ably = function Ably(namespace) {
         default: samplers.mathRandom
     };
     this.scopes = {
-        pageview: pageViewScope,
-        device: localStorageScope,
-        default: localStorageScope
+        pageview: scopes.pageView({}),
+        device: scopes.localStorage,
+        default: scopes.localStorage
     };
 
     // Privileged methods
