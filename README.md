@@ -39,21 +39,15 @@ ably.addTest({
 });
 ```
 
-### Subsribing to variants
+### Subscribing to variants
 
 ```js
 ably
-    // Subscribe to test 'thank-you-action' variant 'alert'
-    .on('thank-you-action', 'alert', function () {
-        $('buy-button').on('click', function() {
-            alert('Thank you!');
-        });
+    .on('button-color', 'red', function () {
+        $('#buy-button').css('background-color', 'red');
     })
-    // Subscribe to test 'thank-you-action' variant 'redirect'
-    .on('thank-you-action', 'redirect', function () {
-        $('buy-button').on('click', function() {
-            location.href = '/thank-you-page.html';
-        });
+    .on('button-color', 'green', function () {
+        $('#buy-button').css('background-color', 'green');
     });
 ```
 
