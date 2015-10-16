@@ -18,17 +18,7 @@ ably.addTest({
 
 ### 2. Subscribe to variants
 
-Subscribe to variants using one of the exposed APIs.
-
-## APIs
-
-Ably exposes three APIs: JS, HTML and CSS.
-
-![Ably interface](docs/ably-interface.png)
-
-### JS API
-
-Use it to alternate **behaviour**.
+Subscribe to variants using the exposed API.
 
 ```js
 ably
@@ -46,47 +36,9 @@ ably
     });
 ```
 
-### HTML API (not implemented yet)
-
-Use it to alternate **content**.
-
-```html
-  <!-- Test 'button-text' variant 'buy' -->
-  <button class="ably-button-text-buy">
-    Buy Now!
-  </button>
-
-  <!-- Test 'button-text' variant 'buy' -->
-  <button class="ably-button-text-subscribe">
-    Subscribe!
-  </button>
-```
-
-Ably will only show the selected variant.
-
-### CSS API (not implemented yet)
-
-Use it to alternate **styling**.
-
-```css
-/* Test 'button-color' variant 'red' */
-body.ably-button-color-red #buy-now-button
-    background-color: red;
-}
-
-/* Test 'button-color' variant 'green' */
-body.ably-button-color-green #buy-now-button
-    backgrond-color: green;
-}
-```
-
 ## API Reference
 
-Read more about all supported options in the [API Reference](docs/api.md).
-
-## Architecture
-
-Read more about the architecture in [Architecture](docs/architecture.md).
+Read more about all supported options in the [Documentation](docs/index.md).
 
 ## Browser tests
 

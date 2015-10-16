@@ -1,5 +1,19 @@
 # API Reference
 
+## Architecture
+
+Ably contains a collection of *experiments*.
+
+Each *experiment* has its own *sampler* and its own *scope*.
+
+### Sampler ###
+
+A sampler assigns test subjects to groups.
+
+### Scope
+
+A scope marks the boundary of where the experiment begins and where it ends.
+
 ## Defining tests
 
 ### `ably.addTest(options)`
@@ -11,7 +25,7 @@ Define a test.
 | `options.name`       | `string`               | Yes                          | Name of the test. It has to be unique.
 | `options.variants`   | `array(string)`        | Yes                          | Possible variants (A, B, C).
 | `options.sampler`    | `string` or `function` | No (default: `'local'`) | A sampler assigns test subjects to groups (`'local'` or a custom function, see the *Samplers* section below).
-| `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
+| `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'memory'` or a custom object, see the *Scopes* section below).
 | `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for samplers that support them. (The `local` sampler supports weights.) If this parameter is omitted, equal weights are assumed.
 
 ### Samplers
