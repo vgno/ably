@@ -1,19 +1,5 @@
 # API Reference
 
-## Architecture
-
-Ably contains a collection of *experiments*.
-
-Each *experiment* has its own *sampler* and its own *scope*.
-
-### Sampler ###
-
-A sampler assigns test subjects to groups.
-
-### Scope
-
-A scope marks the boundary of where the experiment begins and where it ends.
-
 ## Defining tests
 
 ### `ably.addTest(options)`

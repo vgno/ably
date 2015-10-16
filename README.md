@@ -29,12 +29,10 @@ var ably = new Ably();
 
 ably.addTest({
     name: 'button-color',
-    variants: ['red', 'green'],
-    weights: [
+    sampler: ably.samplers.default({
         red: 80,
         green: 20
-    ],
-    sampler: 'local',
+    }),
     scope: 'device'
 });
 ```
@@ -50,6 +48,15 @@ ably
         $('#buy-button').css('background-color', 'green');
     });
 ```
+
+## Architecture
+
+Ably contains a collection of *experiments*.
+
+Each *experiment* has three properties:
+ * a *name* to refer to the experiment
+ * a *sampler* which assigns users to variants
+ * a *scope* which saves the variant
 
 ## API Reference
 

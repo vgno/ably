@@ -5,16 +5,11 @@ var Ably = require('../src/ably');
 
 var ably;
 
-assert.testsEqual = function deepDeepEqual(actual, expected) {
+assert.testsEqual = function testsEqual(actual, expected) {
     assert.equal(actual.name, expected.name);
-    assert.equal(actual.variants, expected.variants);
-    if (typeof expected.sampler === 'string') {
-        expected.sampler = ably.samplers[expected.sampler];
-    }
-    assert.equal(actual.sampler, expected.sampler);
 };
 
-assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
+assert.deepTestsEqual = function deepTestsEqual(actual, expected) {
     assert.equal(actual.length, expected.length);
     for (var i = 0; i < actual.length; i++) {
         assert.testsEqual(actual, expected);
@@ -60,25 +55,22 @@ describe('Ably', function() {
     var tests = [
         {
             name: 'button-color',
-            variants: ['red', 'green'],
-            sampler: function sampler(callback) {
-                callback('red');
+            sampler: function() {
+                return 'red';
             },
             scope: 'memory'
         },
         {
             name: 'button-text',
-            variants: ['buy', 'subscribe'],
-            sampler: function sampler(callback) {
-                callback('buy');
+            sampler: function() {
+                return 'buy';
             },
             scope: 'memory'
         },
         {
             name: 'button-size',
-            variants: ['large', 'small'],
-            sampler: function sampler(callback) {
-                callback('large');
+            sampler: function() {
+                return 'large';
             },
             scope: 'memory'
         }
@@ -134,9 +126,9 @@ describe('Ably', function() {
             var samplerCalls = 0,
                 test = {
                     name: 'button-color',
-                    variants: ['red', 'green'],
-                    sampler: function sampler() {
+                    sampler: function() {
                         samplerCalls++;
+                        return ably.samplers.default(['red', 'green']);
                     },
                     scope: 'memory'
                 };
@@ -150,8 +142,7 @@ describe('Ably', function() {
             var assignment,
                 test = {
                     name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'default',
+                    sampler: ably.samplers.default(['orange', 'yellow']),
                     scope: 'memory'
                 };
 
@@ -175,45 +166,7 @@ describe('Ably', function() {
             var assignment,
                 test = {
                     name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'local',
-                    scope: 'memory'
-                };
-
-            ably.addTest(test);
-
-            ably.on('header-color', 'orange', function() {
-                assignment = 'orange';
-            });
-
-            ably.on('header-color', 'yellow', function() {
-                assignment = 'yellow';
-            });
-
-            setTimeout(function() {
-                assert.equal(assignment === 'orange' || assignment === 'yellow', true);
-                done();
-            }, 10);
-        });
-
-        it('throws exception if sampler not found', function() {
-            var test = {
-                name: 'header-color',
-                variants: ['orange', 'yellow'],
-                sampler: 'nonExistentSamplerIJustMadeUp',
-                scope: 'memory'
-            };
-
-            assert.throws(function() {
-                ably.addTest(test);
-            });
-        });
-
-        it('works if no sampler provided', function(done) {
-            var assignment,
-                test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
+                    sampler: ably.samplers.default(['orange', 'yellow']),
                     scope: 'memory'
                 };
 
@@ -236,7 +189,9 @@ describe('Ably', function() {
         it('throws exception if scope not found', function() {
             var test = {
                 name: 'header-color',
-                variants: ['orange', 'yellow'],
+                sampler: function() {
+                    return 'orange';
+                },
                 scope: 'yeahLikeThatCouldBeTheNameOfAScope'
             };
 
@@ -248,8 +203,9 @@ describe('Ably', function() {
         it('accepts no scope provided', function() {
             var test = {
                 name: 'header-color',
-                variants: ['orange', 'yellow'],
-                sampler: 'local'
+                sampler: function() {
+                    return 'orange';
+                }
             };
 
             ably.addTest(test);
@@ -271,8 +227,8 @@ describe('Ably', function() {
                         }
                     }
                 },
-                sampler = function(callback) {
-                    callback('orange');
+                sampler = function() {
+                    return 'orange';
                 },
                 scope1 = {
                     save: function(data) {
@@ -292,13 +248,11 @@ describe('Ably', function() {
                 },
                 test1 = {
                     name: 'header-color',
-                    variants: ['orange', 'blue'],
                     sampler: sampler,
                     scope: scope1
                 },
                 test2 = {
                     name: 'header-color',
-                    variants: ['orange', 'blue'],
                     sampler: sampler,
                     scope: scope2
                 },
@@ -360,9 +314,9 @@ describe('Ably', function() {
             var samplerCalls = 0,
                 test = {
                     name: 'button-color',
-                    variants: ['red', 'green'],
                     sampler: function sampler() {
                         samplerCalls++;
+                        return 'red';
                     },
                     scope: 'memory'
                 };
@@ -374,13 +328,13 @@ describe('Ably', function() {
     });
 
     describe('the sampler', function() {
-        it('gets the test object as the second argument', function(done) {
+        it('gets the test object as the argument', function(done) {
             var expectedTest = {
                 name: 'header-color',
-                variants: ['orange', 'yellow'],
-                sampler: function(callback, actualTest) {
+                sampler: function(actualTest) {
                     assert.testsEqual(actualTest, expectedTest);
                     done();
+                    return 'orange';
                 },
                 scope: 'memory'
             };
@@ -393,24 +347,22 @@ describe('Ably', function() {
 
         it('can be used for multiple tests', function(done) {
             var correctAssignments = 0,
-                sampler = function(callback, test) {
+                sampler = function(test) {
                     if (test.name === 'header-color') {
-                        callback('orange');
+                        return 'orange';
                     }
                     if (test.name === 'button-text') {
-                        callback('buy');
+                        return 'buy';
                     }
                 },
                 multipleTests = [
                     {
                         name: 'header-color',
-                        variants: ['orange', 'yellow'],
                         sampler: sampler,
                         scope: 'memory'
                     },
                     {
                         name: 'button-text',
-                        variants: ['buy', 'subscribe'],
                         sampler: sampler,
                         scope: 'memory'
                     }
@@ -439,10 +391,8 @@ describe('Ably', function() {
                 },
                 test = {
                     name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'local',
-                    scope: 'memory',
-                    weights: {orange: 10, yellow: 90}
+                    sampler: ably.samplers.default({orange: 10, yellow: 90}),
+                    scope: 'memory'
                 },
                 markOrange = function() {
                     distributions.orange++;
@@ -473,12 +423,9 @@ describe('Ably', function() {
             samplerCalls,
             test = {
                 name: 'button-color',
-                variants: ['red', 'green'],
-                sampler: function sampler(callback) {
-                    setTimeout(function() {
-                        callback('red');
-                    }, 5);
+                sampler: function sampler() {
                     samplerCalls++;
+                    return 'red';
                 },
                 scope: 'memory'
             };
@@ -675,13 +622,17 @@ describe('Ably', function() {
 
             ably.addTest({
                 name: 'test1',
-                variants: ['blue'],
+                sampler: function() {
+                    return 'blue';
+                },
                 scope: scope
             });
 
             ably.addTest({
                 name: 'test2',
-                variants: ['green'],
+                sampler: function() {
+                    return 'green';
+                },
                 scope: scope
             });
 

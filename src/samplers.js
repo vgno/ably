@@ -1,38 +1,36 @@
 'use strict';
 
 var samplers = {
-    uniform: function uniformSampler(callback, test) {
-        callback(test.variants[Math.floor(Math.random() * test.variants.length)]);
-    },
+    default: function defaultSampler(variants) {
+        return function() {
+            var total = 0,
+                current = 0,
+                random,
+                variant;
 
-    mathRandom: function mathRandomSampler(callback, test) {
-        var total = 0,
-            current = 0,
-            random,
-            variant;
-
-        if (typeof test.weights === 'undefined') {
-            samplers.uniform(callback, test);
-            return;
-        }
-
-        for (variant in test.weights) {
-            if (test.weights.hasOwnProperty(variant)) {
-                total += test.weights[variant];
-            }
-        }
-
-        random = Math.random() * total;
-
-        for (variant in test.weights) {
-            if (test.weights.hasOwnProperty(variant)) {
-                if (random < current + test.weights[variant]) {
-                    callback(variant);
-                    return;
+            if (Array.isArray(variants)) {
+                return variants[Math.floor(Math.random() * variants.length)];
+            } else if (typeof variants === 'object' && variants !== null) {
+                for (variant in variants) {
+                    if (variants.hasOwnProperty(variant)) {
+                        total += variants[variant];
+                    }
                 }
-                current += test.weights[variant];
+
+                random = Math.random() * total;
+
+                for (variant in variants) {
+                    if (variants.hasOwnProperty(variant)) {
+                        if (random < current + variants[variant]) {
+                            return variant;
+                        }
+                        current += variants[variant];
+                    }
+                }
+            } else {
+                throw new Error('variants is expected to be an Array or an object');
             }
-        }
+        };
     }
 };
 

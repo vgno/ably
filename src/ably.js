@@ -1,5 +1,6 @@
 'use strict';
 
+require('./polyfills');
 var Test = require('./test');
 var Subscriber = require('./subscriber');
 var samplers = require('./samplers');
@@ -28,18 +29,14 @@ var Ably = function Ably(namespace) {
 
     function interpretSamplerOptions(options) {
         if (!options.hasOwnProperty('sampler')) {
-            return self.samplers.default;
+            throw new Error('sampler is required');
         }
 
-        if (typeof options.sampler === 'function') {
-            return options.sampler;
+        if (typeof options.sampler !== 'function') {
+            throw new Error('sampler is expected to be a function');
         }
 
-        if (self.samplers.hasOwnProperty(options.sampler)) {
-            return self.samplers[options.sampler];
-        }
-
-        throw new Error('sampler \'' + options.sampler + '\' not found');
+        return options.sampler;
     }
 
     function firstAvailableScope(scopeList) {
@@ -79,10 +76,7 @@ var Ably = function Ably(namespace) {
     this.namespace = namespace;
     this.tests = [];
     this.pendingSubscribers = [];
-    this.samplers = {
-        local: samplers.mathRandom,
-        default: samplers.mathRandom
-    };
+    this.samplers = samplers;
     this.scopes = {
         memory: scopes.objectStorage({}),
         device: scopes.localStorage,
@@ -123,10 +117,8 @@ var Ably = function Ably(namespace) {
     this.addTest = function(options) {
         var test = new Test({
             name: options.name,
-            variants: options.variants,
             sampler: interpretSamplerOptions(options),
             scope: interpretScopeOptions(options),
-            weights: options.weights,
             expositionManager: this.expositionManager
         });
 

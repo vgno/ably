@@ -17,37 +17,18 @@ var Test = function Test(options) {
     }
 
     function requestAssignment() {
-        if (!isPendingAssignment()) {
-            markPendingAssignment();
-            self.sampler(function(assignment) {
-                clearPendingAssignment();
-                setAssignment(assignment);
-                notifySubscribers();
-            }, self);
-        }
+        var assignment = self.sampler(self);
+        setAssignment(assignment);
+        notifySubscribers();
     }
 
     function setAssignment(assignment) {
         self.expositionManager.registerExposition(self.scope, self.name, assignment);
     }
 
-    function isPendingAssignment() {
-        return self.hasOwnProperty('pendingAssignment');
-    }
-
-    function markPendingAssignment() {
-        self.pendingAssignment = true;
-    }
-
-    function clearPendingAssignment() {
-        delete self.pendingAssignment;
-    }
-
     this.name = options.name;
     this.sampler = options.sampler;
     this.scope = options.scope;
-    this.variants = options.variants;
-    this.weights = options.weights;
     this.subscribers = [];
     this.expositionManager = options.expositionManager;
 
