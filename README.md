@@ -2,23 +2,44 @@
 
 [![Build Status](http://img.shields.io/travis/vgno/ably/master.svg?style=flat-square)](https://travis-ci.org/vgno/ably)[![Test Coverage](http://img.shields.io/codeclimate/coverage/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)[![Code Climate](http://img.shields.io/codeclimate/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)
 
-Provides a practical front-end API for defining what test variants look like (under A/B or multivariate testing) in separation from test administration. Link it to your test administration backend or use the included basic front-end sampler to get started.
+Provides a sane model for dealing with A/B tests.
 
-## Usage example
+## Install
 
-### 1. Define your tests
+Using npm:
+
+```bash
+npm install vgno-ably
+```
+
+Using bower:
+
+```bash
+bower install vgno-ably
+```
+
+## Usage
+
+### Defining tests
 
 ```js
-// Add a test
+var Ably = require('vgno-ably');
+
+var ably = new Ably();
+
 ably.addTest({
     name: 'button-color',
-    variants: ['red', 'green']
+    variants: ['red', 'green'],
+    weights: [
+        red: 80,
+        green: 20
+    ],
+    sampler: 'local',
+    scope: 'device'
 });
 ```
 
-### 2. Subscribe to variants
-
-Subscribe to variants using the exposed API.
+### Subsribing to variants
 
 ```js
 ably
