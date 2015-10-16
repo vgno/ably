@@ -53,8 +53,8 @@ describe('Ably', function() {
         assert.equal(typeof ably.getTests, 'function');
     });
 
-    it('has a when method', function() {
-        assert.equal(typeof ably.when, 'function');
+    it('has an on method', function() {
+        assert.equal(typeof ably.on, 'function');
     });
 
     var tests = [
@@ -157,11 +157,11 @@ describe('Ably', function() {
 
             ably.addTest(test);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
                 assignment = 'orange';
             });
 
-            ably.when('header-color', 'yellow', function() {
+            ably.on('header-color', 'yellow', function() {
                 assignment = 'yellow';
             });
 
@@ -182,11 +182,11 @@ describe('Ably', function() {
 
             ably.addTest(test);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
                 assignment = 'orange';
             });
 
-            ably.when('header-color', 'yellow', function() {
+            ably.on('header-color', 'yellow', function() {
                 assignment = 'yellow';
             });
 
@@ -219,11 +219,11 @@ describe('Ably', function() {
 
             ably.addTest(test);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
                 assignment = 'orange';
             });
 
-            ably.when('header-color', 'yellow', function() {
+            ably.on('header-color', 'yellow', function() {
                 assignment = 'yellow';
             });
 
@@ -305,12 +305,12 @@ describe('Ably', function() {
                 assignment1;
 
             ably1.addTest(test1);
-            ably1.when('header-color', 'blue', function() {
+            ably1.on('header-color', 'blue', function() {
                 assignment1 = 'blue';
             });
 
             ably2.addTest(test2);
-            ably2.when('header-color', 'orange', function() {
+            ably2.on('header-color', 'orange', function() {
             });
 
             setTimeout(function() {
@@ -387,7 +387,7 @@ describe('Ably', function() {
 
             ably.addTest(expectedTest);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
             });
         });
 
@@ -418,11 +418,11 @@ describe('Ably', function() {
 
             ably.addTests(multipleTests);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
                 correctAssignments++;
             });
 
-            ably.when('button-text', 'buy', function() {
+            ably.on('button-text', 'buy', function() {
                 correctAssignments++;
             });
 
@@ -454,8 +454,8 @@ describe('Ably', function() {
             for (var i = 0; i < 1000; i++) {
                 test.name = 'header-color' + i;
                 ably.addTest(test);
-                ably.when('header-color' + i, 'orange', markOrange);
-                ably.when('header-color' + i, 'yellow', markYellow);
+                ably.on('header-color' + i, 'orange', markOrange);
+                ably.on('header-color' + i, 'yellow', markYellow);
             }
 
             setTimeout(function() {
@@ -468,7 +468,7 @@ describe('Ably', function() {
         });
     });
 
-    describe('.when()', function() {
+    describe('.on()', function() {
         var callbacksCalled,
             samplerCalls,
             test = {
@@ -491,7 +491,7 @@ describe('Ably', function() {
         it('passes test into callback', function(done) {
             ably
                 .addTest(test)
-                .when('button-color', 'red', function callback(passedTest) {
+                .on('button-color', 'red', function callback(passedTest) {
                     assert.testsEqual(passedTest, test);
                     done();
                 });
@@ -499,19 +499,19 @@ describe('Ably', function() {
 
         it('can subscribe before adding test', function(done) {
             ably
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(1);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(2);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(3);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(4);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(5);
                 })
                 .addTest(test);
@@ -526,37 +526,37 @@ describe('Ably', function() {
         it('can subscribe after adding test', function(done) {
             ably
                 .addTest(test)
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(6);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(7);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(8);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(9);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(10);
                 });
 
             setTimeout(function() {
                 ably
-                    .when('button-color', 'green', function callback() {
+                    .on('button-color', 'green', function callback() {
                         callbacksCalled.push(11);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(12);
                     })
-                    .when('label-text', 'red', function callback() {
+                    .on('label-text', 'red', function callback() {
                         callbacksCalled.push(13);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(14);
                     })
-                    .when('label-text', 'green', function callback() {
+                    .on('label-text', 'green', function callback() {
                         callbacksCalled.push(15);
                     });
             }, 10);
@@ -570,53 +570,53 @@ describe('Ably', function() {
 
         it('can subscribe both before and after adding test', function(done) {
             ably
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(1);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(2);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(3);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(4);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(5);
                 })
                 .addTest(test)
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(6);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(7);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(8);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(9);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(10);
                 });
 
             setTimeout(function() {
                 ably
-                    .when('button-color', 'green', function callback() {
+                    .on('button-color', 'green', function callback() {
                         callbacksCalled.push(11);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(12);
                     })
-                    .when('label-text', 'red', function callback() {
+                    .on('label-text', 'red', function callback() {
                         callbacksCalled.push(13);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(14);
                     })
-                    .when('label-text', 'green', function callback() {
+                    .on('label-text', 'green', function callback() {
                         callbacksCalled.push(15);
                     });
             }, 10);
@@ -631,7 +631,7 @@ describe('Ably', function() {
         it('can subscribe to all variants', function(done) {
             ably
                 .addTest(test)
-                .when('button-color', function callback(passedTest) {
+                .on('button-color', function callback(passedTest) {
                     assert.testsEqual(passedTest, test);
                     done();
                 });

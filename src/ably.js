@@ -91,7 +91,7 @@ var Ably = function Ably(namespace) {
     this.expositionManager = new ExpositionManager(this.namespace);
 
     // Privileged methods
-    this.when = function(testName, variant, callback) {
+    this.on = function(testName, variant, callback) {
         var subscriberOptions = {
             test: testName
         };

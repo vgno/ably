@@ -109,7 +109,7 @@ Supply an object that matches the following prototype:
 
 ## Subscribing to tests
 
-### `ably.when(test, variant, callback)`
+### `ably.on(test, variant, callback)`
 
 Subscribe to a variant of a test.
 

@@ -23,13 +23,13 @@ Subscribe to variants using the exposed API.
 ```js
 ably
     // Subscribe to test 'thank-you-action' variant 'alert'
-    .when('thank-you-action', 'alert', function () {
+    .on('thank-you-action', 'alert', function () {
         $('buy-button').on('click', function() {
             alert('Thank you!');
         });
     })
     // Subscribe to test 'thank-you-action' variant 'redirect'
-    .when('thank-you-action', 'redirect', function () {
+    .on('thank-you-action', 'redirect', function () {
         $('buy-button').on('click', function() {
             location.href = '/thank-you-page.html';
         });
