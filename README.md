@@ -49,14 +49,14 @@ ably
     });
 ```
 
-## Architecture
+## Model
 
 Ably contains a collection of *experiments*.
 
-Each *experiment* has three properties:
- * a *name* to refer to the experiment
+An *experiment* has:
+ * a *name*
  * a *sampler* which assigns users to variants
- * a *scope* which saves the variant
+ * a *scope* which persists information about the experiment
 
 ## API Reference
 
