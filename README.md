@@ -9,13 +9,13 @@ Provides a sane model for dealing with A/B tests.
 Using npm:
 
 ```bash
-npm install vgno-ably
+npm install vgno-ably --save
 ```
 
 Using bower:
 
 ```bash
-bower install vgno-ably
+bower install vgno-ably --save
 ```
 
 ## Usage
