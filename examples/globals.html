@@ -7,16 +7,17 @@
   </head>
   <body>
     <script type="text/javascript">
-        window.ably = new Ably();
+        var ably = new Ably();
+        window.ably = ably;
         ably.addTests([
             {
                 name: 'button-color',
-                variants: ['red', 'green'],
+                sampler: ably.samplers.default(['red', 'green']),
                 scope: 'memory'
             },
             {
                 name: 'button-text',
-                variants: ['buy', 'subscribe'],
+                sampler: ably.samplers.default(['buy', 'subscribe']),
                 scope: 'device'
             }
         ]);
@@ -33,19 +34,19 @@
 
             var button = document.getElementById('buy-button');
 
-            ably.when('button-color', 'red', function() {
+            ably.on('button-color', 'red', function() {
                 button.style.backgroundColor = '#ff0000';
             });
 
-            ably.when('button-color', 'green', function() {
+            ably.on('button-color', 'green', function() {
                 button.style.backgroundColor = '#00ff00';
             });
 
-            ably.when('button-text', 'buy', function() {
+            ably.on('button-text', 'buy', function() {
                 button.innerHTML = 'Buy Now!';
             });
 
-            ably.when('button-text', 'subscribe', function() {
+            ably.on('button-text', 'subscribe', function() {
                 button.innerHTML = 'Subscribe!';
             });
         });
