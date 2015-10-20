@@ -9,6 +9,7 @@
     "name": "Wadim Grasza",
     "email": "wadim.grasza@gmail.com"
   },
+  "main": "dist/ably.min.js",
   "scripts": {
     "build-js": "webpack -p",
     "test-browser": "webpack-dev-server",
