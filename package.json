@@ -1,6 +1,6 @@
 {
   "name": "vgno-ably",
-  "description": "Provides a framework to perform A/B tests in the browser",
+  "description": "Provides a sane model for dealing with A/B tests",
   "keywords": [
     "A/B test",
     "experiment"
