@@ -37,6 +37,8 @@ ably.addTest({
 });
 ```
 
+The code above will create a test named `button-color`, sample 80% of people to the `red` variant and 20% to the `green` one and persist information about the experiment on the device - so that the user will get always the same variant on this device.
+
 ### Subscribing to variants
 
 ```js
@@ -46,6 +48,15 @@ ably
     })
     .on('button-color', 'green', function () {
         $('#buy-button').css('background-color', 'green');
+    });
+```
+
+Subscribe to all variants of a test:
+
+```js
+ably
+    .on('button-color', function (test) {
+        $('#buy-button').css('background-color', test.getAssignment());
     });
 ```
 
