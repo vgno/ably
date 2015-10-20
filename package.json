@@ -10,19 +10,22 @@
     "email": "wadim.grasza@gmail.com"
   },
   "scripts": {
-    "build-js": "browserify globals.js | uglifyjs -mc > dist/ably.min.js",
+    "build-js": "webpack -p",
+    "test-browser": "webpack-dev-server",
     "coverage": "istanbul cover _mocha -- -R spec",
-    "lint": "jshint .",
-    "cs": " jscs .",
+    "lint": "eslint .",
     "test": "mocha",
-    "pretest": "npm run lint && npm run cs"
+    "pretest": "npm run lint"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/vgno/ably.git"
   },
-  "version": "1.2.0",
+  "version": "2.0.0-alpha.pre",
   "devDependencies": {
-    "uglifyjs": "^2.4.10"
+    "eslint": "^1.5.1",
+    "vgno-coding-standards": "^3.0.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.0"
   }
 }

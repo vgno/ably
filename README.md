@@ -2,91 +2,76 @@
 
 [![Build Status](http://img.shields.io/travis/vgno/ably/master.svg?style=flat-square)](https://travis-ci.org/vgno/ably)[![Test Coverage](http://img.shields.io/codeclimate/coverage/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)[![Code Climate](http://img.shields.io/codeclimate/github/vgno/ably.svg?style=flat-square)](https://codeclimate.com/github/vgno/ably)
 
-Provides a practical front-end API for defining what test variants look like (under A/B or multivariate testing) in separation from test administration. Link it to your test administration backend or use the included basic front-end sampler to get started.
+Provides a sane model for dealing with A/B tests.
 
-## Usage example
+## Install
 
-### 1. Define your tests
+Using npm:
+
+```bash
+npm install vgno-ably --save
+```
+
+Using bower:
+
+```bash
+bower install vgno-ably --save
+```
+
+## Usage
+
+### Defining tests
 
 ```js
-// Add a test
+var Ably = require('vgno-ably');
+
+var ably = new Ably();
+
 ably.addTest({
     name: 'button-color',
-    variants: ['red', 'green']
+    sampler: ably.samplers.default({
+        red: 80,
+        green: 20
+    }),
+    scope: 'device'
 });
 ```
 
-### 2. Subscribe to variants
+The code above will create a test named `button-color`, sample 80% of people to the `red` variant and 20% to the `green` one and persist information about the experiment on the device - so that the user will get always the same variant on this device.
 
-Subscribe to variants using one of the exposed APIs.
-
-## APIs
-
-Ably exposes three APIs: JS, HTML and CSS.
-
-![Ably interface](docs/ably-interface.png)
-
-### JS API
-
-Use it to alternate **behaviour**.
+### Subscribing to variants
 
 ```js
 ably
-    // Subscribe to test 'thank-you-action' variant 'alert'
-    .when('thank-you-action', 'alert', function () {
-        $('buy-button').on('click', function() {
-            alert('Thank you!');
-        });
+    .on('button-color', 'red', function () {
+        $('#buy-button').css('background-color', 'red');
     })
-    // Subscribe to test 'thank-you-action' variant 'redirect'
-    .when('thank-you-action', 'redirect', function () {
-        $('buy-button').on('click', function() {
-            location.href = '/thank-you-page.html';
-        });
+    .on('button-color', 'green', function () {
+        $('#buy-button').css('background-color', 'green');
     });
 ```
 
-### HTML API (not implemented yet)
+Subscribe to all variants of a test:
 
-Use it to alternate **content**.
-
-```html
-  <!-- Test 'button-text' variant 'buy' -->
-  <button class="ably-button-text-buy">
-    Buy Now!
-  </button>
-
-  <!-- Test 'button-text' variant 'buy' -->
-  <button class="ably-button-text-subscribe">
-    Subscribe!
-  </button>
+```js
+ably
+    .on('button-color', function (test) {
+        $('#buy-button').css('background-color', test.getAssignment());
+    });
 ```
 
-Ably will only show the selected variant.
+## Model
 
-### CSS API (not implemented yet)
+Ably contains a collection of *experiments*.
 
-Use it to alternate **styling**.
-
-```css
-/* Test 'button-color' variant 'red' */
-body.ably-button-color-red #buy-now-button
-    background-color: red;
-}
-
-/* Test 'button-color' variant 'green' */
-body.ably-button-color-green #buy-now-button
-    backgrond-color: green;
-}
-```
+An *experiment* has:
+ * a *name*
+ * a *sampler* which assigns users to variants
+ * a *scope* which persists information about the experiment
 
 ## API Reference
 
-Read more about all supported options in the [API Reference](docs/api.md).
-
-## Architecture
-
-Read more about the architecture in [Architecture](docs/architecture.md).
+Read more about all supported options in the [Documentation](docs/index.md).
 
 ## Browser tests
 

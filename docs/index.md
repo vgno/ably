@@ -11,7 +11,7 @@ Define a test.
 | `options.name`       | `string`               | Yes                          | Name of the test. It has to be unique.
 | `options.variants`   | `array(string)`        | Yes                          | Possible variants (A, B, C).
 | `options.sampler`    | `string` or `function` | No (default: `'local'`) | A sampler assigns test subjects to groups (`'local'` or a custom function, see the *Samplers* section below).
-| `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'pageview'` or a custom object, see the *Scopes* section below).
+| `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'memory'` or a custom object, see the *Scopes* section below).
 | `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for samplers that support them. (The `local` sampler supports weights.) If this parameter is omitted, equal weights are assumed.
 
 ### Samplers
@@ -59,13 +59,13 @@ A scope marks the boundary of where the experiment begins and where it ends.
 
 #### Predefined scopes
 
-##### The `pageview` scope
+##### The `memory` scope
 
-The experiment lives as long as the page is not reloaded (in practice: as long as JavaScript objects live). Users will be reassigned to a new group upon a page reload and will get a new group in other browser windows.
+The experiment lives as long as the temporary in-memory storage is alive. For instance, in browsers users will be reassigned to a new group upon a page reload and will get a new group in other browser windows.
 
 ##### The `device` scope
 
-The experiment lives within the scope of a device (in practice: as long as the web storage on a device lives). Users will retain their group through page reloads and multiple windows but will get a new group on a different device, if they use private mode or when they clear browser data.
+The experiment lives within the scope of a device. In browsers, users will retain their group through page reloads and multiple windows but will get a new group on a different device, if they use private mode or when they clear browser data.
 
 #### Use your own scope
 
@@ -74,31 +74,28 @@ Supply an object that matches the following prototype:
 ```js
 {
     /**
-     * Check if the user is assigned to a group within a test
-     * @param   {string} key Test name
-     * @returns {boolean} True if the user is already assigned to a group within the test, false otherwise
+     * Save data in the scope
+     * @param   {*} data Data to save in the scope
      */
-    hasItem: function(key) {},
+    save: function(data) {},
 
     /**
-     * Get the group the user is assigned to within a test
-     * @param   {string} key Test name
-     * @returns {string} Name of the group the user is assigned to within the test
+     * Load data from the scope
+     * @returns {*} Data loaded from the scope
      */
-    getItem: function(key) {},
+    load: function() {},
 
     /**
-     * Set the group the user is assigned to within a test
-     * @param {string} key Test name
-     * @param {string} value Name of the group the user is assigned to within the test
+     * Is scope supported
+     * @returns {boolean} True if scope is supported, false otherwise
      */
-    setItem: function(key, value) {}
+    isSupported: function() {},
 }
 ```
 
 ## Subscribing to tests
 
-### `ably.when(test, variant, callback)`
+### `ably.on(test, variant, callback)`
 
 Subscribe to a variant of a test.
 

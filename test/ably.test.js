@@ -1,19 +1,15 @@
-var assert = require('assert');
-var Ably = require('../ably.js'),
-    ably;
+'use strict';
 
-assert.testsEqual = function deepDeepEqual(actual, expected) {
-    'use strict';
+var assert = require('assert');
+var Ably = require('../src/ably');
+
+var ably;
+
+assert.testsEqual = function testsEqual(actual, expected) {
     assert.equal(actual.name, expected.name);
-    assert.equal(actual.variants, expected.variants);
-    if (typeof expected.sampler === 'string') {
-        expected.sampler = ably.samplers[expected.sampler];
-    }
-    assert.equal(actual.sampler, expected.sampler);
 };
 
-assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
-    'use strict';
+assert.deepTestsEqual = function deepTestsEqual(actual, expected) {
     assert.equal(actual.length, expected.length);
     for (var i = 0; i < actual.length; i++) {
         assert.testsEqual(actual, expected);
@@ -21,14 +17,19 @@ assert.deepTestsEqual = function deepDeepEqual(actual, expected) {
 };
 
 describe('Ably', function() {
-    'use strict';
-
     beforeEach(function() {
         ably = new Ably();
     });
 
     it('is an object', function() {
         assert.equal(typeof ably, 'object');
+    });
+
+    it('accepts namespace', function() {
+        var namespace = 'just a test namespace in order to test namespaces';
+        ably = new Ably(namespace);
+
+        assert.equal(ably.namespace, namespace);
     });
 
     it('has an addTest method', function() {
@@ -47,41 +48,36 @@ describe('Ably', function() {
         assert.equal(typeof ably.getTests, 'function');
     });
 
-    it('has a when method', function() {
-        assert.equal(typeof ably.when, 'function');
+    it('has an on method', function() {
+        assert.equal(typeof ably.on, 'function');
     });
 
     var tests = [
         {
             name: 'button-color',
-            variants: ['red', 'green'],
-            sampler: function sampler(callback) {
-                callback('red');
+            sampler: function() {
+                return 'red';
             },
-            scope: 'pageview'
+            scope: 'memory'
         },
         {
             name: 'button-text',
-            variants: ['buy', 'subscribe'],
-            sampler: function sampler(callback) {
-                callback('buy');
+            sampler: function() {
+                return 'buy';
             },
-            scope: 'pageview'
+            scope: 'memory'
         },
         {
             name: 'button-size',
-            variants: ['large', 'small'],
-            sampler: function sampler(callback) {
-                callback('large');
+            sampler: function() {
+                return 'large';
             },
-            scope: 'pageview'
+            scope: 'memory'
         }
     ];
 
     describe('.getTest(name)', function() {
-
         it('retrieves test named \'name\'', function() {
-
             ably.addTest(tests[0]);
             ably.addTest(tests[1]);
             ably.addTest(tests[2]);
@@ -90,7 +86,6 @@ describe('Ably', function() {
         });
 
         it('throws exception if test not found', function() {
-
             ably.addTest(tests[0]);
             ably.addTest(tests[2]);
 
@@ -102,7 +97,6 @@ describe('Ably', function() {
 
     describe('.addTest()', function() {
         it('adds tests', function() {
-
             ably.addTest(tests[0]);
             ably.addTest(tests[1]);
             ably.addTest(tests[2]);
@@ -111,7 +105,6 @@ describe('Ably', function() {
         });
 
         it('can be chained', function() {
-
             ably
                 .addTest(tests[0])
                 .addTest(tests[1])
@@ -121,7 +114,6 @@ describe('Ably', function() {
         });
 
         it('creates a deep copy', function() {
-
             ably.addTest(tests[0]);
 
             var returnedTests = ably.getTests();
@@ -131,15 +123,14 @@ describe('Ably', function() {
         });
 
         it('does not call the sampler if no subscribers', function() {
-
             var samplerCalls = 0,
                 test = {
                     name: 'button-color',
-                    variants: ['red', 'green'],
-                    sampler: function sampler() {
+                    sampler: function() {
                         samplerCalls++;
+                        return ably.samplers.default(['red', 'green']);
                     },
-                    scope: 'pageview'
+                    scope: 'memory'
                 };
 
             ably.addTest(test);
@@ -148,22 +139,20 @@ describe('Ably', function() {
         });
 
         it('adds a test with the default sampler', function(done) {
-
             var assignment,
                 test = {
                     name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'default',
-                    scope: 'pageview'
+                    sampler: ably.samplers.default(['orange', 'yellow']),
+                    scope: 'memory'
                 };
 
             ably.addTest(test);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
                 assignment = 'orange';
             });
 
-            ably.when('header-color', 'yellow', function() {
+            ably.on('header-color', 'yellow', function() {
                 assignment = 'yellow';
             });
 
@@ -174,61 +163,20 @@ describe('Ably', function() {
         });
 
         it('adds a test with the local sampler', function(done) {
-
             var assignment,
                 test = {
                     name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'local',
-                    scope: 'pageview'
+                    sampler: ably.samplers.default(['orange', 'yellow']),
+                    scope: 'memory'
                 };
 
             ably.addTest(test);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
                 assignment = 'orange';
             });
 
-            ably.when('header-color', 'yellow', function() {
-                assignment = 'yellow';
-            });
-
-            setTimeout(function() {
-                assert.equal(assignment === 'orange' || assignment === 'yellow', true);
-                done();
-            }, 10);
-        });
-
-        it('throws exception if sampler not found', function() {
-
-            var test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'nonExistentSamplerIJustMadeUp',
-                    scope: 'pageview'
-                };
-
-            assert.throws(function() {
-                ably.addTest(test);
-            });
-        });
-
-        it('works if no sampler provided', function(done) {
-
-            var assignment,
-                test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    scope: 'pageview'
-                };
-
-            ably.addTest(test);
-
-            ably.when('header-color', 'orange', function() {
-                assignment = 'orange';
-            });
-
-            ably.when('header-color', 'yellow', function() {
+            ably.on('header-color', 'yellow', function() {
                 assignment = 'yellow';
             });
 
@@ -239,93 +187,111 @@ describe('Ably', function() {
         });
 
         it('throws exception if scope not found', function() {
-
             var test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    scope: 'yeahLikeThatCouldBeTheNameOfAScope'
-                };
+                name: 'header-color',
+                sampler: function() {
+                    return 'orange';
+                },
+                scope: 'yeahLikeThatCouldBeTheNameOfAScope'
+            };
 
             assert.throws(function() {
                 ably.addTest(test);
             });
         });
 
-        it('uses scope to get and set assignment', function(done) {
-
-            var ably1 = new Ably(),
-                ably2 = new Ably(),
-                realScopeStorage = {},
-                makeupScopeStorage = {
-                    'header-color': 'blue'
-                },
-                sampler = function (callback) {
-                    callback('orange');
-                },
-                scope = {
-                    hasItem: function(key) {
-                        return realScopeStorage.hasOwnProperty(key);
-                    },
-                    getItem: function(key) {
-                        return makeupScopeStorage[key];
-                    },
-                    setItem: function(key, value) {
-                        realScopeStorage[key] = value;
-                    }
-                },
-                test1 = {
-                    name: 'header-color',
-                    variants: ['orange', 'blue'],
-                    sampler: sampler,
-                    scope: scope
-                },
-                test2 = {
-                    name: 'header-color',
-                    variants: ['orange', 'blue'],
-                    sampler: sampler,
-                    scope: scope
-                },
-                assignment2;
-
-            ably1.addTest(test1);
-            ably1.when('header-color', 'orange', function() {
-            });
-
-            ably2.addTest(test2);
-            ably2.when('header-color', 'blue', function() {
-                assignment2 = 'blue';
-            });
-
-            setTimeout(function() {
-                assert.equal(realScopeStorage['header-color'], 'orange');
-                assert.equal(assignment2, 'blue');
-                done();
-            }, 10);
-        });
-
         it('accepts no scope provided', function() {
-
             var test = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'local'
-                };
+                name: 'header-color',
+                sampler: function() {
+                    return 'orange';
+                }
+            };
 
             ably.addTest(test);
         });
     });
 
+    describe('scope', function() {
+        it('is used to get and set assignment', function(done) {
+            var ably1 = new Ably(),
+                ably2 = new Ably(),
+                realScopeStorage = {},
+                makeupScopeStorage = {
+                    namespaces: {
+                        default: {
+                            'header-color': {
+                                variant: 'blue',
+                                date: new Date()
+                            }
+                        }
+                    }
+                },
+                sampler = function() {
+                    return 'orange';
+                },
+                scope1 = {
+                    save: function(data) {
+                        makeupScopeStorage = data;
+                    },
+                    load: function() {
+                        return makeupScopeStorage;
+                    }
+                },
+                scope2 = {
+                    save: function(data) {
+                        realScopeStorage = data;
+                    },
+                    load: function() {
+                        return realScopeStorage;
+                    }
+                },
+                test1 = {
+                    name: 'header-color',
+                    sampler: sampler,
+                    scope: scope1
+                },
+                test2 = {
+                    name: 'header-color',
+                    sampler: sampler,
+                    scope: scope2
+                },
+                assignment1;
+
+            ably1.addTest(test1);
+            ably1.on('header-color', 'blue', function() {
+                assignment1 = 'blue';
+            });
+
+            ably2.addTest(test2);
+            ably2.on('header-color', 'orange', function() {
+            });
+
+            setTimeout(function() {
+                assert.equal(realScopeStorage.namespaces.default['header-color'].variant, 'orange');
+                assert.equal(assignment1, 'blue');
+                done();
+            }, 10);
+        });
+
+        // it('old, inactive entries are garbage-collected', function(done) {
+        // });
+
+        // it('entries are stored under a single key', function(done) {
+        // });
+
+        // it('it is possible to select namespace', function(done) {
+        // });
+    });
+
     describe('.addTests()', function() {
-
         it('adds tests', function() {
-
             ably.addTests(tests);
 
             assert.deepTestsEqual(ably.getTests(), tests);
         });
 
         it('can be chained', function() {
-
             ably
                 .addTests([tests[0], tests[1]])
                 .addTests([tests[2]]);
@@ -336,7 +302,6 @@ describe('Ably', function() {
         });
 
         it('creates deep copies', function() {
-
             ably.addTests(tests);
 
             var returnedTests = ably.getTests();
@@ -346,15 +311,14 @@ describe('Ably', function() {
         });
 
         it('does not call the sampler if no subscribers', function() {
-
             var samplerCalls = 0,
                 test = {
                     name: 'button-color',
-                    variants: ['red', 'green'],
                     sampler: function sampler() {
                         samplerCalls++;
+                        return 'red';
                     },
-                    scope: 'pageview'
+                    scope: 'memory'
                 };
 
             ably.addTests([test]);
@@ -364,62 +328,53 @@ describe('Ably', function() {
     });
 
     describe('the sampler', function() {
-        it('gets the test object as the second argument', function(done) {
-            var assignment,
-                expectedTest = {
-                    name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: function(callback, actualTest) {
-                        assert.testsEqual(actualTest, expectedTest);
-                        done();
-                    },
-                    scope: 'pageview'
-                };
+        it('gets the test object as the argument', function(done) {
+            var expectedTest = {
+                name: 'header-color',
+                sampler: function(actualTest) {
+                    assert.testsEqual(actualTest, expectedTest);
+                    done();
+                    return 'orange';
+                },
+                scope: 'memory'
+            };
 
             ably.addTest(expectedTest);
 
-            ably.when('header-color', 'orange', function() {
-                assignment = 'orange';
-            });
-
-            ably.when('header-color', 'yellow', function() {
-                assignment = 'yellow';
+            ably.on('header-color', 'orange', function() {
             });
         });
 
         it('can be used for multiple tests', function(done) {
-
             var correctAssignments = 0,
-                sampler = function(callback, test) {
-                        if (test.name === 'header-color') {
-                            callback('orange');
-                        }
-                        if (test.name === 'button-text') {
-                            callback('buy');
-                        }
-                    },
-                    tests = [
+                sampler = function(test) {
+                    if (test.name === 'header-color') {
+                        return 'orange';
+                    }
+                    if (test.name === 'button-text') {
+                        return 'buy';
+                    }
+                },
+                multipleTests = [
                     {
                         name: 'header-color',
-                        variants: ['orange', 'yellow'],
                         sampler: sampler,
-                        scope: 'pageview'
+                        scope: 'memory'
                     },
                     {
                         name: 'button-text',
-                        variants: ['buy', 'subscribe'],
                         sampler: sampler,
-                        scope: 'pageview'
+                        scope: 'memory'
                     }
-                    ];
+                ];
 
-            ably.addTests(tests);
+            ably.addTests(multipleTests);
 
-            ably.when('header-color', 'orange', function() {
+            ably.on('header-color', 'orange', function() {
                 correctAssignments++;
             });
 
-            ably.when('button-text', 'buy', function() {
+            ably.on('button-text', 'buy', function() {
                 correctAssignments++;
             });
 
@@ -430,17 +385,14 @@ describe('Ably', function() {
         });
 
         it('has uniform distribution', function(done) {
-
             var distributions = {
                     orange: 0,
                     yellow: 0
                 },
                 test = {
                     name: 'header-color',
-                    variants: ['orange', 'yellow'],
-                    sampler: 'local',
-                    scope: 'pageview',
-                    weights: {orange: 10, yellow: 90}
+                    sampler: ably.samplers.default({orange: 10, yellow: 90}),
+                    scope: 'memory'
                 },
                 markOrange = function() {
                     distributions.orange++;
@@ -452,8 +404,8 @@ describe('Ably', function() {
             for (var i = 0; i < 1000; i++) {
                 test.name = 'header-color' + i;
                 ably.addTest(test);
-                ably.when('header-color' + i, 'orange', markOrange);
-                ably.when('header-color' + i, 'yellow', markYellow);
+                ably.on('header-color' + i, 'orange', markOrange);
+                ably.on('header-color' + i, 'yellow', markYellow);
             }
 
             setTimeout(function() {
@@ -466,20 +418,16 @@ describe('Ably', function() {
         });
     });
 
-    describe('.when()', function() {
-
+    describe('.on()', function() {
         var callbacksCalled,
             samplerCalls,
             test = {
                 name: 'button-color',
-                variants: ['red', 'green'],
-                sampler: function sampler(callback) {
-                    setTimeout(function () {
-                        callback('red');
-                    }, 5);
+                sampler: function sampler() {
                     samplerCalls++;
+                    return 'red';
                 },
-                scope: 'pageview'
+                scope: 'memory'
             };
 
         beforeEach(function() {
@@ -490,7 +438,7 @@ describe('Ably', function() {
         it('passes test into callback', function(done) {
             ably
                 .addTest(test)
-                .when('button-color', 'red', function callback(passedTest) {
+                .on('button-color', 'red', function callback(passedTest) {
                     assert.testsEqual(passedTest, test);
                     done();
                 });
@@ -498,19 +446,19 @@ describe('Ably', function() {
 
         it('can subscribe before adding test', function(done) {
             ably
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(1);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(2);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(3);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(4);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(5);
                 })
                 .addTest(test);
@@ -525,37 +473,37 @@ describe('Ably', function() {
         it('can subscribe after adding test', function(done) {
             ably
                 .addTest(test)
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(6);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(7);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(8);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(9);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(10);
                 });
 
             setTimeout(function() {
                 ably
-                    .when('button-color', 'green', function callback() {
+                    .on('button-color', 'green', function callback() {
                         callbacksCalled.push(11);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(12);
                     })
-                    .when('label-text', 'red', function callback() {
+                    .on('label-text', 'red', function callback() {
                         callbacksCalled.push(13);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(14);
                     })
-                    .when('label-text', 'green', function callback() {
+                    .on('label-text', 'green', function callback() {
                         callbacksCalled.push(15);
                     });
             }, 10);
@@ -568,55 +516,54 @@ describe('Ably', function() {
         });
 
         it('can subscribe both before and after adding test', function(done) {
-
             ably
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(1);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(2);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(3);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(4);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(5);
                 })
                 .addTest(test)
-                .when('button-color', 'green', function callback() {
+                .on('button-color', 'green', function callback() {
                     callbacksCalled.push(6);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(7);
                 })
-                .when('label-text', 'red', function callback() {
+                .on('label-text', 'red', function callback() {
                     callbacksCalled.push(8);
                 })
-                .when('button-color', 'red', function callback() {
+                .on('button-color', 'red', function callback() {
                     callbacksCalled.push(9);
                 })
-                .when('label-text', 'green', function callback() {
+                .on('label-text', 'green', function callback() {
                     callbacksCalled.push(10);
                 });
 
             setTimeout(function() {
                 ably
-                    .when('button-color', 'green', function callback() {
+                    .on('button-color', 'green', function callback() {
                         callbacksCalled.push(11);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(12);
                     })
-                    .when('label-text', 'red', function callback() {
+                    .on('label-text', 'red', function callback() {
                         callbacksCalled.push(13);
                     })
-                    .when('button-color', 'red', function callback() {
+                    .on('button-color', 'red', function callback() {
                         callbacksCalled.push(14);
                     })
-                    .when('label-text', 'green', function callback() {
+                    .on('label-text', 'green', function callback() {
                         callbacksCalled.push(15);
                     });
             }, 10);
@@ -629,10 +576,9 @@ describe('Ably', function() {
         });
 
         it('can subscribe to all variants', function(done) {
-
             ably
                 .addTest(test)
-                .when('button-color', function callback(passedTest) {
+                .on('button-color', function callback(passedTest) {
                     assert.testsEqual(passedTest, test);
                     done();
                 });
@@ -640,5 +586,68 @@ describe('Ably', function() {
 
         // if the subscriber is not defined or null or not a function
         // cannot add test twice
+    });
+
+    describe('.purgeOldExpositions()', function() {
+        it('purges only old expositions', function() {
+            var today = new Date(),
+                yesterday = (function(d) {
+                    d.setDate(d.getDate() - 1); return d;
+                }(new Date(today.valueOf()))),
+                dayBeforeYesterday = (function(d) {
+                    d.setDate(d.getDate() - 1); return d;
+                }(new Date(yesterday.valueOf()))),
+                scopeStorage = {
+                    namespaces: {
+                        default: {
+                            test1: {
+                                variant: 'blue',
+                                date: dayBeforeYesterday
+                            },
+                            test2: {
+                                variant: 'green',
+                                date: today
+                            }
+                        }
+                    }
+                },
+                scope = {
+                    save: function(data) {
+                        scopeStorage = data;
+                    },
+                    load: function() {
+                        return scopeStorage;
+                    }
+                };
+
+            ably.addTest({
+                name: 'test1',
+                sampler: function() {
+                    return 'blue';
+                },
+                scope: scope
+            });
+
+            ably.addTest({
+                name: 'test2',
+                sampler: function() {
+                    return 'green';
+                },
+                scope: scope
+            });
+
+            ably.purgeOldExpositions(yesterday);
+
+            assert.deepEqual(scopeStorage, {
+                namespaces: {
+                    default: {
+                        test2: {
+                            variant: 'green',
+                            date: today
+                        }
+                    }
+                }
+            });
+        });
     });
 });
