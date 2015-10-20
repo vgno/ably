@@ -6,7 +6,7 @@
   "authors": [
     "Wadim Grasza <wadim.grasza@gmail.com>"
   ],
-  "description": "Your frontend test subscriber (under A/B or multivariate testing)",
+  "description": "Provides a sane model for dealing with A/B tests",
   "moduleType": [
     "amd",
     "globals",
