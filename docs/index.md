@@ -9,10 +9,8 @@ Define a test.
 | Parameter            | Type                   | Required                     | Description
 | -------------------- | :--------------------- | ---------------------------- | :--------------------------------------
 | `options.name`       | `string`               | Yes                          | Name of the test. It has to be unique.
-| `options.variants`   | `array(string)`        | Yes                          | Possible variants (A, B, C).
-| `options.sampler`    | `string` or `function` | No (default: `'local'`) | A sampler assigns test subjects to groups (`'local'` or a custom function, see the *Samplers* section below).
+| `options.sampler`    | `function`             | Yes                          | A sampler assigns test subjects to groups (`ably.samplers.default` supplied with an array of variants will generate a sampler, see the *Samplers* section below).
 | `options.scope`      | `string` or `object`   | No (default: `'device'`)     | A scope marks the boundary of where the experiment begins and where it ends (`'device'`, `'memory'` or a custom object, see the *Scopes* section below).
-| `options.weights`    | `object(number)`       | No (default: equal weights)  | Map of weights of each variant. A weight is a number. Weights are only used for samplers that support them. (The `local` sampler supports weights.) If this parameter is omitted, equal weights are assumed.
 
 ### Samplers
 
@@ -20,9 +18,27 @@ A sampler assigns test subjects to groups.
 
 #### Predefined samplers
 
-##### The `local` sampler
+##### `ably.samplers.default`
 
-A type of sampler that assigns users to groups locally. In JavaScript it is done using the JavaScript `Math.random()` routine as the seed. If the `weights` option is provided, the sampler will assign to groups with probabilities proportinate to the weights. Otherwise the sampler will assign to groups with roughly equal probabilities. The sampler in JavaScript relies on the uniform distribution of values of the `Math.random()` function.
+Supplied with an array of variants, it will generate a sampler that assigns users to groups with a uniform distribution.
+
+Example:
+
+```js
+ably.samplers.default([a,b,c])
+```
+
+Supplied with an object, it will treat it as mapping between variants and their weights and generate an according sampler.
+
+Example:
+
+```js
+ably.samplers.default({
+    a: 50,
+    b: 25,
+    c: 15
+})
+```
 
 #### Use your own sampler
 
@@ -30,26 +46,12 @@ Supply a function that matches the following prototype:
 
 ```js
 /**
- * Assigns to a variant by calling the callback
- * @param  {Function} callback The callback to pass the variant to
+ * Assigns to a variant.
  * @param  {AblyTest} test The test being randomized
+ * @return {String} The assigned variant.
  */
-function sampler(callback, test);
-```
-
-Examples:
-
-```js
-function myServerGeneratedSampler(callback, test) {
-    callback(document.getElementById('server-generated-data').dataset[test.name].assignment);
-}
-```
-
-```js
-function myServerGeneratedSampler(callback, test) {
-    $.getJSON("/assigment/" + test.name, function(json) {
-        callback(json.assigment);
-    });
+function sampler(test) {
+    return 'a';
 }
 ```
 
@@ -97,10 +99,19 @@ Supply an object that matches the following prototype:
 
 ### `ably.on(test, variant, callback)`
 
-Subscribe to a variant of a test.
+Subscribe to a particular variant of a test.
 
 | Parameter  | Type       | Required | Description
 | ---------- | :--------- | -------- | :--------------------------------------
 | `test`     | `string`   | Yes      | Name of the test to subscribe to.
 | `variant`  | `string`   | Yes      | Variant to subscribe to.
+| `callback` | `function` | Yes      | Function to call when the variant is chosen.
+
+### `ably.on(test, callback)`
+
+Subscribe to any variant of a test.
+
+| Parameter  | Type       | Required | Description
+| ---------- | :--------- | -------- | :--------------------------------------
+| `test`     | `string`   | Yes      | Name of the test to subscribe to.
 | `callback` | `function` | Yes      | Function to call when the variant is chosen.
