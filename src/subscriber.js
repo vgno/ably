@@ -9,10 +9,7 @@ var Subscriber = function Subscriber(options) {
 };
 
 Subscriber.prototype.notify = function(test) {
-    var self = this;
-    setTimeout(function notifySubscriberNow() {
-        self.callback(test);
-    }, 1);
+    this.callback(test);
 };
 
 Subscriber.prototype.matchesTest = function(test) {
