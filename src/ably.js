@@ -151,8 +151,10 @@ Ably.prototype.getTests = function() {
 };
 
 Ably.prototype.purgeOldExpositions = function(cutoffDate) {
-    for (var i = 0; i < this.tests.length; i++) {
-        this.tests[i].purgeOldExpositions(cutoffDate);
+    for (var scope in this.scopes) {
+        if (scope !== 'default' && this.scopes.hasOwnProperty(scope) && this.scopes[scope].isAvailable()) {
+            this.expositionManager.purgeOldExpositions(this.scopes[scope], cutoffDate);
+        }
     }
 };
 

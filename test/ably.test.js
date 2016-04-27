@@ -610,22 +610,16 @@ describe('Ably', function() {
                             }
                         }
                     }
-                },
-                scope = {
-                    save: function(data) {
-                        scopeStorage = data;
-                    },
-                    load: function() {
-                        return scopeStorage;
-                    }
                 };
+
+            ably.scopes.memory.save(scopeStorage);
 
             ably.addTest({
                 name: 'test1',
                 sampler: function() {
                     return 'blue';
                 },
-                scope: scope
+                scope: 'memory'
             });
 
             ably.addTest({
@@ -633,12 +627,12 @@ describe('Ably', function() {
                 sampler: function() {
                     return 'green';
                 },
-                scope: scope
+                scope: 'memory'
             });
 
             ably.purgeOldExpositions(yesterday);
 
-            assert.deepEqual(scopeStorage, {
+            assert.deepEqual(ably.scopes.memory.load(), {
                 namespaces: {
                     default: {
                         test2: {
