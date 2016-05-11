@@ -588,6 +588,42 @@ describe('Ably', function() {
         // cannot add test twice
     });
 
+    describe('.registerScope()', function() {
+        var data;
+        beforeEach(function() {
+            data = null;
+            // We make a custom memory scope here, because Ably will default to using 'memory'
+            // if the implementation of registerScope is broken.
+            ably.registerScope('custom', {
+                save: function(d) {
+                    data = d;
+                },
+                load: function() {
+                    return data;
+                },
+                isAvailable: function() {
+                    return true;
+                }
+            });
+        });
+
+        it('registers a scope on the ably instance', function() {
+            ably.scopes.custom.save(1);
+            assert.equal(ably.scopes.custom.load(), data);
+            assert.notDeepEqual(ably.scopes.custom, ably.scopes.default);
+        });
+
+        it('allows naming a custom scope when adding tests', function() {
+            ably.addTest({
+                name: 'myExperiment',
+                sampler: ably.samplers.default(),
+                scope: 'custom'
+            });
+            ably.tests[0].scope.save(1);
+            assert.equal(ably.tests[0].scope.load(), data);
+        });
+    });
+
     describe('.purgeOldExpositions()', function() {
         it('purges only old expositions', function() {
             var today = new Date(),
@@ -610,22 +646,16 @@ describe('Ably', function() {
                             }
                         }
                     }
-                },
-                scope = {
-                    save: function(data) {
-                        scopeStorage = data;
-                    },
-                    load: function() {
-                        return scopeStorage;
-                    }
                 };
+
+            ably.scopes.memory.save(scopeStorage);
 
             ably.addTest({
                 name: 'test1',
                 sampler: function() {
                     return 'blue';
                 },
-                scope: scope
+                scope: 'memory'
             });
 
             ably.addTest({
@@ -633,12 +663,12 @@ describe('Ably', function() {
                 sampler: function() {
                     return 'green';
                 },
-                scope: scope
+                scope: 'memory'
             });
 
             ably.purgeOldExpositions(yesterday);
 
-            assert.deepEqual(scopeStorage, {
+            assert.deepEqual(ably.scopes.memory.load(), {
                 namespaces: {
                     default: {
                         test2: {

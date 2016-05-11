@@ -95,6 +95,24 @@ Supply an object that matches the following prototype:
 }
 ```
 
+#### Registering scopes
+
+If you want Ably to manage your scope and be able to purge old expositions, you may register it with `registerScope`.
+
+```js
+ably.registerScope('myScope', myScopeObj);
+```
+
+Then refer to it by name when adding your tests.
+
+```js
+ably.addTest({
+  name: 'myExperiment',
+  sampler: ably.samplers.default(),
+  scope: 'myScope'
+});
+```
+
 ## Subscribing to tests
 
 ### `ably.on(test, variant, callback)`
