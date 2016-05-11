@@ -150,6 +150,13 @@ Ably.prototype.getTests = function() {
     return this.tests;
 };
 
+Ably.prototype.registerScope = function(name, scope) {
+    if (this.scopes.hasOwnProperty(name)) {
+        throw new Error('scope \'' + name + '\' already registered');
+    }
+    this.scopes[name] = scope;
+};
+
 Ably.prototype.purgeOldExpositions = function(cutoffDate) {
     for (var scope in this.scopes) {
         if (scope !== 'default' && this.scopes.hasOwnProperty(scope) && this.scopes[scope].isAvailable()) {
